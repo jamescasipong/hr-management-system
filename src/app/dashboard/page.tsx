@@ -51,6 +51,7 @@ import {
   Users,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import calendar from "../components/ui/calendar";
 
 export default function Dashboard() {
   const [isClockedIn, setIsClockedIn] = useState(false);
@@ -131,9 +132,27 @@ export default function Dashboard() {
     if (isClockedIn) {
       setIsClockedIn(false);
       setEndTime(now);
-      setWeeklyClockData((prev) => { prev[0] = { ...prev[0], clockOut: now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }; return prev; });
+      setWeeklyClockData((prev) => {
+        prev[0] = {
+          ...prev[0],
+          clockOut: now.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
+        return prev;
+      });
     } else {
-      setWeeklyClockData((prev) => { prev[0] = { ...prev[0], clockIn: now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }; return prev; });
+      setWeeklyClockData((prev) => {
+        prev[0] = {
+          ...prev[0],
+          clockIn: now.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
+        return prev;
+      });
       setIsClockedIn(true);
       setStartTime(now);
       setWorkingHours(0);
@@ -175,7 +194,7 @@ export default function Dashboard() {
 
   return (
     <div
-      className={`flex h-screen  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
+      className={`flex h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
         isDarkMode ? "dark" : ""
       }`}
     >
@@ -221,20 +240,30 @@ export default function Dashboard() {
         }`}
       >
         {/* Header */}
-        <header className={`bg-white dark:bg-gray-800 shadow-sm ${isSidebarOpen ? "" : "fixed top-0 right-0 left-0"}`}>
-          <div className={`max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}>
+        <header
+          className={`bg-white dark:bg-gray-800 shadow-sm z-10 border ${
+            isSidebarOpen ? "" : "fixed top-0 right-0 left-0"
+          }`}
+        >
+          <div
+            className={`w-[1500px] mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
+          >
             <div className="flex items-center">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleSidebar}
-                className={`mr-4 transition-all duration-300 ${isSidebarOpen ? "opacity-0 invisible" : ""}`}
+                className={`mr-4 transition-all duration-300 ${
+                  isSidebarOpen ? "opacity-0 invisible" : ""
+                }`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
-              {isSidebarOpen ? null : <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">
-                HR System
-              </h2>}
+              {isSidebarOpen ? null : (
+                <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">
+                  HR System
+                </h2>
+              )}
             </div>
             <div className="flex items-center space-x-4">
               <Switch
@@ -340,184 +369,226 @@ export default function Dashboard() {
         </header>
 
         {/* Dashboard Content */}
-        <div className={`max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 p-5 ${isSidebarOpen ? "" : "pt-24"}`}>
-          {/* Clock In/Out Card */}
-          <Card className="mb-6 dark:bg-gray-800">
-            <CardHeader>
-              <CardTitle>My Schedule</CardTitle>
-              <CardDescription>
-                <span className="font-medium t">Working Hours </span> <span className="text-green-900 font-bold">8:00 AM to 5:00 PM</span>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-2xl font-bold">
-                    {workingHours.toFixed(2)} hours
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Today&apos;s working hour
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Clock In: {formatTime(startTime)}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Clock Out: {formatTime(endTime)}
-                  </p>
-                </div>
-                <div className="space-y-2 space-x-2">
-                  <Dialog
-                    open={isClockModalOpen}
-                    onOpenChange={setIsClockModalOpen}
-                  >
-                    <DialogTrigger asChild >
-                      <Button variant={isClockedIn ? "destructive" : "default"}>
-                        {isClockedIn ? "Clock Out" : "Clock In"}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>
-                          {isClockedIn ? "Clock Out" : "Clock In"}
-                        </DialogTitle>
-                        <DialogDescription>
-                          {isClockedIn
-                            ? "Are you sure you want to clock out?"
-                            : "Are you ready to start your workday?"}
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="flex justify-end space-x-2">
-                        <Button
-                          variant="outline"
-                          onClick={() => setIsClockModalOpen(false)}
-                        >
-                          Cancel
-                        </Button>
-                        <Button onClick={handleClockInOut}>
-                          {isClockedIn ? "Clock Out" : "Clock In"}
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild className="dark:bg-gray-900 dark:hover:bg-gray-950">
-                      <Button variant="outline">
-                        View Summary <ChevronDown className="ml-2 h-4 w-4 " />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem
-                        onSelect={() => setIsSummaryModalOpen(true)}
-                      >
-                        Weekly Summary
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Weekly Summary Modal */}
-          <Dialog
-            open={isSummaryModalOpen}
-            onOpenChange={setIsSummaryModalOpen}
+          <div
+            className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
+              isSidebarOpen ? "" : "pt-24  md:w-[1500px] w-full max-w-[1500px]  lg:w-full"
+            }`}
           >
-            <DialogContent className="sm:max-w-[625px] ">
-              <DialogHeader>
-                <DialogTitle>Weekly Time Summary</DialogTitle>
-                <DialogDescription>
-                  Your clock in and out times for this week
-                </DialogDescription>
-              </DialogHeader>
-              <div className="mt-4">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left">Day</th>
-                      <th className="text-left">Clock In</th>
-                      <th className="text-left">Clock Out</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {weeklyClockData.map((day, index) => (
-                      <tr key={index} className="border-t">
-                        <td className="py-2">{day.day}</td>
-                        <td className="py-2">{day.clockIn}</td>
-                        <td className="py-2">{day.clockOut}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </DialogContent>
-          </Dialog>
-
-          {/* Co-workers Attendance */}
-          <Card className="mb-6 dark:bg-gray-800 ">
-            <CardHeader>
-              <CardTitle>Co-workers Attendance</CardTitle>
-              <CardDescription>Today's attendance status</CardDescription>
-            </CardHeader>
-            <CardContent >
-              <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {coworkers.map((coworker, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <Avatar className="border-[1px] border-slate-200">
-                      <AvatarImage  src={coworker.avatar} alt={coworker.name} />
-                      <AvatarFallback>
-                        {coworker.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">{coworker.name}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {coworker.status}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Chat System */}
-          <Card className="dark:bg-gray-800">
-            <CardHeader>
-              <CardTitle>Team Chat</CardTitle>
-              <CardDescription>
-                Communicate with your team members
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ScrollArea className="h-[300px] w-full rounded-md border p-4 dark:border-gray-700">
-                {messages.map((message, index) => (
-                  <div key={index} className="mb-4">
-                    <p className="font-semibold">{message.sender}</p>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      {message.content}
+            {/* Clock In/Out Card */}
+            <Card className="mb-6 dark:bg-gray-800">
+              <CardHeader>
+                <CardTitle>My Schedule</CardTitle>
+                <CardDescription>
+                  <span className="font-medium t">Working Hours </span>{" "}
+                  <span className="text-green-900 font-bold">
+                    8:00 AM to 5:00 PM
+                  </span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-2xl font-bold">
+                      {workingHours.toFixed(2)} hours
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Today&apos;s working hour
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Clock In: {formatTime(startTime)}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Clock Out: {formatTime(endTime)}
                     </p>
                   </div>
-                ))}
-              </ScrollArea>
-              <div className="flex mt-4">
-                <Input
-                  placeholder="Type your message..."
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                  className="dark:bg-gray-700 dark:text-white"
-                />
-                <Button onClick={handleSendMessage} className="ml-2">
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+                  <div className="space-y-2 space-x-2">
+                    <Dialog
+                      open={isClockModalOpen}
+                      onOpenChange={setIsClockModalOpen}
+                    >
+                      <DialogTrigger asChild>
+                        <Button
+                          variant={isClockedIn ? "destructive" : "default"}
+                        >
+                          {isClockedIn ? "Clock Out" : "Clock In"}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>
+                            {isClockedIn ? "Clock Out" : "Clock In"}
+                          </DialogTitle>
+                          <DialogDescription>
+                            {isClockedIn
+                              ? "Are you sure you want to clock out?"
+                              : "Are you ready to start your workday?"}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="flex justify-end space-x-2">
+                          <Button
+                            variant="outline"
+                            onClick={() => setIsClockModalOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button onClick={handleClockInOut}>
+                            {isClockedIn ? "Clock Out" : "Clock In"}
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        asChild
+                        className="dark:bg-gray-900 dark:hover:bg-gray-950"
+                      >
+                        <Button variant="outline">
+                          View Summary <ChevronDown className="ml-2 h-4 w-4 " />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem
+                          onSelect={() => setIsSummaryModalOpen(true)}
+                        >
+                          Weekly Summary
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Weekly Summary Modal */}
+            <Dialog
+              open={isSummaryModalOpen}
+              onOpenChange={setIsSummaryModalOpen}
+            >
+              <DialogContent className="sm:max-w-[625px] ">
+                <DialogHeader>
+                  <DialogTitle>Weekly Time Summary</DialogTitle>
+                  <DialogDescription>
+                    Your clock in and out times for this week
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4">
+                  <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="text-left">Day</th>
+                        <th className="text-left">Clock In</th>
+                        <th className="text-left">Clock Out</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {weeklyClockData.map((day, index) => (
+                        <tr key={index} className="border-t">
+                          <td className="py-2">{day.day}</td>
+                          <td className="py-2">{day.clockIn}</td>
+                          <td className="py-2">{day.clockOut}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Co-workers Attendance */}
+            <Card className="mb-6 dark:bg-gray-800 ">
+              <CardHeader>
+                <CardTitle>Co-workers Attendance</CardTitle>
+                <CardDescription>Today's attendance status</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {coworkers.map((coworker, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <Avatar className="border-[1px] border-slate-200">
+                        <AvatarImage
+                          src={coworker.avatar}
+                          alt={coworker.name}
+                        />
+                        <AvatarFallback>
+                          {coworker.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{coworker.name}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {coworker.status}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="mb-6 grid lg:grid-cols-3 grid-cols-1 gap-4">
+              <Card className="dark:bg-gray-800 ">
+                <CardHeader>
+                  <CardTitle>My Time Off</CardTitle>
+                  <CardDescription className="text-[15px] font-medium">
+                    As of{" "}
+                    <span className="text-blue-500">
+                      {new Date().toDateString()}
+                    </span>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>Project 1</p>
+                  <p>Project 2</p>
+                  <p>Project 3</p>
+                </CardContent>
+              </Card>
+              <Card className="lg:col-span-2 dark:bg-gray-800">
+                <CardHeader>
+                  <CardTitle>Time Management</CardTitle>
+                  <CardDescription>Tasks assigned to you</CardDescription>
+                </CardHeader>
+                <CardContent>{calendar()}</CardContent>
+              </Card>
+            </div>
+
+            {/* Chat System */}
+
+            <Card className="dark:bg-gray-800 ">
+              <CardHeader>
+                <CardTitle>Team Chat</CardTitle>
+                <CardDescription>
+                  Communicate with your team members
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-[300px] w-full rounded-md border p-4 dark:border-gray-700">
+                  {messages.map((message, index) => (
+                    <div key={index} className="mb-4">
+                      <p className="font-semibold">{message.sender}</p>
+                      <p className="text-gray-700 dark:text-gray-300">
+                        {message.content}
+                      </p>
+                    </div>
+                  ))}
+                </ScrollArea>
+                <div className="flex mt-4">
+                  <Input
+                    placeholder="Type your message..."
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                    className="dark:bg-gray-700 dark:text-white"
+                  />
+                  <Button onClick={handleSendMessage} className="ml-2">
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
       </main>
     </div>
   );
