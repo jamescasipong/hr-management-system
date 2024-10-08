@@ -61,7 +61,7 @@ export default function Dashboard() {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState(
-    "https://github.com/shadcn.png"
+    "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -340,7 +340,7 @@ export default function Dashboard() {
         </header>
 
         {/* Dashboard Content */}
-        <div className={`max-w-7xl  mx-auto py-6 sm:px-6 lg:px-8 p-5 ${isSidebarOpen ? "" : "pt-24"}`}>
+        <div className={`max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 p-5 ${isSidebarOpen ? "" : "pt-24"}`}>
           {/* Clock In/Out Card */}
           <Card className="mb-6 dark:bg-gray-800">
             <CardHeader>
