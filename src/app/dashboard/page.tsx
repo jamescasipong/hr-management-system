@@ -293,14 +293,14 @@ export default function Dashboard() {
               <Switch
                 checked={isDarkMode}
                 onCheckedChange={toggleDarkMode}
-                className=" dark:bg-blue-50"
+                className=" dark:bg-blue-50 sm:block hidden"
               />
               {isDarkMode ? (
-                <Moon className="h-5 w-5 text-gray-300" />
+                <Moon className="sm:block hidden h-5 w-5 text-gray-300" />
               ) : (
-                <Sun className="h-5 w-5 text-yellow-500" />
+                <Sun className="sm:block hidden h-5 w-5 text-yellow-500" />
               )}
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="sm:block hidden">
                 <Bell className="h-5 w-5" />
               </Button>
               <Dialog
@@ -691,7 +691,7 @@ export default function Dashboard() {
                 {chatIsOpen ? (
                   <CardTitle className="text-white">IT Teams</CardTitle>
                 ) : (
-                  <div className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md flex gap-2 text-center text-white">
+                  <div className="p-0 hover:bg-blue-600 transition-all duration-100 rounded-md flex gap-2 text-center text-white">
                     Chat<Menu className="text-white "></Menu>
                   </div>
                 )}
