@@ -454,17 +454,17 @@ export default function Dashboard() {
           </Dialog>
 
           {/* Co-workers Attendance */}
-          <Card className="mb-6 dark:bg-gray-800">
+          <Card className="mb-6 dark:bg-gray-800 ">
             <CardHeader>
               <CardTitle>Co-workers Attendance</CardTitle>
               <CardDescription>Today's attendance status</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <CardContent >
+              <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {coworkers.map((coworker, index) => (
                   <div key={index} className="flex items-center space-x-2">
-                    <Avatar>
-                      <AvatarImage src={coworker.avatar} alt={coworker.name} />
+                    <Avatar className="border-[1px] border-slate-200">
+                      <AvatarImage  src={coworker.avatar} alt={coworker.name} />
                       <AvatarFallback>
                         {coworker.name
                           .split(" ")
