@@ -131,7 +131,9 @@ export default function Dashboard() {
     if (isClockedIn) {
       setIsClockedIn(false);
       setEndTime(now);
+      setWeeklyClockData((prev) => { prev[0] = { ...prev[0], clockOut: now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }; return prev; });
     } else {
+      setWeeklyClockData((prev) => { prev[0] = { ...prev[0], clockIn: now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }; return prev; });
       setIsClockedIn(true);
       setStartTime(now);
       setWorkingHours(0);
@@ -342,9 +344,9 @@ export default function Dashboard() {
           {/* Clock In/Out Card */}
           <Card className="mb-6 dark:bg-gray-800">
             <CardHeader>
-              <CardTitle>Time Tracking</CardTitle>
+              <CardTitle>My Schedule</CardTitle>
               <CardDescription>
-                Clock in and out to track your working hours
+                <span className="font-medium t">Working Hours </span> <span className="text-green-900 font-bold">8:00 AM to 5:00 PM</span>
               </CardDescription>
             </CardHeader>
             <CardContent>
