@@ -356,7 +356,7 @@ export default function Dashboard() {
                     {workingHours.toFixed(2)} hours
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Today's working hours
+                    Today&apos;s working hour
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Clock In: {formatTime(startTime)}
