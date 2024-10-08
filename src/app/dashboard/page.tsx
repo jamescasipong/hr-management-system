@@ -63,7 +63,7 @@ export default function Dashboard() {
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [weeklyClockData, setWeeklyClockData] = useState([
     { day: "Monday", clockIn: "09:00 AM", clockOut: "05:00 PM" },
