@@ -109,7 +109,7 @@ const Calendar = () => {
       days.push(
         <div
           key={day.toISOString()}
-          className={`relative text-center py-5 border-b border-l dark:border-gray-700 ${!isSameMonth(day, currentDate) ? 'bg-gray-50 dark:bg-gray-800' : ''} ${isSameDay(day, new Date()) ? 'font-semibold text-indigo-600' : ''}`}
+          className={`relative text-center py-5  dark:border-gray-700 ${!isSameMonth(day, currentDate) ? 'bg-gray-50 dark:bg-gray-800' : ''} ${isSameDay(day, new Date()) ? 'font-semibold text-indigo-600' : ''}`}
         >
           <time dateTime={format(day, 'yyyy-MM-dd')}>{format(day, 'd')}</time>
         </div>
@@ -121,9 +121,9 @@ const Calendar = () => {
   };
 
   return (
-    <div className="lg:flex lg:h-full rounded-lg  lg:flex-col">
+    <div className="lg:flex lg:h-full rounded-lg  lg:flex-col shadow-sm">
       {renderHeader()}
-      <div className=" ring-1 rounded-lg p-4 dark:border-gray-700 border ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
+      <div className=" ring-1 rounded-lg p-4  dark:border-gray-700 border ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
         <div className="grid grid-cols-7 gap-px    text-center text-xs font-semibold leading-6 text-gray-700 dark:text-blue-50 lg:flex-none">
           <div className="flex 0 justify-center dark:bg-gray-800 py-2">
             <span>M</span>
@@ -154,7 +154,7 @@ const Calendar = () => {
             <span className="sr-only sm:not-sr-only">un</span>
           </div>
         </div>
-        <div className='border rounded-md dark:border-gray-700'>
+        <div className='border  dark:border-gray-700 shadow-sm'>
         {renderDays()}
         </div>
       </div>

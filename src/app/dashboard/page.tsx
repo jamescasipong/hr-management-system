@@ -3,15 +3,16 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/app/components/ui/avatar";
-import { Button } from "@/app/components/ui/button";
+} from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/app/components/ui/card";
+} from "@/components/ui/card";
+
 import {
   Dialog,
   DialogContent,
@@ -19,23 +20,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/app/components/ui/dialog";
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu";
-import { Input } from "@/app/components/ui/input";
-import { Label } from "@/app/components/ui/label";
-import { ScrollArea } from "@/app/components/ui/scroll-area";
-import { Switch } from "@/app/components/ui/switch";
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/app/components/ui/tabs";
+} from "@/components/ui/tabs";
 import {
   Bell,
   Calendar,
@@ -52,7 +53,8 @@ import {
   Users
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import calendar from "../components/ui/calendar";
+import calendar from "../../components/ui/calendar";
+import dropdown from "../../components/ui/dropdown";
 
 export default function Dashboard() {
   const [isClockedIn, setIsClockedIn] = useState(false);
@@ -192,7 +194,7 @@ export default function Dashboard() {
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
-      setMessages([...messages, { sender: "You", content: newMessage.trim() }]);
+      setMessages([...messages, { sender: "You", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), content: newMessage.trim() }]);
       setNewMessage("");
     }
   };
@@ -453,6 +455,7 @@ export default function Dashboard() {
                             ? "Are you sure you want to clock out?"
                             : "Are you ready to start your workday?"}
                         </DialogDescription>
+                        <div>{dropdown("Select a status")}</div>
                       </DialogHeader>
                       <div className="flex justify-end space-x-2">
                         <Button
@@ -575,7 +578,7 @@ export default function Dashboard() {
                 <div className="space-y-4">
                   {[{
                     type: "Vacation Leave",
-                    hours: 90,
+                    hours: 120,
                     entitlement: 120,
                   }, {
                     type: "Sick Leave",
@@ -610,7 +613,7 @@ export default function Dashboard() {
                             ? "bg-blue-600 dark:bg-blue-500"
                             : (value.hours / 120) * 100 < 75
                             ? "bg-yellow-600 dark:bg-yellow-500"
-                            : "bg-red-600 dark:bg-red-500"
+                            : (value.hours / 120) * 100 == 100 ? "bg-red-800" : "bg-red-600 dark:bg-red-500" 
                         }`}
                         style={{ width: `${(value.hours / 120) * 100}%` }}
                       ></div>
@@ -638,7 +641,7 @@ export default function Dashboard() {
             
             className={`bg-blue-600 ${chatIsOpen ?"mb-5" : ""} rounded-t-lg rounded-b-sm cursor-pointer p-4`}>
               <div className="flex justify-between">
-              {chatIsOpen ? <CardTitle className="text-white">IT Teams</CardTitle> : <div className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md flex gap-2 text-center text-white">Chat<Menu className="text-white text-gray-900"></Menu></div>}
+              {chatIsOpen ? <CardTitle className="text-white">IT Teams</CardTitle> : <div className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md flex gap-2 text-center text-white">Chat<Menu className="text-white "></Menu></div>}
               
               {chatIsOpen ? <div onClick={() => {  window.location.href="/xd"}} className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md"><Scaling className="text-white"></Scaling></div> : null}
               </div>
@@ -652,7 +655,8 @@ export default function Dashboard() {
                 {messages.map((message, index) => (
                   <div key={index} className={`mb-4 dark:border-gray-600  border shadow-sm rounded-md p-2`}>
                     <p className={`font-semibold ${message.sender == "You" ? "flex justify-end mr-5" : ""}`}>{message.sender}</p>
-                    <p className={`text-gray-700 ${message.sender == "You" ? "flex justify-center" : ""} dark:text-gray-300`}>
+                    <p className={`text-[12px] ${message.sender == "You" ? "flex justify-end mr-5" : ""} mb-2`}>{message.time}</p>
+                    <p className={`text-gray-700 ${message.sender == "You" ? "flex justify-start" : ""} dark:text-gray-300`}>
                       {message.content}
                     </p>
                   </div>
