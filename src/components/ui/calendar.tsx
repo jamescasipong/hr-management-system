@@ -1,6 +1,6 @@
 import { addDays, addMonths, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, startOfMonth, startOfWeek, subMonths } from 'date-fns';
 import { useState } from 'react';
-
+import Modal from './modal';
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,12 +86,9 @@ const Calendar = () => {
               </div>
             </div>
             <div className="ml-6 h-6 w-px bg-gray-300"></div>
-            <button
-              type="button"
-              className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-            >
-              Request Leave
-            </button>
+            <div className='ml-5'>
+            <Modal ></Modal>
+            </div>
           </div>
           
         </div>

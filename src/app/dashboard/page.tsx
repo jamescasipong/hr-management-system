@@ -1,9 +1,5 @@
 "use client";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -31,25 +27,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Bell,
   Calendar,
+  CalendarCheck2,
+  CalendarDays,
   ChevronDown,
   Clock,
   DollarSign,
   FileText,
+  Group,
   Home,
   Menu,
   Moon,
   Scaling,
   Send,
   Sun,
+  Timer,
   Users
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -69,7 +64,7 @@ export default function Dashboard() {
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [weeklyClockData, setWeeklyClockData] = useState([
     { day: "Monday", clockIn: "09:00 AM", clockOut: "05:00 PM" },
     { day: "Tuesday", clockIn: "08:45 AM", clockOut: "05:15 PM" },
@@ -81,22 +76,22 @@ export default function Dashboard() {
     {
       name: "Pereson One",
       avatar: "/placeholder.svg?height=32&width=32",
-      status: {type: "In Office", color: "green"},
+      status: { type: "In Office", color: "green" },
     },
     {
       name: "Person Two",
       avatar: "/placeholder.svg?height=32&width=32",
-      status: {type: "On Leave", color: "red"},
+      status: { type: "On Leave", color: "red" },
     },
     {
       name: "Person Three",
       avatar: "/placeholder.svg?height=32&width=32",
-      status: {type: "In Office", color: "green"},
+      status: { type: "In Office", color: "green" },
     },
     {
       name: "Person Four",
       avatar: "/placeholder.svg?height=32&width=32",
-      status: {type: "In Office", color: "green"},
+      status: { type: "In Office", color: "green" },
     },
   ]);
   const [messages, setMessages] = useState([
@@ -144,8 +139,7 @@ export default function Dashboard() {
     if (status === "Working Remotely") {
       return "bg-yellow-500";
     }
-
-  }
+  };
 
   const handleClockInOut = () => {
     const now = new Date();
@@ -194,7 +188,17 @@ export default function Dashboard() {
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
-      setMessages([...messages, { sender: "You", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), content: newMessage.trim() }]);
+      setMessages([
+        ...messages,
+        {
+          sender: "You",
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          content: newMessage.trim(),
+        },
+      ]);
       setNewMessage("");
     }
   };
@@ -266,7 +270,7 @@ export default function Dashboard() {
           }`}
         >
           <div
-            className={`w-[1500px] mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
+            className={` md:w-[1500px] w-full mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
           >
             <div className="flex items-center">
               <Button
@@ -330,7 +334,7 @@ export default function Dashboard() {
                           </Avatar>
                           <Label
                             htmlFor="picture"
-                            className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-3 rounded-md"
+                            className="cursor-pointer dark:bg-blue-500 dark:text-white bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-3 rounded-md"
                           >
                             Upload Picture
                           </Label>
@@ -354,8 +358,15 @@ export default function Dashboard() {
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <Button className="w-full ">Save</Button>
-                          <Button className="w-full ">
+                          <Button className="w-full dark:bg-blue-500 text-white">
+                            Save
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              window.location.href = "/profile";
+                            }}
+                            className="w-full dark:bg-blue-500 text-white"
+                          >
                             View Complete Profile
                           </Button>
                         </div>
@@ -386,7 +397,9 @@ export default function Dashboard() {
                             </Label>
                           </div>
                         </div>
-                        <Button className="w-full">Save Settings</Button>
+                        <Button className="w-full dark:bg-blue-500 text-white">
+                          Save Settings
+                        </Button>
                       </div>
                     </TabsContent>
                   </Tabs>
@@ -399,235 +412,262 @@ export default function Dashboard() {
         {/* Dashboard Content */}
         <div
           className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
-            isSidebarOpen
-              ? ""
-              : "pt-24  w-full max-w-[1500px]  lg:w-full"
+            isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}
         >
           {/* Clock In/Out Card */}
           <div className="grid md:grid-cols-2 md:gap-4 gap-0 ">
-          <Card className="mb-6 dark:bg-gray-800">
-            <CardHeader>
-              <CardTitle>My Schedule</CardTitle>
-              <CardDescription>
-                <span className="font-medium t">Working Hours </span>{" "}
-                <span className="text-blue-400 font-bold">
-                  8:00 AM to 5:00 PM
-                </span>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between ">
-                <div>
-                  <p className="text-2xl font-bold">
-                    {workingHours.toFixed(2)} hours
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
-                    Today&apos;s working hour
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
-                    Clock In: {formatTime(startTime)}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
-                    Clock Out: {formatTime(endTime)}
-                  </p>
+            <Card className="mb-6 dark:bg-gray-800">
+              <CardHeader>
+                <div className="flex justify-between">
+                  <CardTitle>My Schedule</CardTitle>
+                  <CalendarCheck2></CalendarCheck2>
                 </div>
-                <div className="space-y-2 space-x-2">
-                  <Dialog
-                    open={isClockModalOpen}
-                    onOpenChange={setIsClockModalOpen}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        className="dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white"
-                        variant={isClockedIn ? "destructive" : "default"}
-                      >
-                        {isClockedIn ? "Clock Out" : "Clock In"}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="dark:bg-gray-800">
-                      <DialogHeader>
-                        <DialogTitle>
-                          {isClockedIn ? "Clock Out" : "Clock In"}
-                        </DialogTitle>
-                        <DialogDescription>
-                          {isClockedIn
-                            ? "Are you sure you want to clock out?"
-                            : "Are you ready to start your workday?"}
-                        </DialogDescription>
-                        <div>{dropdown("Select a status")}</div>
-                      </DialogHeader>
-                      <div className="flex justify-end space-x-2">
-                        <Button
-                          className="border-2 shadow-sm dark:bg-gray-700 dark:hover:bg-gray-600"
-                          variant="outline"
-                          onClick={() => setIsClockModalOpen(false)}
-                        >
-                          Cancel
-                        </Button>
+                <CardDescription>
+                  <span className="font-medium t">Working Hours </span>{" "}
+                  <span className="text-blue-400 font-bold">
+                    8:00 AM to 5:00 PM
+                  </span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between ">
+                  <div>
+                    <p className="text-2xl font-bold">
+                      {workingHours.toFixed(2)} hours
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
+                      Today&apos;s working hour
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
+                      Clock In: {formatTime(startTime)}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
+                      Clock Out: {formatTime(endTime)}
+                    </p>
+                  </div>
+                  <div className="space-y-2 space-x-2">
+                    <Dialog
+                      open={isClockModalOpen}
+                      onOpenChange={setIsClockModalOpen}
+                    >
+                      <DialogTrigger asChild>
                         <Button
                           className="dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white"
-                          onClick={handleClockInOut}
+                          variant={isClockedIn ? "destructive" : "default"}
                         >
                           {isClockedIn ? "Clock Out" : "Clock In"}
                         </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger
-                      asChild
-                      className="dark:bg-gray-900 dark:hover:bg-gray-950"
-                    >
-                      <Button variant="outline">
-                        View Summary <ChevronDown className="ml-2 h-4 w-4 " />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem
-                        onSelect={() => setIsSummaryModalOpen(true)}
+                      </DialogTrigger>
+                      <DialogContent className="dark:bg-gray-800">
+                        <DialogHeader>
+                          <DialogTitle>
+                            {isClockedIn ? "Clock Out" : "Clock In"}
+                          </DialogTitle>
+                          <DialogDescription>
+                            {isClockedIn
+                              ? "Are you sure you want to clock out?"
+                              : "Are you ready to start your workday?"}
+                          </DialogDescription>
+                          <div>{dropdown("Select a status")}</div>
+                        </DialogHeader>
+                        <div className="flex justify-end space-x-2">
+                          <Button
+                            className="border-2 shadow-sm dark:bg-gray-700 dark:hover:bg-gray-600"
+                            variant="outline"
+                            onClick={() => setIsClockModalOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            className="dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white"
+                            onClick={handleClockInOut}
+                          >
+                            {isClockedIn ? "Clock Out" : "Clock In"}
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        asChild
+                        className="dark:bg-gray-900 dark:hover:bg-gray-950"
                       >
-                        Weekly Summary
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Weekly Summary Modal */}
-          <Dialog
-            open={isSummaryModalOpen}
-            onOpenChange={setIsSummaryModalOpen}
-          >
-            <DialogContent className="sm:max-w-[625px] dark:bg-slate-800">
-              <DialogHeader>
-                <DialogTitle>Weekly Time Summary</DialogTitle>
-                <DialogDescription>
-                  Your clock in and out times for this week
-                </DialogDescription>
-              </DialogHeader>
-              <div className="mt-4">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left">Day</th>
-                      <th className="text-left">Clock In</th>
-                      <th className="text-left">Clock Out</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {weeklyClockData.map((day, index) => (
-                      <tr key={index} className="border-t">
-                        <td className="py-2">{day.day}</td>
-                        <td className="py-2">{day.clockIn}</td>
-                        <td className="py-2">{day.clockOut}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </DialogContent>
-          </Dialog>
-          {/* Co-workers Attendance */}
-          <Card className="mb-6 dark:bg-gray-800 ">
-            <CardHeader>
-              <CardTitle>Co-workers Attendance</CardTitle>
-              <CardDescription>Today's attendance status</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {coworkers.map((coworker, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <div className="relative z-0">
-                      <div className={`w-3 h-3 rounded-full ${changeStatus(coworker.status.type)} absolute bottom-0 right-1 z-10`}></div>
-                      <Avatar className="border-[1px] border-slate-200">
-                        <AvatarImage src={coworker.avatar} alt={coworker.name} />
-                        <AvatarFallback>
-                          {coworker.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <div>
-                      <p className="font-medium">{coworker.name}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {coworker.status.type}
-                      </p>
-                    </div>
+                        <Button variant="outline">
+                          View Summary <ChevronDown className="ml-2 h-4 w-4 " />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem
+                          onSelect={() => setIsSummaryModalOpen(true)}
+                        >
+                          Weekly Summary
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
 
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+            {/* Weekly Summary Modal */}
+            <Dialog
+              open={isSummaryModalOpen}
+              onOpenChange={setIsSummaryModalOpen}
+            >
+              <DialogContent className="sm:max-w-[625px] dark:bg-slate-800">
+                <DialogHeader>
+                  <DialogTitle>Weekly Time Summary</DialogTitle>
+                  <DialogDescription>
+                    Your clock in and out times for this week
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4">
+                  <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="text-left">Day</th>
+                        <th className="text-left">Clock In</th>
+                        <th className="text-left">Clock Out</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {weeklyClockData.map((day, index) => (
+                        <tr key={index} className="border-t">
+                          <td className="py-2">{day.day}</td>
+                          <td className="py-2">{day.clockIn}</td>
+                          <td className="py-2">{day.clockOut}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </DialogContent>
+            </Dialog>
+            {/* Co-workers Attendance */}
+            <Card className="mb-6 dark:bg-gray-800 ">
+              <CardHeader>
+                <div className="flex justify-between">
+                  <CardTitle>Co-workers Attendance</CardTitle>
+                  <Group></Group>
+                </div>
+
+                <CardDescription>Today's attendance status</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {coworkers.map((coworker, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <div className="relative z-0">
+                        <div
+                          className={`w-3 h-3 rounded-full ${changeStatus(
+                            coworker.status.type
+                          )} absolute bottom-0 right-1 z-10`}
+                        ></div>
+                        <Avatar className="border-[1px] border-slate-200">
+                          <AvatarImage
+                            src={coworker.avatar}
+                            alt={coworker.name}
+                          />
+                          <AvatarFallback>
+                            {coworker.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>
+                      <div>
+                        <p className="font-medium">{coworker.name}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {coworker.status.type}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           <div className="mb-6 grid lg:grid-cols-3 grid-cols-1 gap-4">
             <Card className="dark:bg-gray-800 ">
               <CardHeader>
-                <CardTitle>My Time Off</CardTitle>
-                <CardDescription className="text-[15px] font-medium">
-
-                </CardDescription>
+                <div className="flex justify-between"> <CardTitle>My Time Off</CardTitle>
+                <Timer></Timer></div>
+               
+                
+                <CardDescription className="text-[15px] font-medium"></CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[{
-                    type: "Vacation Leave",
-                    hours: 120,
-                    entitlement: 120,
-                  }, {
-                    type: "Sick Leave",
-                    hours: 4,
-                    entitlement: 24,
-                  }].map((value, index) => (
-                  <div key={index} className="space-y-4">
-                    <div className="flex items-center justify-between">
-                    <p className="text-lg font-medium text-gray-700 dark:text-gray-300 ">
-                        {value.type}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {new Date().toLocaleDateString()}
-                    </p>
+                  {[
+                    {
+                      type: "Vacation Leave",
+                      hours: 120,
+                      entitlement: 120,
+                    },
+                    {
+                      type: "Sick Leave",
+                      hours: 4,
+                      entitlement: 24,
+                    },
+                  ].map((value, index) => (
+                    <div key={index} className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <p className="text-lg font-medium text-gray-700 dark:text-gray-300 ">
+                          {value.type}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {new Date().toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-baseline space-x-2">
+                          <h1 className="text-4xl font-semibold text-blue-600">
+                            {value.hours}
+                          </h1>
+                          <span className="text-xl text-gray-500 dark:text-gray-400">
+                            / 120 hours
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Used hours
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Entitlement
+                        </p>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Progress
+                        </div>
+                        <div className="w-full h-10 bg-gray-200 rounded-md dark:bg-gray-700">
+                          <div
+                            className={`h-10 rounded-md ${
+                              (value.hours / 120) * 100 < 50
+                                ? "bg-blue-600 dark:bg-blue-500"
+                                : (value.hours / 120) * 100 < 75
+                                ? "bg-yellow-600 dark:bg-yellow-500"
+                                : (value.hours / 120) * 100 == 100
+                                ? "bg-red-800"
+                                : "bg-red-600 dark:bg-red-500"
+                            }`}
+                            style={{ width: `${(value.hours / 120) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                    <div className="flex items-baseline space-x-2">
-                      <h1 className="text-4xl font-semibold text-blue-600">{value.hours}</h1>
-                      <span className="text-xl text-gray-500 dark:text-gray-400">/ 120 hours</span>
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Used hours</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Entitlement</p>
-                    </div>
-                    <div className="space-y-1">
-                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Progress
-                    </div>
-                    <div className="w-full h-10 bg-gray-200 rounded-md dark:bg-gray-700">
-                      <div
-                        className={`h-10 rounded-md ${
-                          (value.hours / 120) * 100 < 50
-                            ? "bg-blue-600 dark:bg-blue-500"
-                            : (value.hours / 120) * 100 < 75
-                            ? "bg-yellow-600 dark:bg-yellow-500"
-                            : (value.hours / 120) * 100 == 100 ? "bg-red-800" : "bg-red-600 dark:bg-red-500" 
-                        }`}
-                        style={{ width: `${(value.hours / 120) * 100}%` }}
-                      ></div>
-                    </div>
-                    </div>
-                  </div>
                   ))}
                 </div>
- 
               </CardContent>
             </Card>
-            <Card className=" dark:bg-gray-800 col-span-2">
+            <Card className=" dark:bg-gray-800  md:col-span-2 col-span-1">
               <CardHeader>
+                <div className="flex justify-between">
                 <CardTitle>Time Management</CardTitle>
+                <CalendarDays></CalendarDays>
+                </div>
                 <CardDescription>Tasks assigned to you</CardDescription>
               </CardHeader>
               <CardContent>{calendar()}</CardContent>
@@ -635,28 +675,77 @@ export default function Dashboard() {
           </div>
 
           {/* Chat System */}
-   
-          <Card className={` ${chatIsOpen ?"" : "w-[100px]"} dark:bg-gray-800 bottom-0 fixed right-1 shadow-md transition-all duration-300 ease-in-out`}>
-            <CardHeader onClick={() => setIsChatOpen((prev) => !prev)}
-            
-            className={`bg-blue-600 ${chatIsOpen ?"mb-5" : ""} rounded-t-lg rounded-b-sm cursor-pointer p-4`}>
+
+          <Card
+            className={` ${
+              chatIsOpen ? "" : "w-[100px]"
+            } dark:bg-gray-800 bottom-0 fixed right-1 shadow-md transition-all duration-300 ease-in-out`}
+          >
+            <CardHeader
+              onClick={() => setIsChatOpen((prev) => !prev)}
+              className={`bg-blue-600 ${
+                chatIsOpen ? "mb-5" : ""
+              } rounded-t-lg rounded-b-sm cursor-pointer p-4`}
+            >
               <div className="flex justify-between">
-              {chatIsOpen ? <CardTitle className="text-white">IT Teams</CardTitle> : <div className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md flex gap-2 text-center text-white">Chat<Menu className="text-white "></Menu></div>}
-              
-              {chatIsOpen ? <div onClick={() => {  window.location.href="/xd"}} className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md"><Scaling className="text-white"></Scaling></div> : null}
+                {chatIsOpen ? (
+                  <CardTitle className="text-white">IT Teams</CardTitle>
+                ) : (
+                  <div className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md flex gap-2 text-center text-white">
+                    Chat<Menu className="text-white "></Menu>
+                  </div>
+                )}
+
+                {chatIsOpen ? (
+                  <div
+                    onClick={() => {
+                      window.location.href = "/xd";
+                    }}
+                    className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md"
+                  >
+                    <Scaling className="text-white"></Scaling>
+                  </div>
+                ) : null}
               </div>
-              <CardDescription className={` ${chatIsOpen ? "" : "hidden"} text-blue-50`}>
+              <CardDescription
+                className={` ${chatIsOpen ? "" : "hidden"} text-blue-50`}
+              >
                 Communicate with your team members
               </CardDescription>
             </CardHeader>
-           
-            <CardContent className={`transition-all duration-300 ease-in-out ${chatIsOpen ? "max-h-[400px] opacity-100" : "p-0  scale-0 max-h-0  opacity-0 overflow-hidden"}`}>
-              <ScrollArea  className="h-[300px] w-full rounded-md border p-4 dark:border-gray-700">
+
+            <CardContent
+              className={`transition-all duration-300 ease-in-out ${
+                chatIsOpen
+                  ? "max-h-[400px] opacity-100"
+                  : "p-0  scale-0 max-h-0  opacity-0 overflow-hidden"
+              }`}
+            >
+              <ScrollArea className="h-[300px] w-full rounded-md border p-4 dark:border-gray-700">
                 {messages.map((message, index) => (
-                  <div key={index} className={`mb-4 dark:border-gray-600  border shadow-sm rounded-md p-2`}>
-                    <p className={`font-semibold ${message.sender == "You" ? "flex justify-end mr-5" : ""}`}>{message.sender}</p>
-                    <p className={`text-[12px] ${message.sender == "You" ? "flex justify-end mr-5" : ""} mb-2`}>{message.time}</p>
-                    <p className={`text-gray-700 ${message.sender == "You" ? "flex justify-start" : ""} dark:text-gray-300`}>
+                  <div
+                    key={index}
+                    className={`mb-4 dark:border-gray-600  border shadow-sm rounded-md p-2`}
+                  >
+                    <p
+                      className={`font-semibold ${
+                        message.sender == "You" ? "flex justify-end mr-5" : ""
+                      }`}
+                    >
+                      {message.sender}
+                    </p>
+                    <p
+                      className={`text-[12px] ${
+                        message.sender == "You" ? "flex justify-end mr-5" : ""
+                      } mb-2`}
+                    >
+                      {message.time}
+                    </p>
+                    <p
+                      className={`text-gray-700 ${
+                        message.sender == "You" ? "flex justify-start" : ""
+                      } dark:text-gray-300`}
+                    >
                       {message.content}
                     </p>
                   </div>
