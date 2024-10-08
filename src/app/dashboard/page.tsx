@@ -434,7 +434,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between ">
                   <div>
                     <p className="text-2xl font-bold">
-                      {workingHours.toFixed(2)} hours
+                      {workingHours.toFixed(2)} hrs
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
                       Today&apos;s working hour
@@ -446,14 +446,14 @@ export default function Dashboard() {
                       Clock Out: {formatTime(endTime)}
                     </p>
                   </div>
-                  <div className="space-y-2 space-x-2">
+                  <div className="flex items-center justify-center sm:flex-row flex-col gap-2">
                     <Dialog
                       open={isClockModalOpen}
                       onOpenChange={setIsClockModalOpen}
                     >
                       <DialogTrigger asChild>
                         <Button
-                          className="dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white"
+                          className="dark:bg-blue-600 dark:hover:bg-blue-700 w-full dark:text-white"
                           variant={isClockedIn ? "destructive" : "default"}
                         >
                           {isClockedIn ? "Clock Out" : "Clock In"}
@@ -494,7 +494,7 @@ export default function Dashboard() {
                         className="dark:bg-gray-900 dark:hover:bg-gray-950"
                       >
                         <Button variant="outline">
-                          View Summary <ChevronDown className="ml-2 h-4 w-4 " />
+                           Summary <ChevronDown className="ml-2 h-4 w-4 " />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
