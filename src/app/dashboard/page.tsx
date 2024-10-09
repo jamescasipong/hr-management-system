@@ -319,12 +319,12 @@ export default function Dashboard() {
               <Switch
               checked={isDarkMode}
               onCheckedChange={toggleDarkMode}
-              className=" dark:bg-blue-50 sm:flex"
+              className=" dark:bg-blue-50 sm:flex hidden"
               />
               {isDarkMode ? (
-              <Moon className="sm:flex justify-center h-5 w-5 text-gray-300" />
+              <Moon className="sm:flex hidden justify-center h-5 w-5 text-gray-300" />
               ) : (
-              <Sun className="sm:flex justify-center h-5 w-5 text-yellow-500" />
+              <Sun className="sm:flex hidden justify-center h-5 w-5 text-yellow-500" />
               )}
               <Button variant="ghost" size="icon" className="sm:flex justify-center hidden mr-2">
               <Bell className="h-5 w-5" />
@@ -458,7 +458,7 @@ export default function Dashboard() {
             <Card className="mb-6 dark:bg-gray-800">
               <CardHeader>
                 <div className="flex justify-between">
-                  <CardTitle>My Schedule</CardTitle>
+                  <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">My Schedule</CardTitle>
                   <CalendarCheck2 className="text-blue-500"></CalendarCheck2>
                 </div>
                 <CardDescription>
@@ -589,7 +589,7 @@ export default function Dashboard() {
             <Card className="mb-6 dark:bg-gray-800 ">
               <CardHeader>
                 <div className="flex justify-between">
-                  <CardTitle>Co-workers Attendance</CardTitle>
+                  <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">Co-workers Attendance</CardTitle>
                   <Group className="text-blue-500"></Group>
                 </div>
 
@@ -636,7 +636,7 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex justify-between">
                   {" "}
-                  <CardTitle>My Time Off</CardTitle>
+                  <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">My Time Off</CardTitle>
                   <Timer className="text-blue-500"></Timer>
                 </div>
 
@@ -697,7 +697,7 @@ export default function Dashboard() {
             <Card className=" dark:bg-gray-800  md:col-span-2 col-span-1">
               <CardHeader>
                 <div className="flex justify-between">
-                  <CardTitle>Time Management</CardTitle>
+                  <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">Time Management</CardTitle>
                   <CalendarDays className="text-blue-500"></CalendarDays>
                 </div>
                 <CardDescription>Tasks assigned to you</CardDescription>
