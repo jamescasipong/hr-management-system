@@ -74,7 +74,7 @@ export default function Dashboard() {
   ]);
   const [coworkers, setCoworkers] = useState([
     {
-      name: "Light Yagami",
+      name: "Light Yagamis",
       avatar:
         "https://styles.redditmedia.com/t5_3jtcg/styles/communityIcon_hjdrjuo032a41.png",
       status: { type: "In Office", color: "green" },
