@@ -48,8 +48,8 @@ import {
   Users,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import calendar from "../../components/ui/calendar";
 import { ComboBoxResponsive } from "../../components/ui/comboBoxResponsive";
+import calendar from "../../components/ui/customCalendar";
 
 export default function Dashboard() {
   const [isClockedIn, setIsClockedIn] = useState(false);
@@ -96,6 +96,18 @@ export default function Dashboard() {
       status: { type: "In Office", color: "green" },
     },
   ]);
+  const [leaveHours, setLeaveHours] = useState([
+    {
+      type: "Vacation Leave",
+      hours: 120,
+      entitlement: 120,
+    },
+    {
+      type: "Sick Leave",
+      hours: 5,
+      entitlement: 24,
+    },
+  ])
   const [messages, setMessages] = useState([
     {
       sender: "Alice Johnson",
@@ -234,7 +246,7 @@ export default function Dashboard() {
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
             HR Connect
           </h1>
-          <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+          <Button className="dark:hover:bg-gray-900" variant="ghost" size="icon" onClick={toggleSidebar}>
             <Menu className="h-6 w-6" />
           </Button>
         </div>
@@ -279,7 +291,7 @@ export default function Dashboard() {
                 variant="ghost"
                 size="icon"
                 onClick={toggleSidebar}
-                className={`mr-4 transition-all duration-300 ${
+                className={`dark:hover:bg-gray-900 mr-4 transition-all duration-300 ${
                   isSidebarOpen ? "opacity-0 invisible" : ""
                 }`}
               >
@@ -434,7 +446,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between ">
-                  <div>
+                  <div className="">
                     <p className="text-2xl font-bold">
                       {workingHours.toFixed(2)} hrs
                     </p>
@@ -461,7 +473,7 @@ export default function Dashboard() {
                           {isClockedIn ? "Clock Out" : "Clock In"}
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="dark:bg-gray-800">
+                      <DialogContent className="dark:bg-gray-800 rounded-lg">
                         <DialogHeader>
                           <DialogTitle>
                             {isClockedIn ? "Clock Out" : "Clock In"}
@@ -608,18 +620,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[
-                    {
-                      type: "Vacation Leave",
-                      hours: 120,
-                      entitlement: 120,
-                    },
-                    {
-                      type: "Sick Leave",
-                      hours: 5,
-                      entitlement: 24,
-                    },
-                  ].map((value, index) => (
+                  {leaveHours.map((value, index) => (
                     <div key={index} className="space-y-4">
                       <div className="flex items-center justify-between">
                         <p className="text-lg font-medium text-gray-700 dark:text-gray-300 ">
@@ -677,7 +678,7 @@ export default function Dashboard() {
                 </div>
                 <CardDescription>Tasks assigned to you</CardDescription>
               </CardHeader>
-              <CardContent>{calendar()}</CardContent>
+              <CardContent className="">{calendar({ vacation: 120-leaveHours[0].hours , sick: 120- leaveHours[1].hours })}</CardContent>
             </Card>
           </div>
 

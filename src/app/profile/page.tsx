@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import {
-    Award,
-    Briefcase, Calendar,
-    Edit,
-    GraduationCap,
-    Heart,
-    Mail,
-    MapPin,
-    Phone,
-    User
+  Award,
+  Briefcase, Calendar,
+  Edit,
+  GraduationCap,
+  Heart,
+  Mail,
+  MapPin,
+  Phone,
+  User
 } from "lucide-react"
 import { useState } from "react"
 
@@ -35,7 +35,7 @@ export default function EmployeeProfile() {
       { degree: "Information Communication & Computation Technology", institution: "STI College Cubao", year: "2020" }
     ],
     skills: ["JavaScript", "React", "Next", "ASP.NET", "Tailwind", "Node.js", "Python", "Azure", "Docker"],
-    projects: ["HRConnect v2.0", "AI-Driven Analytics Platform", "Mobile App Redesign"],
+    projects: ["HRConnect v1.0", "AM Monitoring", "Optinet"],
     achievements: ["Best in Thesis", "5 Years Service Award"],
     profilePicUrl: "https://avatars.githubusercontent.com/u/144509235?v=4"
   })
@@ -59,7 +59,7 @@ export default function EmployeeProfile() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 sm:p-6 p-4">
         <h1 className="text-3xl font-bold mb-8">Employee Profile</h1>
         
         {/* Profile Overview */}
@@ -82,8 +82,8 @@ export default function EmployeeProfile() {
         </Card>
 
         {/* Personal Information */}
-        <div className="grid md:grid-cols-2 gap-2 grid-cols-1">
-        <Card className="mb-8">
+        <div className="grid md:grid-cols-2 gap-4 grid-cols-1 ">
+        <Card className="mb-4 md:mb-5">
           <CardHeader>
             <CardTitle>Personal Information</CardTitle>
           </CardHeader>
@@ -108,7 +108,7 @@ export default function EmployeeProfile() {
         </Card>
 
         {/* Contact Information */}
-        <Card className="mb-8">
+        <Card className="mb-4 md:mb-5">
           <CardHeader>
             <CardTitle>Contact Information</CardTitle>
           </CardHeader>
@@ -125,7 +125,7 @@ export default function EmployeeProfile() {
         </Card>
 
         {/* Employment Details */}
-        <Card className="mb-8">
+        <Card className="mb-4 md:mb-5">
           <CardHeader>
             <CardTitle>Employment Details</CardTitle>
           </CardHeader>
@@ -149,7 +149,7 @@ export default function EmployeeProfile() {
         </Card>
 
         {/* Education */}
-        <Card className="mb-8">
+        <Card className="mb-4 md:mb-5">
           <CardHeader>
             <CardTitle>Education</CardTitle>
           </CardHeader>
