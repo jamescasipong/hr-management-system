@@ -8,7 +8,7 @@
   "icons": [
     {
     "src": "https://nextjs.org/static/favicon/favicon-192x192.png",
-    "sizes": "192x192",
+    "sizes": "250x250",
     "type": "image/png"
     },
     {
