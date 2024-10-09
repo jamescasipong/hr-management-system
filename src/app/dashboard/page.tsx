@@ -334,7 +334,31 @@ export default function Dashboard() {
               onOpenChange={setIsProfileModalOpen}
               >
               <DialogTrigger asChild>
-                <div className="dark:hover:bg-slate-300 p-1 dark:hover:border-slate-300 hover:bg-blue-400 transition-all duration-200 rounded-full ">
+                <div className="dark:hover:bg-slate-300 relative z-0 p-1 dark:hover:border-slate-300 hover:bg-blue-400 transition-all duration-200 rounded-full ">
+
+                  {/* <div className="relative z-0">
+                        <div
+                          className={`w-3 h-3 rounded-full ${changeStatus(
+                            coworker.status.type
+                          )} absolute bottom-0 right-1 z-10`}
+                        ></div>
+                        <Avatar className="border-[1px] dark:border-slate-700">
+                          <AvatarImage
+                            src={coworker.avatar}
+                            alt={coworker.name}
+                          />
+                          <AvatarFallback>
+                            {coworker.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>*/}
+
+<div
+                          className={`w-3 h-3 rounded-full bg-green-600 absolute bottom-[2%] right-2 z-10`}
+                        ></div>
                   <Avatar className="cursor-pointer ">
                   <AvatarImage src={profilePicUrl} alt="Profile" />
                   <AvatarFallback>CN</AvatarFallback>
