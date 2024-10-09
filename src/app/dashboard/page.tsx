@@ -63,8 +63,8 @@ export default function Dashboard() {
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [weeklyClockData, setWeeklyClockData] = useState([
     { day: "Monday", clockIn: "09:00 AM", clockOut: "05:00 PM" },
     { day: "Tuesday", clockIn: "08:45 AM", clockOut: "05:15 PM" },
@@ -92,7 +92,8 @@ export default function Dashboard() {
     },
     {
       name: "Sosuke Aizen",
-      avatar: "https://styles.redditmedia.com/t5_bzsm0u/styles/profileIcon_hv49qtnbg3dd1.jpeg?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=d656ec20a2c7d43b4bddf4687a0fcb891a9a8cca",
+      avatar:
+        "https://styles.redditmedia.com/t5_bzsm0u/styles/profileIcon_hv49qtnbg3dd1.jpeg?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=d656ec20a2c7d43b4bddf4687a0fcb891a9a8cca",
       status: { type: "In Office", color: "green" },
     },
   ]);
@@ -107,7 +108,7 @@ export default function Dashboard() {
       hours: 5,
       entitlement: 24,
     },
-  ])
+  ]);
   const [messages, setMessages] = useState([
     {
       sender: "Alice Johnson",
@@ -243,10 +244,22 @@ export default function Dashboard() {
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            HR Connect
-          </h1>
-          <Button className="dark:hover:bg-gray-900" variant="ghost" size="icon" onClick={toggleSidebar}>
+          <div className="flex items-center space-x-2">
+            <img
+              src={`${isDarkMode ? "hrlogowhite.png" : "hrlogo.png"}`}
+              alt="HR Logo"
+              className="h-8 w-8"
+            />
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+              HRConnect
+            </h1>
+          </div>
+          <Button
+            className="dark:hover:bg-gray-900"
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+          >
             <Menu className="h-6 w-6" />
           </Button>
         </div>
@@ -283,144 +296,155 @@ export default function Dashboard() {
             isSidebarOpen ? "" : "fixed top-0 right-0 left-0"
           }`}
         >
-          <div
-            className={` md:w-[1500px] w-full mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
-          >
+            <div
+            className={` ${
+              isSidebarOpen ? "w-full" : "2xl:w-[1500px] xl:w-full " 
+            } mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
+            >
             <div className="flex items-center">
+              {isSidebarOpen ? null : (
+              <div className="flex items-center space-x-2">
+                <img
+                src={`${isDarkMode ? "hrlogowhite.png" : "hrlogo.png"}`}
+                alt="HR Logo"
+                className="h-8 w-8"
+                />
+                <h2 className="text-xl font-bold leading-7 text-gray-900 dark:text-white sm:text-2xl sm:truncate">
+                HRConnect
+                </h2>
+              </div>
+              )}
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <Switch
+              checked={isDarkMode}
+              onCheckedChange={toggleDarkMode}
+              className=" dark:bg-blue-50 sm:flex"
+              />
+              {isDarkMode ? (
+              <Moon className="sm:flex justify-center h-5 w-5 text-gray-300" />
+              ) : (
+              <Sun className="sm:flex justify-center h-5 w-5 text-yellow-500" />
+              )}
+              <Button variant="ghost" size="icon" className="sm:flex justify-center hidden mr-2">
+              <Bell className="h-5 w-5" />
+              </Button>
+              <Dialog
+              open={isProfileModalOpen}
+              onOpenChange={setIsProfileModalOpen}
+              >
+              <DialogTrigger asChild>
+                <div className="dark:hover:bg-slate-300 p-1 dark:hover:border-slate-300 hover:bg-blue-400 transition-all duration-200 rounded-full ">
+                  <Avatar className="cursor-pointer ">
+                  <AvatarImage src={profilePicUrl} alt="Profile" />
+                  <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </div>
+              </DialogTrigger>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleSidebar}
                 className={`dark:hover:bg-gray-900 mr-4 transition-all duration-300 ${
-                  isSidebarOpen ? "opacity-0 invisible" : ""
+                isSidebarOpen ? "hidden" : ""
                 }`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
-              {isSidebarOpen ? null : (
-                <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">
-                  HR Connect
-                </h2>
-              )}
-            </div>
-            <div className="flex items-center space-x-4 ">
-              <Switch
-                checked={isDarkMode}
-                onCheckedChange={toggleDarkMode}
-                className=" dark:bg-blue-50 sm:block hidden"
-              />
-              {isDarkMode ? (
-                <Moon className="sm:block hidden h-5 w-5 text-gray-300" />
-              ) : (
-                <Sun className="sm:block hidden h-5 w-5 text-yellow-500" />
-              )}
-              <Button variant="ghost" size="icon" className="sm:block hidden">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <Dialog
-                open={isProfileModalOpen}
-                onOpenChange={setIsProfileModalOpen}
-              >
-                <DialogTrigger asChild>
-                  <Avatar className="cursor-pointer">
+              <DialogContent className="sm:max-w-[425px] dark:bg-gray-900">
+                <DialogHeader>
+                <DialogTitle>Profile</DialogTitle>
+                <DialogDescription>
+                  View and update your profile information
+                </DialogDescription>
+                </DialogHeader>
+                <Tabs defaultValue="profile" className="w-full">
+                <TabsList className="grid w-full grid-cols-2 ">
+                  <TabsTrigger value="profile">My Profile</TabsTrigger>
+                  <TabsTrigger value="settings">Settings</TabsTrigger>
+                </TabsList>
+                <TabsContent value="profile">
+                  <div className="space-y-4">
+                  <div className="flex items-center space-x-4">
+                    <Avatar className="w-20 h-20">
                     <AvatarImage src={profilePicUrl} alt="Profile" />
                     <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] dark:bg-gray-900">
-                  <DialogHeader>
-                    <DialogTitle>Profile</DialogTitle>
-                    <DialogDescription>
-                      View and update your profile information
-                    </DialogDescription>
-                  </DialogHeader>
-                  <Tabs defaultValue="profile" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 ">
-                      <TabsTrigger value="profile">My Profile</TabsTrigger>
-                      <TabsTrigger value="settings">Settings</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="profile">
-                      <div className="space-y-4">
-                        <div className="flex items-center space-x-4">
-                          <Avatar className="w-20 h-20">
-                            <AvatarImage src={profilePicUrl} alt="Profile" />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <Label
-                            htmlFor="picture"
-                            className="cursor-pointer dark:bg-blue-500 dark:text-white bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-3 rounded-md"
-                          >
-                            Upload Picture
-                          </Label>
-                          <Input
-                            id="picture"
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={handleProfilePicChange}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="name">Name</Label>
-                          <Input id="name" defaultValue="James Casipong" />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="email">Email</Label>
-                          <Input
-                            id="email"
-                            defaultValue="jamesxcasipong@gmail.com"
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          <Button className="w-full dark:bg-blue-500 text-white">
-                            Save
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              window.location.href = "/profile";
-                            }}
-                            className="w-full dark:bg-blue-500 text-white"
-                          >
-                            View Complete Profile
-                          </Button>
-                        </div>
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="settings">
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="language">Language</Label>
-                          <select
-                            id="language"
-                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
-                          >
-                            <option>English</option>
-                            <option>Spanish</option>
-                            <option>French</option>
-                          </select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="notifications">Notifications</Label>
-                          <div className="flex items-center space-x-2 ">
-                            <Switch
-                              id="notifications"
-                              className="dark:bg-blue-500"
-                            />
-                            <Label htmlFor="notifications">
-                              Receive email notifications
-                            </Label>
-                          </div>
-                        </div>
-                        <Button className="w-full dark:bg-blue-500 text-white">
-                          Save Settings
-                        </Button>
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </DialogContent>
+                    </Avatar>
+                    <Label
+                    htmlFor="picture"
+                    className="cursor-pointer dark:bg-blue-500 dark:text-white bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-3 rounded-md"
+                    >
+                    Upload Picture
+                    </Label>
+                    <Input
+                    id="picture"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleProfilePicChange}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" defaultValue="James Casipong" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                    id="email"
+                    defaultValue="jamesxcasipong@gmail.com"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button className="w-full dark:bg-blue-500 text-white">
+                    Save
+                    </Button>
+                    <Button
+                    onClick={() => {
+                      window.location.href = "/profile";
+                    }}
+                    className="w-full dark:bg-blue-500 text-white"
+                    >
+                    View Complete Profile
+                    </Button>
+                  </div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="settings">
+                  <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="language">Language</Label>
+                    <select
+                    id="language"
+                    className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                    >
+                    <option>English</option>
+                    <option>Spanish</option>
+                    <option>French</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="notifications">Notifications</Label>
+                    <div className="flex items-center space-x-2 ">
+                    <Switch
+                      id="notifications"
+                      className="dark:bg-blue-500"
+                    />
+                    <Label htmlFor="notifications">
+                      Receive email notifications
+                    </Label>
+                    </div>
+                  </div>
+                  <Button className="w-full dark:bg-blue-500 text-white">
+                    Save Settings
+                  </Button>
+                  </div>
+                </TabsContent>
+                </Tabs>
+              </DialogContent>
               </Dialog>
             </div>
-          </div>
+            </div>
         </header>
 
         {/* Dashboard Content */}
@@ -572,7 +596,7 @@ export default function Dashboard() {
                 <CardDescription>Today's attendance status</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-4">
+                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
                   {coworkers.map((coworker, index) => (
                     <div key={index} className="flex items-center space-x-2">
                       <div className="relative z-0">
@@ -678,7 +702,12 @@ export default function Dashboard() {
                 </div>
                 <CardDescription>Tasks assigned to you</CardDescription>
               </CardHeader>
-              <CardContent className="">{calendar({ vacation: 120-leaveHours[0].hours , sick: 120- leaveHours[1].hours })}</CardContent>
+              <CardContent className="">
+                {calendar({
+                  vacation: 120 - leaveHours[0].hours,
+                  sick: 120 - leaveHours[1].hours,
+                })}
+              </CardContent>
             </Card>
           </div>
 
@@ -699,7 +728,7 @@ export default function Dashboard() {
                 {chatIsOpen ? (
                   <CardTitle className="text-white">IT Teams</CardTitle>
                 ) : (
-                  <div className="p-0 hover:bg-blue-600 transition-all duration-100 rounded-md flex gap-2 text-center text-white">
+                  <div className="p-0  transition-all duration-100 rounded-md flex gap-2 text-center text-white">
                     Chat<Menu className="text-white "></Menu>
                   </div>
                 )}
@@ -709,7 +738,7 @@ export default function Dashboard() {
                     onClick={() => {
                       window.location.href = "/xd";
                     }}
-                    className="p-1 hover:bg-blue-600 transition-all duration-100 rounded-md"
+                    className="p-1 hover:bg-gray-600 transition-all duration-100 rounded-md"
                   >
                     <Scaling className="text-white"></Scaling>
                   </div>

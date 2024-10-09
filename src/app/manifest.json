@@ -7,14 +7,14 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-    "src": "https://nextjs.org/static/favicon/favicon-192x192.png",
-    "sizes": "250x250",
-    "type": "image/png"
+      "src": "/hrlogo.png",
+      "sizes": "250x250",
+      "type": "image/png"
     },
     {
-    "src": "https://nextjs.org/static/favicon/favicon-512x512.png",
-    "sizes": "512x512",
-    "type": "image/png"
+      "src": "/hrlogo.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }
