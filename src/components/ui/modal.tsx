@@ -3,18 +3,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { Button } from "./button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "./dialog";
 import { Input } from "./input";
 import { Label } from "./label";
 import { Switch } from "./switch";
 
-const Modal = () => {
+
+
+const Modal = ({ name }: { name: string }) => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const profilePicUrl = "https://example.com/profile.jpg"; // Replace with actual URL
   const handleProfilePicChange = (
@@ -27,7 +29,7 @@ const Modal = () => {
     <div>
       <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
         <DialogTrigger asChild>
-            <div className="py-2 px-4 bg-gray-800 hover:bg-gray-700 transition-all duration-200 ease-in-out dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-md cursor-pointer">Request Leave</div>
+            <div className="py-2 px-4 bg-gray-800 hover:bg-gray-700 transition-all duration-200 ease-in-out dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-md cursor-pointer">{name}</div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] dark:bg-gray-900">
           <DialogHeader>

@@ -45,11 +45,11 @@ import {
   Send,
   Sun,
   Timer,
-  Users
+  Users,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import calendar from "../../components/ui/calendar";
-import dropdown from "../../components/ui/dropdown";
+import { ComboBoxResponsive } from "../../components/ui/comboBoxResponsive";
 
 export default function Dashboard() {
   const [isClockedIn, setIsClockedIn] = useState(false);
@@ -74,23 +74,25 @@ export default function Dashboard() {
   ]);
   const [coworkers, setCoworkers] = useState([
     {
-      name: "Pereson One",
-      avatar: "/placeholder.svg?height=32&width=32",
+      name: "Light Yagami",
+      avatar:
+        "https://styles.redditmedia.com/t5_3jtcg/styles/communityIcon_hjdrjuo032a41.png",
       status: { type: "In Office", color: "green" },
     },
     {
-      name: "Person Two",
-      avatar: "/placeholder.svg?height=32&width=32",
+      name: "Arisu Sakayanagi",
+      avatar: "https://up.quizlet.com/3j85ur-Vcyjj-256s.jpg",
       status: { type: "On Leave", color: "red" },
     },
     {
-      name: "Person Three",
-      avatar: "/placeholder.svg?height=32&width=32",
+      name: "Beluga",
+      avatar:
+        "data:image/jpeg;base64,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",
       status: { type: "In Office", color: "green" },
     },
     {
-      name: "Person Four",
-      avatar: "/placeholder.svg?height=32&width=32",
+      name: "Sosuke Aizen",
+      avatar: "https://styles.redditmedia.com/t5_bzsm0u/styles/profileIcon_hv49qtnbg3dd1.jpeg?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=d656ec20a2c7d43b4bddf4687a0fcb891a9a8cca",
       status: { type: "In Office", color: "green" },
     },
   ]);
@@ -469,7 +471,7 @@ export default function Dashboard() {
                               ? "Are you sure you want to clock out?"
                               : "Are you ready to start your workday?"}
                           </DialogDescription>
-                          <div>{dropdown("Select a status")}</div>
+                          <div>{ComboBoxResponsive()}</div>
                         </DialogHeader>
                         <div className="flex justify-end space-x-2">
                           <Button
@@ -491,10 +493,13 @@ export default function Dashboard() {
                     <DropdownMenu>
                       <DropdownMenuTrigger
                         asChild
-                        className="dark:bg-gray-900 dark:hover:bg-gray-950"
+                        className="dark:bg-gray-900 dark:hover:bg-gray-700"
                       >
-                        <Button variant="outline">
-                           Summary <ChevronDown className="ml-2 h-4 w-4 " />
+                        <Button
+                          className="border-gray-300 dark:border-gray-500 border-[1px] dark:hover:bg-slate-800 shadow-sm"
+                          variant="outline"
+                        >
+                          Summary <ChevronDown className="ml-2 h-4 w-4 " />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
@@ -555,7 +560,7 @@ export default function Dashboard() {
                 <CardDescription>Today's attendance status</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-4">
                   {coworkers.map((coworker, index) => (
                     <div key={index} className="flex items-center space-x-2">
                       <div className="relative z-0">
@@ -564,7 +569,7 @@ export default function Dashboard() {
                             coworker.status.type
                           )} absolute bottom-0 right-1 z-10`}
                         ></div>
-                        <Avatar className="border-[1px] border-slate-200">
+                        <Avatar className="border-[1px] dark:border-slate-700">
                           <AvatarImage
                             src={coworker.avatar}
                             alt={coworker.name}
@@ -593,10 +598,12 @@ export default function Dashboard() {
           <div className="mb-6 grid lg:grid-cols-3 grid-cols-1 gap-4">
             <Card className="dark:bg-gray-800 ">
               <CardHeader>
-                <div className="flex justify-between"> <CardTitle>My Time Off</CardTitle>
-                <Timer></Timer></div>
-               
-                
+                <div className="flex justify-between">
+                  {" "}
+                  <CardTitle>My Time Off</CardTitle>
+                  <Timer></Timer>
+                </div>
+
                 <CardDescription className="text-[15px] font-medium"></CardDescription>
               </CardHeader>
               <CardContent>
@@ -609,7 +616,7 @@ export default function Dashboard() {
                     },
                     {
                       type: "Sick Leave",
-                      hours: 4,
+                      hours: 5,
                       entitlement: 24,
                     },
                   ].map((value, index) => (
@@ -624,7 +631,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-2">
                         <div className="flex items-baseline space-x-2">
-                          <h1 className="text-4xl font-semibold text-blue-600">
+                          <h1 className="text-4xl font-semibold text-gray-800 dark:text-blue-600">
                             {value.hours}
                           </h1>
                           <span className="text-xl text-gray-500 dark:text-gray-400">
@@ -639,19 +646,19 @@ export default function Dashboard() {
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <div className="text-sm font-medium  text-gray-700 dark:text-gray-300">
                           Progress
                         </div>
-                        <div className="w-full h-10 bg-gray-200 rounded-md dark:bg-gray-700">
+                        <div className="w-full outline outline-1 outline-offset-1 outline-gray-300 dark:outline-slate-700 h-10 bg-gray-200 rounded-md dark:bg-gray-700">
                           <div
-                            className={`h-10 rounded-md ${
+                            className={`h-10  rounded-md ${
                               (value.hours / 120) * 100 < 50
-                                ? "bg-blue-600 dark:bg-blue-500"
+                                ? "bg-blue-300 dark:bg-blue-300"
                                 : (value.hours / 120) * 100 < 75
-                                ? "bg-yellow-600 dark:bg-yellow-500"
+                                ? "bg-blue-400 dark:bg-blue-400"
                                 : (value.hours / 120) * 100 == 100
-                                ? "bg-red-800"
-                                : "bg-red-600 dark:bg-red-500"
+                                ? "bg-blue-600"
+                                : "bg-blue-500 dark:bg-blue-500"
                             }`}
                             style={{ width: `${(value.hours / 120) * 100}%` }}
                           ></div>
@@ -665,8 +672,8 @@ export default function Dashboard() {
             <Card className=" dark:bg-gray-800  md:col-span-2 col-span-1">
               <CardHeader>
                 <div className="flex justify-between">
-                <CardTitle>Time Management</CardTitle>
-                <CalendarDays></CalendarDays>
+                  <CardTitle>Time Management</CardTitle>
+                  <CalendarDays></CalendarDays>
                 </div>
                 <CardDescription>Tasks assigned to you</CardDescription>
               </CardHeader>
@@ -683,7 +690,7 @@ export default function Dashboard() {
           >
             <CardHeader
               onClick={() => setIsChatOpen((prev) => !prev)}
-              className={`bg-blue-600 ${
+              className={`bg-gray-700 ${
                 chatIsOpen ? "mb-5" : ""
               } rounded-t-lg rounded-b-sm cursor-pointer p-4`}
             >

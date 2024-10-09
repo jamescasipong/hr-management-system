@@ -24,10 +24,10 @@ const Calendar = () => {
           <time dateTime={format(currentDate, 'yyyy-MM')}>{format(currentDate, 'MMMM yyyy')}</time>
         </h1>
         <div className="flex items-center">
-          <div className="relative flex items-center rounded-md bg-white dark:bg-gray-900 shadow-sm md:items-stretch">
+          <div className="relative flex items-center rounded-md border-gray-300 dark:border-gray-500 border-[1px] bg-white dark:bg-gray-900 shadow-sm md:items-stretch">
             <button
               type="button"
-              className="flex h-9 w-12 items-center transition-all duration-100 ease-in-out dark:hover:bg-slate-800 justify-center rounded-l-md border-y border-l border-gray-300 dark:border-gray-600 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
+              className="flex h-9 w-12 items-center transition-all duration-100 ease-in-out dark:hover:bg-slate-800 justify-center rounded-l-md   pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
               onClick={handlePrevMonth}
             >
               <span className="sr-only">Previous month</span>
@@ -46,7 +46,7 @@ const Calendar = () => {
             </button>
             <button
               type="button"
-              className="hidden border-y dark:text-white transition-all duration-100 ease-in-out dark:hover:bg-slate-800 border-gray-300 dark:border-gray-600 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
+              className="hidden  dark:text-white transition-all duration-100 ease-in-out dark:hover:bg-slate-800   px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
               onClick={handleToday}
             >
               Today
@@ -54,7 +54,7 @@ const Calendar = () => {
             <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden"></span>
             <button
               type="button"
-              className="flex h-9 w-12 items-center transition-all duration-100 ease-in-out dark:hover:bg-slate-800 justify-center rounded-r-md border-y border-r border-gray-300 dark:border-gray-600 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
+              className="flex h-9 w-12 items-center transition-all duration-100 ease-in-out dark:hover:bg-slate-800 justify-center rounded-r-md  pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
               onClick={handleNextMonth}
             >
               <span className="sr-only">Next month</span>
@@ -87,7 +87,7 @@ const Calendar = () => {
             </div>
             <div className="ml-6 h-6 w-px bg-gray-300"></div>
             <div className='ml-5'>
-            <Modal ></Modal>
+            <Modal name="Request Leave"></Modal>
             </div>
           </div>
           
