@@ -459,7 +459,7 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex justify-between">
                   <CardTitle>My Schedule</CardTitle>
-                  <CalendarCheck2></CalendarCheck2>
+                  <CalendarCheck2 className="text-blue-500"></CalendarCheck2>
                 </div>
                 <CardDescription>
                   <span className="font-medium t">Working Hours </span>{" "}
@@ -590,7 +590,7 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex justify-between">
                   <CardTitle>Co-workers Attendance</CardTitle>
-                  <Group></Group>
+                  <Group className="text-blue-500"></Group>
                 </div>
 
                 <CardDescription>Today's attendance status</CardDescription>
@@ -637,7 +637,7 @@ export default function Dashboard() {
                 <div className="flex justify-between">
                   {" "}
                   <CardTitle>My Time Off</CardTitle>
-                  <Timer></Timer>
+                  <Timer className="text-blue-500"></Timer>
                 </div>
 
                 <CardDescription className="text-[15px] font-medium"></CardDescription>
@@ -698,7 +698,7 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex justify-between">
                   <CardTitle>Time Management</CardTitle>
-                  <CalendarDays></CalendarDays>
+                  <CalendarDays className="text-blue-500"></CalendarDays>
                 </div>
                 <CardDescription>Tasks assigned to you</CardDescription>
               </CardHeader>
