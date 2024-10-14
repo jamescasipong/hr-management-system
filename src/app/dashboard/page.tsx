@@ -45,7 +45,9 @@ export default function Dashboard() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  const { isSidebarOpen, toggleSidebar, theme, toggleDarkMode } = context;
+  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
+
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [workingHours, setWorkingHours] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
