@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AppProvider, SideDark } from "@/contextComponent/SideDark";
+import { SideDark } from "@/contextComponent/SideDark";
 import {
   Bell,
   Calendar,
@@ -31,7 +31,7 @@ import { useContext, useEffect, useState } from "react";
 
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [profilePicUrl, setProfilePicUrl] = useState("/profile.jpg");
+  const [profilePicUrl, setProfilePicUrl] = useState("https://avatars.githubusercontent.com/u/144509235?v=4");
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
@@ -56,7 +56,6 @@ const Navbar = () => {
  
 
   return (
-    <AppProvider>
     <div>
       {/* Sidebar */}
       <aside
@@ -287,7 +286,6 @@ const Navbar = () => {
         </div>
       </header>
     </div>
-    </AppProvider>
   );
   
 };
