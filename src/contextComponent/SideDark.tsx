@@ -1,58 +1,49 @@
 "use client";
-import { createContext, ReactNode, useState, useEffect, useMemo } from "react";
+import { createContext, ReactNode, useState, useEffect } from "react";
 
 interface AppContextProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
-  isDarkMode: boolean;
+  theme: string;
   toggleDarkMode: () => void;
 }
 
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
 export const SideThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedSidebarState = localStorage.getItem("isSidebarOpen");
-      const savedDarkModeState = localStorage.getItem("isDarkMode");
-
-      if (savedSidebarState) {
-        setIsSidebarOpen(JSON.parse(savedSidebarState));
-      }
-
-      if (savedDarkModeState) {
-        setIsDarkMode(JSON.parse(savedDarkModeState));
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("isSidebarOpen", JSON.stringify(isSidebarOpen));
-    }
-  }, [isSidebarOpen]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
-    }
-  }, [isDarkMode]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const [theme, setTheme] = useState("light"); // Default to 'light'
+
+  // Load the saved theme from localStorage on initial load
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme); // Apply the saved theme (if available)
+    }
+  }, []);
+
+  // Save the current theme to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("theme", theme); // Save the current theme
+    document.body.className = theme; // Apply the theme to the body element
+  }, [theme]);
+
+  // Toggle between light and dark themes
+
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
-  const contextValue = useMemo(
-    () => ({ isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode }),
-    [isSidebarOpen, isDarkMode]
+  return (
+    <SideDark.Provider
+      value={{ isSidebarOpen, toggleSidebar, theme, toggleDarkMode }}
+    >
+      {children}
+    </SideDark.Provider>
   );
-
-  return <SideDark.Provider value={contextValue}>{children}</SideDark.Provider>;
 };

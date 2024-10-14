@@ -39,7 +39,8 @@ const Navbar = () => {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  const { isSidebarOpen, toggleSidebar, theme, toggleDarkMode } = context;
+  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -51,10 +52,6 @@ const Navbar = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
 
   {
     /*{ icon: FileText, label: "Leaves", link: "/leaves" },
