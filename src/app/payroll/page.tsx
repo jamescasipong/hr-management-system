@@ -36,6 +36,14 @@ export default function Payroll() {
     throw new Error("SideDark context is undefined");
   }
   const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context;
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem("isDarkMode");
+    if (savedDarkMode !== null) {
+      document.body.classList.toggle("dark", JSON.parse(savedDarkMode));
+    } else {
+      document.body.classList.toggle("dark", isDarkMode);
+    }
+  }, [isDarkMode]);
 
   const paymentHistory = [
     { date: "2024-03-31", amount: 5000, status: "Paid" },

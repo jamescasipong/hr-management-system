@@ -24,6 +24,14 @@ export default function EmployeeProfile() {
     throw new Error("SideDark context is undefined");
   }
   const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem("isDarkMode");
+    if (savedDarkMode !== null) {
+      document.body.classList.toggle("dark", JSON.parse(savedDarkMode));
+    } else {
+      document.body.classList.toggle("dark", isDarkMode);
+    }
+  }, [isDarkMode]);
 
   const [employee] = useState({
     name: "James Casipong",

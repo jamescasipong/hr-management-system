@@ -46,6 +46,14 @@ export default function Dashboard() {
     throw new Error("SideDark context is undefined");
   }
   const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem("isDarkMode");
+    if (savedDarkMode !== null) {
+      document.body.classList.toggle("dark", JSON.parse(savedDarkMode));
+    } else {
+      document.body.classList.toggle("dark", isDarkMode);
+    }
+  }, [isDarkMode]);
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [workingHours, setWorkingHours] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
