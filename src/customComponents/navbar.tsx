@@ -33,7 +33,7 @@ import { usePathname } from "next/navigation"; // Import useRouter
 import { use, useContext, useEffect, useState } from "react";
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(useTheme().theme === "dark");
+
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
@@ -70,7 +70,9 @@ const Navbar = () => {
           <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
             <div className="flex items-center space-x-2">
               <img
-                src={`${isDarkMode ? "hrlogowhite.png" : "hrlogo.png"}`}
+                src={
+                  useTheme().theme == "dark" ? "hrlogowhite.png" : "hrlogo.png"
+                }
                 alt="HR Logo"
                 className="h-8 w-8"
               />
@@ -122,7 +124,11 @@ const Navbar = () => {
               {isSidebarOpen ? null : (
                 <div className="flex items-center space-x-2">
                   <img
-                    src={`${isDarkMode ? "hrlogowhite.png" : "hrlogo.png"}`}
+                    src={
+                      useTheme().theme == "dark"
+                        ? "hrlogowhite.png"
+                        : "hrlogo.png"
+                    }
                     alt="HR Logo"
                     className="h-8 w-8"
                   />
