@@ -42,9 +42,7 @@ export default function Attendance() {
     throw new Error("SideDark context is undefined");
   }
   const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
+
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isCheckedIn, setIsCheckedIn] = useState(false);

@@ -133,10 +133,6 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, [isClockedIn, startTime]);
 
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
-
   const changeStatus = (status: string) => {
     if (status === "In Office") {
       return "bg-green-500";

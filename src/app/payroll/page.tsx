@@ -44,9 +44,7 @@ export default function Payroll() {
     { date: "2023-12-31", amount: 5000, status: "Paid" },
     { date: "2023-11-30", amount: 5000, status: "Paid" },
   ];
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
+
   return (
     <div
       className={`flex h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
