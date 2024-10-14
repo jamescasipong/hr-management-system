@@ -40,7 +40,8 @@ export default function Attendance() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  const { isSidebarOpen, toggleSidebar, theme, toggleDarkMode } = context;
+  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
