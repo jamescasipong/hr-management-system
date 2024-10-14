@@ -1,5 +1,6 @@
 "use client";
 
+import { ModeToggle } from "@/components/ui/modeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +30,6 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation"; // Import useRouter
 import { useContext, useEffect, useState } from "react";
-
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState(
@@ -76,6 +76,7 @@ const Navbar = () => {
                 HRConnect
               </h1>
             </div>
+
             <Button
               className="dark:hover:bg-gray-900"
               variant="ghost"
@@ -129,17 +130,9 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <Switch
-                checked={isDarkMode}
-                onCheckedChange={toggleDarkMode}
-                className=" dark:bg-blue-50 sm:flex hidden"
-              />
-              {isDarkMode ? (
-                <Moon className="sm:flex hidden justify-center h-5 w-5 text-gray-300" />
-              ) : (
-                <Sun className="sm:flex hidden justify-center h-5 w-5 text-yellow-500" />
-              )}
+            <div className="flex items-center justify-center gap-1">
+              <ModeToggle />
+
               <Button
                 variant="ghost"
                 size="icon"
