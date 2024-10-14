@@ -11,7 +11,7 @@ interface AppContextProps {
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
 export const SideThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedState = localStorage.getItem("isDarkMode");

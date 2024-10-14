@@ -46,14 +46,6 @@ export default function Dashboard() {
     throw new Error("SideDark context is undefined");
   }
   const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem("isDarkMode");
-    if (savedDarkMode !== null) {
-      document.body.classList.toggle("dark", JSON.parse(savedDarkMode));
-    } else {
-      document.body.classList.toggle("dark", isDarkMode);
-    }
-  }, [isDarkMode]);
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [workingHours, setWorkingHours] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -140,6 +132,10 @@ export default function Dashboard() {
     }
     return () => clearInterval(interval);
   }, [isClockedIn, startTime]);
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
   const changeStatus = (status: string) => {
     if (status === "In Office") {

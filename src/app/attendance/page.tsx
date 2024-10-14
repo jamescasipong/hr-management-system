@@ -45,6 +45,7 @@ export default function Attendance() {
   useEffect(() => {
     document.body.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
+
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isCheckedIn, setIsCheckedIn] = useState(false);

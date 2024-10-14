@@ -36,14 +36,6 @@ export default function Payroll() {
     throw new Error("SideDark context is undefined");
   }
   const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context;
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem("isDarkMode");
-    if (savedDarkMode !== null) {
-      document.body.classList.toggle("dark", JSON.parse(savedDarkMode));
-    } else {
-      document.body.classList.toggle("dark", isDarkMode);
-    }
-  }, [isDarkMode]);
 
   const paymentHistory = [
     { date: "2024-03-31", amount: 5000, status: "Paid" },
@@ -52,7 +44,9 @@ export default function Payroll() {
     { date: "2023-12-31", amount: 5000, status: "Paid" },
     { date: "2023-11-30", amount: 5000, status: "Paid" },
   ];
-
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
   return (
     <div
       className={`flex h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${

@@ -57,14 +57,6 @@ export default function Employees() {
   }
 
   const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context;
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem("isDarkMode");
-    if (savedDarkMode !== null) {
-      document.body.classList.toggle("dark", JSON.parse(savedDarkMode));
-    } else {
-      document.body.classList.toggle("dark", isDarkMode);
-    }
-  }, [isDarkMode]);
 
   const employees = [
     {
@@ -114,6 +106,10 @@ export default function Employees() {
       employee.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (departmentFilter === "All" || employee.department === departmentFilter)
   );
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <div
