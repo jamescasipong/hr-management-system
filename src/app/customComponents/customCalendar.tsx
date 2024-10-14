@@ -120,7 +120,7 @@ const Calendar = ({vacation, sick}: {vacation: number, sick: number}) => {
   return (
     <div className="lg:flex lg:h-full rounded-lg  lg:flex-col shadow-sm">
       {renderHeader()}
-      <div className=" ring-1 rounded-lg p-4  dark:border-gray-700 border ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
+      <div className=" ring-1 rounded-lg p-4   dark:border-gray-700 border ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
         <div className="grid grid-cols-7 gap-px  text-center sm:text-[17px] text-[10px] font-semibold leading-6 text-gray-700 dark:text-blue-50 lg:flex-none">
           <div className="flex 0 justify-center dark:bg-gray-800 py-2">
             <span>M</span>

@@ -75,7 +75,7 @@ export default function Employees() {
         <div className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}>
-          <Card>
+          <Card className="dark:bg-gray-800">
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle>Employee List</CardTitle>
@@ -109,7 +109,7 @@ export default function Employees() {
                   </SelectContent>
                 </Select>
               </div>
-              <Table>
+              <Table className="">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
@@ -119,9 +119,9 @@ export default function Employees() {
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="">
                   {filteredEmployees.map((employee) => (
-                    <TableRow key={employee.id}>
+                    <TableRow key={employee.id} className="border-b dark:border-gray-700">
                       <TableCell className="font-medium">
                         <div className="flex items-center">
                           <Avatar className="h-8 w-8 mr-2">

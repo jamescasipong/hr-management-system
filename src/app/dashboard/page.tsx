@@ -37,8 +37,8 @@ import {
 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { SideDark } from "../../contextComponent/SideDark";
-import { ComboBoxResponsive } from "../../customComponents/comboBoxResponsive";
-import calendar from "../../customComponents/customCalendar";
+import { ComboBoxResponsive } from "../customComponents/comboBoxResponsive";
+import calendar from "../customComponents/customCalendar";
 
 export default function Dashboard() {
   const context = useContext(SideDark);

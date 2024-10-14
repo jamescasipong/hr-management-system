@@ -1,5 +1,5 @@
+import Navbar from "@/app/customComponents/navbar"; // Import your Navbar component
 import { AppProvider } from "@/contextComponent/SideDark";
-import Navbar from "@/customComponents/navbar"; // Import your Navbar component
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
