@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { SideThemeProvider } from "@/contextComponent/SideDark";
 import localFont from "next/font/local";
