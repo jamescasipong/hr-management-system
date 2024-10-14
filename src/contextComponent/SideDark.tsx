@@ -1,34 +1,46 @@
-"use client"
-import { createContext, ReactNode, useState } from 'react';
+"use client";
+import { createContext, ReactNode, useState, useEffect, useMemo } from "react";
 
 interface AppContextProps {
-    isSidebarOpen: boolean;
-    toggleSidebar: () => void;
-    isDarkMode: boolean;
-    toggleDarkMode: () => void;
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
-export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false
-    );
+export const SideThemeProvider = ({ children }: { children: ReactNode }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    const savedState = localStorage.getItem("isSidebarOpen");
+    return savedState ? JSON.parse(savedState) : false;
+  });
 
-    const [isDarkMode, setIsDarkMode] = useState(false
-    );
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedState = localStorage.getItem("isDarkMode");
+    return savedState ? JSON.parse(savedState) : false;
+  });
 
+  useEffect(() => {
+    localStorage.setItem("isSidebarOpen", JSON.stringify(isSidebarOpen));
+  }, [isSidebarOpen]);
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-    };
+  useEffect(() => {
+    localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
 
-    const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
-    };
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
-    return (
-        <SideDark.Provider value={{ isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode }}>
-            {children}
-        </SideDark.Provider>
-    );
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const contextValue = useMemo(
+    () => ({ isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode }),
+    [isSidebarOpen, isDarkMode]
+  );
+
+  return <SideDark.Provider value={contextValue}>{children}</SideDark.Provider>;
 };

@@ -33,19 +33,19 @@ import {
   Menu,
   Scaling,
   Send,
-  Timer
+  Timer,
 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { SideDark } from "../../contextComponent/SideDark";
-import { ComboBoxResponsive } from "../customComponents/comboBoxResponsive";
-import calendar from "../customComponents/customCalendar";
+import { ComboBoxResponsive } from "../../customComponents/comboBoxResponsive";
+import calendar from "../../customComponents/customCalendar";
 
 export default function Dashboard() {
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const {isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode} = context;
+  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [workingHours, setWorkingHours] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -211,7 +211,6 @@ export default function Dashboard() {
     }
   };
 
-
   const formatTime = (date: Date | null) => {
     if (!date) return "N/A";
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -223,16 +222,12 @@ export default function Dashboard() {
         isDarkMode ? "dark" : ""
       }`}
     >
-      
-
       {/* Main Content */}
       <main
         className={`flex-1 overflow-y-auto duration-200 ${
           isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
         }`}
       >
-        
-
         {/* Dashboard Content */}
         <div
           className={`mx-auto  overflow-y-auto py-6 sm:px-6  lg:px-8 p-5 ${

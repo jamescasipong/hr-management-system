@@ -25,15 +25,16 @@ import {
   Menu,
   Moon,
   Sun,
-  Users
+  Users,
 } from "lucide-react";
 import { usePathname } from "next/navigation"; // Import useRouter
 import { useContext, useEffect, useState } from "react";
- 
 
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [profilePicUrl, setProfilePicUrl] = useState("https://avatars.githubusercontent.com/u/144509235?v=4");
+  const [profilePicUrl, setProfilePicUrl] = useState(
+    "https://avatars.githubusercontent.com/u/144509235?v=4"
+  );
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
@@ -53,60 +54,62 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
+
+  {
+    /*{ icon: FileText, label: "Leaves", link: "/leaves" },
+            { icon: Clock, label: "Overtimes", link: "/overtimes" },*/
   }
-  , [isDarkMode]);
- 
-            {/*{ icon: FileText, label: "Leaves", link: "/leaves" },
-            { icon: Clock, label: "Overtimes", link: "/overtimes" },*/}
   const pathname = usePathname();
   return (
-    pathname !== "/" && <div>
-      <aside
-        className={` fixed  inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
-          <div className="flex items-center space-x-2">
-            <img
-              src={`${isDarkMode ? "hrlogowhite.png" : "hrlogo.png"}`}
-              alt="HR Logo"
-              className="h-8 w-8"
-            />
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-              HRConnect
-            </h1>
-          </div>
-          <Button
-            className="dark:hover:bg-gray-900"
-            variant="ghost"
-            size="icon"
-            onClick={toggleSidebar}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
-        </div>
-        <nav className="mt-6">
-          {[
-            { icon: Home, label: "Dashboard", link: "/dashboard" },
-            { icon: Users, label: "Employees", link: "/employees" },
-            { icon: Calendar, label: "Attendance", link: "/attendance" },
-            { icon: DollarSign, label: "Payroll", link: "/payroll" },
-            { icon: FileText, label: "Leaves", link: "/leaves" },
-            { icon: Clock, label: "Overtimes",  link: "/overtimes" },
-          ].map((item, index) => (
-            <a
-              key={index}
-              href={item.link}
-              className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+    pathname !== "/" && (
+      <div>
+        <aside
+          className={` fixed  inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+            <div className="flex items-center space-x-2">
+              <img
+                src={`${isDarkMode ? "hrlogowhite.png" : "hrlogo.png"}`}
+                alt="HR Logo"
+                className="h-8 w-8"
+              />
+              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+                HRConnect
+              </h1>
+            </div>
+            <Button
+              className="dark:hover:bg-gray-900"
+              variant="ghost"
+              size="icon"
+              onClick={toggleSidebar}
             >
-              <item.icon className="w-5 h-5 mr-3" />
-              {item.label}
-            </a>
-          ))}
-        </nav>
-      </aside>
-      <header
+              <Menu className="h-6 w-6" />
+            </Button>
+          </div>
+          <nav className="mt-6">
+            {[
+              { icon: Home, label: "Dashboard", link: "/dashboard" },
+              { icon: Users, label: "Employees", link: "/employees" },
+              { icon: Calendar, label: "Attendance", link: "/attendance" },
+              { icon: DollarSign, label: "Payroll", link: "/payroll" },
+              { icon: FileText, label: "Leaves", link: "/leaves" },
+              { icon: Clock, label: "Overtimes", link: "/overtimes" },
+            ].map((item, index) => (
+              <a
+                key={index}
+                href={item.link}
+                className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
+                <item.icon className="w-5 h-5 mr-3" />
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </aside>
+        <header
           className={`bg-white dark:bg-gray-800 shadow-sm z-10 border-b ${
             isSidebarOpen ? "" : "fixed top-0 right-0 left-0"
           }`}
@@ -288,10 +291,9 @@ const Navbar = () => {
             </div>
           </div>
         </header>
-  </div>
+      </div>
+    )
   );
-  }
-  
-
+};
 
 export default Navbar;
