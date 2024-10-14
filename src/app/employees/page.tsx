@@ -1,8 +1,20 @@
-"use client"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+"use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,71 +22,109 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "@/components/ui/table"
-import { SideDark } from '@/contextComponent/SideDark'
-import { MoreHorizontal, Plus, Search } from 'lucide-react'
-import { useContext, useState } from 'react'
+  TableRow,
+} from "@/components/ui/table";
+import { SideDark } from "@/contextComponent/SideDark";
+import { MoreHorizontal, Plus, Search } from "lucide-react";
+import { useContext, useState } from "react";
 
 export default function Employees() {
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("All");
+  const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false);
 
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [departmentFilter, setDepartmentFilter] = useState('All')
-  const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false)
-
-  const context = useContext(SideDark)
+  const context = useContext(SideDark);
   if (!context) {
-    throw new Error('SideDark context is undefined')
+    throw new Error("SideDark context is undefined");
   }
 
-  const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context
-  
+  const { toggleSidebar, isSidebarOpen, theme, toggleDarkMode } = context;
+  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
 
   const employees = [
-    { id: 1, name: 'John Doe', email: 'john.doe@example.com', department: 'Engineering', position: 'Software Engineer', avatar: '/placeholder.svg?height=40&width=40' },
-    { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', department: 'Marketing', position: 'Marketing Manager', avatar: '/placeholder.svg?height=40&width=40' },
-    { id: 3, name: 'Bob Johnson', email: 'bob.johnson@example.com', department: 'HR', position: 'HR Specialist', avatar: '/placeholder.svg?height=40&width=40' },
-    { id: 4, name: 'Alice Williams', email: 'alice.williams@example.com', department: 'Finance', position: 'Financial Analyst', avatar: '/placeholder.svg?height=40&width=40' },
-    { id: 5, name: 'Charlie Brown', email: 'charlie.brown@example.com', department: 'Engineering', position: 'DevOps Engineer', avatar: '/placeholder.svg?height=40&width=40' },
-  ]
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john.doe@example.com",
+      department: "Engineering",
+      position: "Software Engineer",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "jane.smith@example.com",
+      department: "Marketing",
+      position: "Marketing Manager",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    {
+      id: 3,
+      name: "Bob Johnson",
+      email: "bob.johnson@example.com",
+      department: "HR",
+      position: "HR Specialist",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    {
+      id: 4,
+      name: "Alice Williams",
+      email: "alice.williams@example.com",
+      department: "Finance",
+      position: "Financial Analyst",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    {
+      id: 5,
+      name: "Charlie Brown",
+      email: "charlie.brown@example.com",
+      department: "Engineering",
+      position: "DevOps Engineer",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+  ];
 
-  const filteredEmployees = employees.filter(employee => 
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (departmentFilter === 'All' || employee.department === departmentFilter)
-  )
+  const filteredEmployees = employees.filter(
+    (employee) =>
+      employee.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (departmentFilter === "All" || employee.department === departmentFilter)
+  );
 
   return (
-    <div className={`flex sm:h-screen h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${isDarkMode ? 'dark' : ''}`}>
-
-
+    <div
+      className={`flex sm:h-screen h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
+        isDarkMode ? "dark" : ""
+      }`}
+    >
       {/* Main Content */}
-      <main className={`flex-1  duration-200 ${
+      <main
+        className={`flex-1  duration-200 ${
           isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
-        }`}>
-       
-        
-
+        }`}
+      >
         {/* Employees Content */}
-        <div className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
+        <div
+          className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
-          }`}>
+          }`}
+        >
           <Card className="dark:bg-gray-800">
             <CardHeader>
               <div className="flex justify-between items-center">
@@ -96,7 +146,10 @@ export default function Employees() {
                     className="w-64"
                   />
                 </div>
-                <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+                <Select
+                  value={departmentFilter}
+                  onValueChange={setDepartmentFilter}
+                >
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Filter by department" />
                   </SelectTrigger>
@@ -121,12 +174,20 @@ export default function Employees() {
                 </TableHeader>
                 <TableBody className="">
                   {filteredEmployees.map((employee) => (
-                    <TableRow key={employee.id} className="border-b dark:border-gray-700">
+                    <TableRow
+                      key={employee.id}
+                      className="border-b dark:border-gray-700"
+                    >
                       <TableCell className="font-medium">
                         <div className="flex items-center">
                           <Avatar className="h-8 w-8 mr-2">
                             <AvatarImage src={employee.avatar} />
-                            <AvatarFallback>{employee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                            <AvatarFallback>
+                              {employee.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </AvatarFallback>
                           </Avatar>
                           {employee.name}
                         </div>
@@ -147,7 +208,9 @@ export default function Employees() {
                             <DropdownMenuItem>View details</DropdownMenuItem>
                             <DropdownMenuItem>Edit employee</DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-red-600">Delete employee</DropdownMenuItem>
+                            <DropdownMenuItem className="text-red-600">
+                              Delete employee
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -161,7 +224,10 @@ export default function Employees() {
       </main>
 
       {/* Add Employee Modal */}
-      <Dialog open={isAddEmployeeModalOpen} onOpenChange={setIsAddEmployeeModalOpen}>
+      <Dialog
+        open={isAddEmployeeModalOpen}
+        onOpenChange={setIsAddEmployeeModalOpen}
+      >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Add New Employee</DialogTitle>
@@ -209,5 +275,5 @@ export default function Employees() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
