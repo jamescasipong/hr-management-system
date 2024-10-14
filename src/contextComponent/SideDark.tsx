@@ -11,8 +11,20 @@ interface AppContextProps {
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(
+        () => {
+            const savedSidebarState = localStorage?.getItem('isSidebarOpen');
+        return savedSidebarState ? JSON.parse(savedSidebarState) : true;
+
+        }
+
+    );
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        
+            const savedDarkModeState = localStorage?.getItem('isDarkMode');
+            return savedDarkModeState ? JSON.parse(savedDarkModeState) : false;
+        
+    });
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
