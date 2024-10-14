@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { CalendarIcon, Clock } from "lucide-react"
 import { useState } from "react"
-import { Calendar } from "./calendar"
+import { Calendar } from "../components/ui/calendar"
 
 export default function EnhancedLeaveRequestModal({ vacation, sick }: { vacation: number; sick: number }) {
   const [requestType, setRequestType] = useState("")
