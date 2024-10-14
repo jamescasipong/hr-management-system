@@ -5,26 +5,26 @@ import { SideDark } from "@/contextComponent/SideDark";
 import { useContext } from "react";
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { ChevronDown, Download } from "lucide-react";
 import { useState } from "react";
@@ -47,7 +47,7 @@ export default function Payroll() {
 
   return (
     <div
-      className={`flex h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
+      className={`flex h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
         isDarkMode ? "dark" : ""
       }`}
     >
@@ -55,7 +55,7 @@ export default function Payroll() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 overflow-y-auto duration-200 ${
+        className={`flex-1  duration-200 ${
           isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
         }`}
       >

@@ -219,7 +219,7 @@ export default function Dashboard() {
 
   return (
     <div
-      className={`flex h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
+      className={`flex h-full  bg-gray-100  dark:bg-gray-900 transition-colors duration-200 ${
         isDarkMode ? "dark" : ""
       }`}
     >
@@ -235,7 +235,7 @@ export default function Dashboard() {
 
         {/* Dashboard Content */}
         <div
-          className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
+          className={`mx-auto  overflow-y-auto py-6 sm:px-6  lg:px-8 p-5 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}
         >

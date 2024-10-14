@@ -86,16 +86,16 @@ const Navbar = () => {
         </div>
         <nav className="mt-6">
           {[
-            { icon: Home, label: "Dashboard" },
-            { icon: Users, label: "Employees" },
-            { icon: Calendar, label: "Attendance" },
-            { icon: DollarSign, label: "Payroll" },
-            { icon: FileText, label: "Leaves" },
-            { icon: Clock, label: "Overtimes" },
+            { icon: Home, label: "Dashboard", link: "/dashboard" },
+            { icon: Users, label: "Employees", link: "/employees" },
+            { icon: Calendar, label: "Attendance", link: "/attendance" },
+            { icon: DollarSign, label: "Payroll", link: "/payroll" },
+            { icon: FileText, label: "Leaves", link: "/leaves" },
+            { icon: Clock, label: "Overtimes",  link: "/overtimes" },
           ].map((item, index) => (
             <a
               key={index}
-              href="#"
+              href={item.link}
               className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
             >
               <item.icon className="w-5 h-5 mr-3" />
@@ -112,7 +112,7 @@ const Navbar = () => {
           <div
             className={` ${
               isSidebarOpen ? "w-full" : "2xl:w-[1500px] xl:w-full "
-            } mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
+            } mx-auto py-3 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
           >
             <div className="flex items-center">
               {isSidebarOpen ? null : (
