@@ -35,7 +35,8 @@ export default function Payroll() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context;
+  const { toggleSidebar, isSidebarOpen, theme, toggleDarkMode } = context;
+  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
 
   const paymentHistory = [
     { date: "2024-03-31", amount: 5000, status: "Paid" },
@@ -116,12 +117,19 @@ export default function Payroll() {
                 </TableHeader>
                 <TableBody>
                   {paymentHistory.map((payment, index) => (
-                    <TableRow key={index} className="dark:border-b dark:border-gray-500">
+                    <TableRow
+                      key={index}
+                      className="dark:border-b dark:border-gray-500"
+                    >
                       <TableCell>{payment.date}</TableCell>
                       <TableCell>${payment.amount.toFixed(2)}</TableCell>
                       <TableCell>{payment.status}</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm" className="dark:bg-blue-600 dark:hover:bg-blue-700">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="dark:bg-blue-600 dark:hover:bg-blue-700"
+                        >
                           <Download className="mr-2 h-4 w-4" />
                           Payslip
                         </Button>
