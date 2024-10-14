@@ -3,6 +3,7 @@
 import { ModeToggle } from "@/components/ui/modeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
 import {
   Dialog,
   DialogContent,
@@ -29,9 +30,10 @@ import {
   Users,
 } from "lucide-react";
 import { usePathname } from "next/navigation"; // Import useRouter
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(useTheme().theme === "dark");
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
@@ -39,7 +41,7 @@ const Navbar = () => {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  const { isSidebarOpen, toggleSidebar } = context;
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

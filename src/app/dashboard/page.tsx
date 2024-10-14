@@ -45,7 +45,7 @@ export default function Dashboard() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  const { isSidebarOpen, toggleSidebar } = context;
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [workingHours, setWorkingHours] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -133,10 +133,6 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, [isClockedIn, startTime]);
 
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
-
   const changeStatus = (status: string) => {
     if (status === "In Office") {
       return "bg-green-500";
@@ -218,9 +214,7 @@ export default function Dashboard() {
 
   return (
     <div
-      className={`flex h-full  bg-gray-100  dark:bg-gray-900 transition-colors duration-200 ${
-        isDarkMode ? "dark" : ""
-      }`}
+      className={`flex h-full  bg-gray-100  dark:bg-gray-900 transition-colors duration-200`}
     >
       {/* Main Content */}
       <main

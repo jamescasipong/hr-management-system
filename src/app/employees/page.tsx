@@ -56,7 +56,7 @@ export default function Employees() {
     throw new Error("SideDark context is undefined");
   }
 
-  const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context;
+  const { toggleSidebar, isSidebarOpen } = context;
 
   const employees = [
     {
@@ -107,15 +107,9 @@ export default function Employees() {
       (departmentFilter === "All" || employee.department === departmentFilter)
   );
 
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
-
   return (
     <div
-      className={`flex h-full min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
-        isDarkMode ? "dark" : ""
-      }`}
+      className={`flex h-full min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200`}
     >
       {/* Main Content */}
       <main

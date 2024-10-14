@@ -41,10 +41,7 @@ export default function Attendance() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
+  const { isSidebarOpen, toggleSidebar } = context;
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -170,9 +167,7 @@ export default function Attendance() {
 
   return (
     <div
-      className={`flex h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
-        isDarkMode ? "dark" : ""
-      }`}
+      className={`flex h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200 `}
     >
       {/* Sidebar */}
 

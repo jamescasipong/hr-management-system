@@ -23,11 +23,7 @@ export default function EmployeeProfile() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
-
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
+  const { isSidebarOpen, toggleSidebar } = context;
 
   const [employee] = useState({
     name: "James Casipong",
