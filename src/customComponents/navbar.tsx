@@ -18,14 +18,12 @@ import { SideDark } from "@/contextComponent/SideDark";
 import {
   Bell,
   Calendar,
-  Clock,
   DollarSign,
-  FileText,
   Home,
   Menu,
   Moon,
   Sun,
-  Users,
+  Users
 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 
@@ -54,7 +52,8 @@ const Navbar = () => {
   }
   , [isDarkMode]);
  
-
+            {/*{ icon: FileText, label: "Leaves", link: "/leaves" },
+            { icon: Clock, label: "Overtimes", link: "/overtimes" },*/}
   return (
     <div>
       {/* Sidebar */}
@@ -89,8 +88,7 @@ const Navbar = () => {
             { icon: Users, label: "Employees", link: "/employees" },
             { icon: Calendar, label: "Attendance", link: "/attendance" },
             { icon: DollarSign, label: "Payroll", link: "/payroll" },
-            { icon: FileText, label: "Leaves", link: "/leaves" },
-            { icon: Clock, label: "Overtimes", link: "/overtimes" },
+
           ].map((item, index) => (
             <a
               key={index}
