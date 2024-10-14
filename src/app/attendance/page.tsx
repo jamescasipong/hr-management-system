@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,14 +41,15 @@ export default function Attendance() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, theme, toggleDarkMode } = context;
-  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
-
+  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [checkInTime, setCheckInTime] = useState<string | null>(null);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -205,7 +207,8 @@ export default function Attendance() {
                     </p>
                   )}
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Current time: {currentTime.toLocaleTimeString()}
+                    Current time:{" "}
+                    {currentTime ? currentTime.toLocaleTimeString() : "N/A"}
                   </p>
                 </div>
                 <Button
@@ -219,7 +222,7 @@ export default function Attendance() {
           </Card>
 
           {/* Attendance Calendar */}
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid sm:grid-cols-2 grid-cols-1 gap-5">
             <Card className="mb-6 h-full">
               <CardHeader>
                 <div className="flex items-center justify-between">

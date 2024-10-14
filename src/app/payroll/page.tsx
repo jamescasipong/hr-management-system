@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { SideDark } from "@/contextComponent/SideDark";
 import { useContext } from "react";
-
+import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -35,8 +35,7 @@ export default function Payroll() {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { toggleSidebar, isSidebarOpen, theme, toggleDarkMode } = context;
-  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
+  const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context;
 
   const paymentHistory = [
     { date: "2024-03-31", amount: 5000, status: "Paid" },
@@ -45,10 +44,12 @@ export default function Payroll() {
     { date: "2023-12-31", amount: 5000, status: "Paid" },
     { date: "2023-11-30", amount: 5000, status: "Paid" },
   ];
-
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
   return (
     <div
-      className={`flex h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
+      className={`flex h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
         isDarkMode ? "dark" : ""
       }`}
     >
@@ -56,7 +57,7 @@ export default function Payroll() {
 
       {/* Main Content */}
       <main
-        className={`flex-1  duration-200 ${
+        className={`flex-1 w-full duration-200 ${
           isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
         }`}
       >

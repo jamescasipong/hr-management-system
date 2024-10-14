@@ -1,5 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -55,8 +56,7 @@ export default function Employees() {
     throw new Error("SideDark context is undefined");
   }
 
-  const { toggleSidebar, isSidebarOpen, theme, toggleDarkMode } = context;
-  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
+  const { toggleSidebar, isSidebarOpen, isDarkMode, toggleDarkMode } = context;
 
   const employees = [
     {
@@ -107,60 +107,69 @@ export default function Employees() {
       (departmentFilter === "All" || employee.department === departmentFilter)
   );
 
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
+
   return (
     <div
-      className={`flex sm:h-screen h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
+      className={`flex h-full min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200 ${
         isDarkMode ? "dark" : ""
       }`}
     >
       {/* Main Content */}
       <main
-        className={`flex-1  duration-200 ${
+        className={`flex-1 w-full duration-200 ${
           isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
         }`}
       >
         {/* Employees Content */}
         <div
-          className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
+          className={`mx-auto  overflow-y-auto py-6 sm:px-6  lg:px-8 p-5 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}
         >
           <Card className="dark:bg-gray-800">
             <CardHeader>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between  items-center ">
                 <CardTitle>Employee List</CardTitle>
                 <Button onClick={() => setIsAddEmployeeModalOpen(true)}>
-                  <Plus className="mr-2 h-4 w-4" /> Add Employee
+                  <Plus className="sm:mr-2 mr-0 w-4 h-4" />{" "}
+                  <p className="sm:block hidden">Add Employee</p>
                 </Button>
               </div>
-              <CardDescription>Manage your company's employees</CardDescription>
+              <CardDescription className="sm:block hidden">
+                Manage your company's employees
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center space-x-2">
-                  <Search className="h-5 w-5 text-gray-400" />
-                  <Input
-                    placeholder="Search employees..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-64"
-                  />
+                <div className="flex sm:flex-row flex-col gap-2">
+                  <div className="flex items-center justify-center gap-4">
+                    <Search className="h-5 w-5 text-gray-400" />
+                    <Input
+                      placeholder="Search employees..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="sm:w-64 w-full"
+                    />
+                  </div>
+                  <Select
+                    value={departmentFilter}
+                    onValueChange={setDepartmentFilter}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Filter by department" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="All">All Departments</SelectItem>
+                      <SelectItem value="Engineering">Engineering</SelectItem>
+                      <SelectItem value="Marketing">Marketing</SelectItem>
+                      <SelectItem value="HR">HR</SelectItem>
+                      <SelectItem value="Finance">Finance</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                <Select
-                  value={departmentFilter}
-                  onValueChange={setDepartmentFilter}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter by department" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="All">All Departments</SelectItem>
-                    <SelectItem value="Engineering">Engineering</SelectItem>
-                    <SelectItem value="Marketing">Marketing</SelectItem>
-                    <SelectItem value="HR">HR</SelectItem>
-                    <SelectItem value="Finance">Finance</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
               <Table className="">
                 <TableHeader>

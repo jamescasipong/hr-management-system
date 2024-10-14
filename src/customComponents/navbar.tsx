@@ -39,8 +39,7 @@ const Navbar = () => {
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
-  const { isSidebarOpen, toggleSidebar, theme, toggleDarkMode } = context;
-  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
+  const { isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode } = context;
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
