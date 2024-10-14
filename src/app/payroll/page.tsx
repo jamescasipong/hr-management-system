@@ -66,7 +66,7 @@ export default function Payroll() {
           }`}
         >
           {/* Salary Summary Card */}
-          <Card className="mb-6">
+          <Card className="mb-6 dark:bg-gray-800">
             <CardHeader>
               <CardTitle>Salary Summary</CardTitle>
               <CardDescription>Your current salary information</CardDescription>
@@ -96,7 +96,7 @@ export default function Payroll() {
           </Card>
 
           {/* Payment History Table */}
-          <Card className="mb-6">
+          <Card className="mb-6 dark:bg-gray-800">
             <CardHeader>
               <CardTitle>Payment History</CardTitle>
               <CardDescription>Your recent salary payments</CardDescription>
@@ -116,12 +116,12 @@ export default function Payroll() {
                 </TableHeader>
                 <TableBody>
                   {paymentHistory.map((payment, index) => (
-                    <TableRow key={index}>
+                    <TableRow key={index} className="dark:border-b dark:border-gray-500">
                       <TableCell>{payment.date}</TableCell>
                       <TableCell>${payment.amount.toFixed(2)}</TableCell>
                       <TableCell>{payment.status}</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" className="dark:bg-blue-600 dark:hover:bg-blue-700">
                           <Download className="mr-2 h-4 w-4" />
                           Payslip
                         </Button>
@@ -135,7 +135,7 @@ export default function Payroll() {
 
           {/* Additional Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
+            <Card className="dark:bg-gray-800">
               <CardHeader>
                 <CardTitle>Tax Information</CardTitle>
                 <CardDescription>Manage your tax details</CardDescription>
@@ -144,7 +144,7 @@ export default function Payroll() {
                 <Button className="w-full">Update Tax Information</Button>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="dark:bg-gray-800">
               <CardHeader>
                 <CardTitle>Payroll Settings</CardTitle>
                 <CardDescription>

@@ -187,7 +187,7 @@ export default function Attendance() {
           }`}
         >
           {/* Check In/Out Card */}
-          <Card className="mb-6">
+          <Card className="mb-6 dark:bg-gray-800">
             <CardHeader>
               <CardTitle>Today's Attendance</CardTitle>
               <CardDescription>Check in and out for today</CardDescription>

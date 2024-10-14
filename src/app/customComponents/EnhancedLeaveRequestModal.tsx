@@ -71,11 +71,11 @@ export default function EnhancedLeaveRequestModal({ vacation, sick }: { vacation
                     <SelectTrigger className="dark:bg-gray-800 dark:border-gray-600  border-gray-300 col-span-3 h-12 text-lg ">
                       <SelectValue placeholder="Select request type" />
                     </SelectTrigger>
-                    <SelectContent className="dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-700">
-                      <SelectItem value="vacation">Vacation Leave</SelectItem>
-                      <SelectItem value="sick">Sick Leave</SelectItem>
-                      <SelectItem value="ot">Overtime (OT)</SelectItem>
-                      <SelectItem value="coa">Certificate of Attendance</SelectItem>
+                    <SelectContent className="dark:bg-gray-800 dark:border-gray-600 border-gray-300 ">
+                      <SelectItem className="dark:hover:bg-gray-700" value="vacation">Vacation Leave</SelectItem>
+                      <SelectItem className="dark:hover:bg-gray-700" value="sick">Sick Leave</SelectItem>
+                      <SelectItem className="dark:hover:bg-gray-700" value="ot">Overtime (OT)</SelectItem>
+                      <SelectItem className="dark:hover:bg-gray-700" value="coa">Certificate of Attendance</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
