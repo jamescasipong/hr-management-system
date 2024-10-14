@@ -26,18 +26,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         
     });
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const savedSidebarState = localStorage.getItem('isSidebarOpen');
-            const savedDarkModeState = localStorage.getItem('isDarkMode');
-            if (savedSidebarState) {
-                setIsSidebarOpen(JSON.parse(savedSidebarState));
-            }
-            if (savedDarkModeState) {
-                setIsDarkMode(JSON.parse(savedDarkModeState));
-            }
-        }
-    }, []);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
