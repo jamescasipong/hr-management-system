@@ -11,32 +11,22 @@ interface AppContextProps {
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(
-        () => {
-            const savedSidebarState = localStorage?.getItem('isSidebarOpen');
-        return savedSidebarState ? JSON.parse(savedSidebarState) : true;
-
-        }
-
-    );
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        
-            const savedDarkModeState = localStorage?.getItem('isDarkMode');
-            return savedDarkModeState ? JSON.parse(savedDarkModeState) : false;
-        
+    const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+        const savedState = localStorage.getItem('isSidebarOpen');
+        return savedState ? JSON.parse(savedState) : false;
     });
 
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedState = localStorage.getItem('isDarkMode');
+        return savedState ? JSON.parse(savedState) : false;
+    });
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('isSidebarOpen', JSON.stringify(isSidebarOpen));
-        }
+        localStorage.setItem('isSidebarOpen', JSON.stringify(isSidebarOpen));
     }, [isSidebarOpen]);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
-        }
+        localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
     }, [isDarkMode]);
 
     const toggleSidebar = () => {

@@ -27,7 +27,9 @@ import {
   Sun,
   Users
 } from "lucide-react";
+import { usePathname } from "next/navigation"; // Import useRouter
 import { useContext, useEffect, useState } from "react";
+ 
 
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -56,9 +58,9 @@ const Navbar = () => {
  
             {/*{ icon: FileText, label: "Leaves", link: "/leaves" },
             { icon: Clock, label: "Overtimes", link: "/overtimes" },*/}
+  const pathname = usePathname();
   return (
-    <div>
-      {/* Sidebar */}
+    pathname !== "/" && <div>
       <aside
         className={` fixed  inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -286,9 +288,10 @@ const Navbar = () => {
             </div>
           </div>
         </header>
-    </div>
+  </div>
   );
+  }
   
-};
+
 
 export default Navbar;
