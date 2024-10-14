@@ -11,12 +11,15 @@ interface AppContextProps {
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
 export const SideThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const [isDarkMode, setIsDarkMode] = useState(() => {
+  useEffect(() => {
     const savedState = localStorage.getItem("isDarkMode");
-    return savedState ? JSON.parse(savedState) : false;
-  });
+    if (savedState) {
+      setIsDarkMode(JSON.parse(savedState));
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
