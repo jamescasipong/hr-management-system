@@ -1,2 +1,2 @@
 # hr-management-system
- HR Management System, developed with Laravel and Next.JS
+HR Management System, will be developed with ASP.NET and Next.JS
