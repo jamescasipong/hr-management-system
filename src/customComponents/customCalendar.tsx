@@ -37,27 +37,25 @@ const Calendar = ({ vacation, sick }: { vacation: number; sick: number }) => {
         <CardTitle className="text-md font-medium">
           {format(currentDate, "MMMM yyyy")}
         </CardTitle>
-        <div className="items-center space-x-2 flex ">
+        <div className="flex items-center gap-2">
           <Button
-            variant="outline"
             size="icon"
-            className="dark:bg-gray-800 dark:hover:bg-gray-900 shadow-sm border border-gray-300 dark:border-gray-700 "
+            className="dark:bg-gray-900 dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:block hidden"
             onClick={handlePrevMonth}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
-            variant="outline"
+
             size="sm"
-            className="dark:bg-gray-800  dark:hover:bg-gray-900 shadow-sm border border-gray-300 dark:border-gray-700"
+            className="dark:bg-gray-900  dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:block hidden"
             onClick={handleToday}
           >
             Today
           </Button>
           <Button
-            variant="outline"
             size="icon"
-            className="dark:bg-gray-800 dark:hover:bg-gray-900 shadow-sm border border-gray-300 dark:border-gray-700"
+            className="dark:bg-gray-900 dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:block hidden"
             onClick={handleNextMonth}
           >
             <ChevronRight className="h-4 w-4" />

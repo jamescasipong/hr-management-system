@@ -1,9 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SideDark } from "@/contextComponent/SideDark";
-import { useContext } from "react";
-import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -26,8 +23,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SideDark } from "@/contextComponent/SideDark";
 import { ChevronDown, Download } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 export default function Payroll() {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -159,7 +157,7 @@ export default function Payroll() {
               <CardContent>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="w-full dark:border-gray-700 dark:hover:bg-gray-800">
                       Payroll Actions <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>

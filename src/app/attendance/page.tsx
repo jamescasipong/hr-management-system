@@ -323,7 +323,7 @@ export default function Attendance() {
               </CardHeader>
               <CardContent>
                 <Select >
-                  <SelectTrigger className="dark:border-gray-600 dark:hover:bg-gray-700 w-full">
+                  <SelectTrigger className="dark:border-gray-700 dark:hover:bg-gray-800 w-full">
                     <SelectValue  placeholder="Select report type" />
                   </SelectTrigger>
                   <SelectContent >

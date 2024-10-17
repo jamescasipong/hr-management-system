@@ -283,7 +283,7 @@ export default function Dashboard() {
                         className="dark:bg-gray-900 dark:hover:bg-gray-700"
                       >
                         <Button
-                          className="border-gray-300 dark:border-gray-600 border-[1px] dark:hover:bg-slate-800 shadow-sm"
+                          className="border-gray-300 dark:border-gray-700 border-[1px]  dark:hover:bg-slate-800 shadow-sm"
                           variant="outline"
                         >
                           Summary <ChevronDown className="ml-2 h-4 w-4 " />

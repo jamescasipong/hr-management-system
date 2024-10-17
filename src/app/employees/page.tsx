@@ -1,6 +1,5 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -139,23 +138,23 @@ export default function Employees() {
             <CardContent>
               <div className="flex justify-between items-center mb-4">
                 <div className="flex sm:flex-row flex-col gap-2">
-                  <div className="flex items-center justify-center gap-4">
-                    <Search className="h-5 w-5 text-gray-400" />
+                  <div className="flex items-center justify-center gap-4 ">
+                    <Search className="h-5 w-5 text-gray-400 " />
                     <Input
                       placeholder="Search employees..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="sm:w-64 w-full"
+                      className="sm:w-64 w-full dark:border-gray-700"
                     />
                   </div>
                   <Select
                     value={departmentFilter}
                     onValueChange={setDepartmentFilter}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full dark:border-gray-700 dark:hover:bg-gray-800">
                       <SelectValue placeholder="Filter by department" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent >
                       <SelectItem value="All">All Departments</SelectItem>
                       <SelectItem value="Engineering">Engineering</SelectItem>
                       <SelectItem value="Marketing">Marketing</SelectItem>
