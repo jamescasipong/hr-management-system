@@ -1,9 +1,10 @@
+
 import { SideThemeProvider } from "@/contextComponent/SideDark";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
+import Navbar from "../customComponents/navbar";
 import "./globals.css";
-import Navbar from "@/customComponents/navbar";
-import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,31 +22,34 @@ export const metadata: Metadata = {
   description:
     "A website for employees to clock in/out, check payroll, attendances, performances, and file leaves. HRConnect simplifies employee management with features like payroll tracking, performance reviews, leave requests, and attendance monitoring.",
 };
-// Import your Navbar component
+ // Import your Navbar component
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+        
       >
+        <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+        >
         <SideThemeProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {/* Conditionally render the Navbar */}
-            <Navbar></Navbar>
-            {/* Page content */}
-            {children}
-          </ThemeProvider>
+          {/* Conditionally render the Navbar */}
+          
+          <Navbar></Navbar>
+          {/* Page content */}
+          {children}
         </SideThemeProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

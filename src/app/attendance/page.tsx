@@ -141,8 +141,8 @@ export default function Attendance() {
           <Tooltip>
             <TooltipTrigger asChild>
               <div
-                className={`p-2 border rounded-md cursor-pointer transition-colors duration-200
-                  ${isToday ? "bg-blue-500 text-white" : ""}
+                className={`p-2 border rounded-md cursor-pointer ${isToday && "bg-gray-700 hover:bg-gray-800 dark:bg-gray-900"} transition-colors duration-200
+                  ${isToday ? " text-white" : ""}
                   ${isPast ? "bg-gray-200 dark:bg-gray-700" : ""}
                   ${isFuture ? "bg-white dark:bg-gray-800" : ""}
                   hover:bg-blue-100 dark:hover:bg-blue-900`}
@@ -167,7 +167,7 @@ export default function Attendance() {
 
   return (
     <div
-      className={`flex h-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200 `}
+      className={`flex h-full min-h-screen  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 `}
     >
       {/* Sidebar */}
 
@@ -186,7 +186,7 @@ export default function Attendance() {
           }`}
         >
           {/* Check In/Out Card */}
-          <Card className="mb-6 dark:bg-gray-800">
+          {/*<Card className="mb-6 dark:bg-gray-800">
             <CardHeader>
               <CardTitle>Today's Attendance</CardTitle>
               <CardDescription>Check in and out for today</CardDescription>
@@ -215,7 +215,7 @@ export default function Attendance() {
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </Card>*/}
 
           {/* Attendance Calendar */}
           <div className="grid sm:grid-cols-2 grid-cols-1 gap-5">
@@ -224,7 +224,7 @@ export default function Attendance() {
                 <div className="flex items-center justify-between">
                   <CardTitle>Attendance Calendar</CardTitle>
                   <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="icon" onClick={prevMonth}>
+                    <Button className="dark:border-gray-600 dark:hover:bg-gray-700" variant="outline" size="icon" onClick={prevMonth}>
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
                     <span className="text-sm font-medium">
@@ -233,7 +233,7 @@ export default function Attendance() {
                         year: "numeric",
                       })}
                     </span>
-                    <Button variant="outline" size="icon" onClick={nextMonth}>
+                    <Button className="dark:border-gray-600 dark:hover:bg-gray-700" variant="outline" size="icon" onClick={nextMonth}>
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -322,11 +322,11 @@ export default function Attendance() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select report type" />
+                <Select >
+                  <SelectTrigger className="dark:border-gray-600 dark:hover:bg-gray-700 w-full">
+                    <SelectValue  placeholder="Select report type" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent >
                     <SelectItem value="monthly">Monthly Report</SelectItem>
                     <SelectItem value="quarterly">Quarterly Report</SelectItem>
                     <SelectItem value="annual">Annual Report</SelectItem>

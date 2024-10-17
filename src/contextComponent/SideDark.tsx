@@ -4,28 +4,23 @@ import { createContext, ReactNode, useState } from "react";
 interface AppContextProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
-  isDarkMode: boolean;
-  toggleDarkMode: () => void;
 }
 
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
 export const SideThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+
 
   return (
     <SideDark.Provider
-      value={{ isSidebarOpen, toggleSidebar, isDarkMode, toggleDarkMode }}
+      value={{ isSidebarOpen, toggleSidebar }}
     >
       {children}
     </SideDark.Provider>

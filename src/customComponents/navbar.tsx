@@ -1,9 +1,6 @@
 "use client";
-
-import { ModeToggle } from "@/components/ui/modeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
 import {
   Dialog,
   DialogContent,
@@ -14,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ModeToggle } from "@/components/ui/modeToggle";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SideDark } from "@/contextComponent/SideDark";
@@ -25,23 +23,42 @@ import {
   FileText,
   Home,
   Menu,
-  Moon,
-  Sun,
   Users,
 } from "lucide-react";
-import { usePathname } from "next/navigation"; // Import useRouter
-import { use, useContext, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
+  const { theme } = useTheme();
+  const [logo, setLogo] = useState(
+    "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogowhite.png"
+  );
+
   const context = useContext(SideDark);
+
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
+
   const { isSidebarOpen, toggleSidebar } = context;
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (theme === "dark") {
+      setLogo(
+        "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogowhite.png"
+      );
+    } else {
+      setLogo(
+        "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogo.png"
+      );
+    }
+  }, [theme]);
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,28 +71,18 @@ const Navbar = () => {
     }
   };
 
-  {
-    /*{ icon: FileText, label: "Leaves", link: "/leaves" },
-            { icon: Clock, label: "Overtimes", link: "/overtimes" },*/
-  }
   const pathname = usePathname();
   return (
     pathname !== "/" && (
       <div>
         <aside
-          className={` fixed  inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
+          className={`fixed inset-y-0 left-0 sm:block hidden z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
             <div className="flex items-center space-x-2">
-              <img
-                src={
-                  useTheme().theme == "dark" ? "hrlogowhite.png" : "hrlogo.png"
-                }
-                alt="HR Logo"
-                className="h-8 w-8"
-              />
+              <img src={logo} alt="HR Logo" className={`h-8 w-8  `} />
               <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
                 HRConnect
               </h1>
@@ -110,33 +117,76 @@ const Navbar = () => {
             ))}
           </nav>
         </aside>
+
+        <aside
+          className={`fixed inset-y-0 left-0 sm:hidden block  z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
+            mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+            <div className="flex items-center space-x-2">
+              <img src={logo} alt="HR Logo" className={`h-8 w-8  `} />
+              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+                HRConnect
+              </h1>
+            </div>
+
+            <Button
+              className="dark:hover:bg-gray-900"
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileSidebarOpen((prev) => !prev)}
+            >
+              <Menu className="h-6 w-6" />
+            </Button>
+          </div>
+          <nav className="mt-6">
+            {[
+              { icon: Home, label: "Dashboard", link: "/dashboard" },
+              { icon: Users, label: "Employees", link: "/employees" },
+              { icon: Calendar, label: "Attendance", link: "/attendance" },
+              { icon: DollarSign, label: "Payroll", link: "/payroll" },
+              { icon: FileText, label: "Leaves", link: "/leaves" },
+              { icon: Clock, label: "Overtimes", link: "/overtimes" },
+            ].map((item, index) => (
+              <a
+                key={index}
+                href={item.link}
+                className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
+                <item.icon className="w-5 h-5 mr-3" />
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </aside>
+
         <header
           className={`bg-white dark:bg-gray-800 shadow-sm z-10 border-b ${
             isSidebarOpen ? "" : "fixed top-0 right-0 left-0"
           }`}
         >
           <div
-            className={` ${
-              isSidebarOpen ? "w-full" : "2xl:w-[1500px] xl:w-full "
-            } mx-auto py-3 px-4 sm:px-6 lg:px-8 flex justify-between items-center `}
+            className={`${
+              isSidebarOpen ? "w-full" : "2xl:w-[1500px] xl:w-full"
+            } mx-auto py-3 px-4 sm:px-6 lg:px-8 flex justify-between items-center`}
           >
-            <div className="flex items-center">
+            <div className="flex  items-center">
               {isSidebarOpen ? null : (
-                <div className="flex items-center space-x-2">
-                  <img
-                    src={
-                      useTheme().theme == "dark"
-                        ? "hrlogowhite.png"
-                        : "hrlogo.png"
-                    }
-                    alt="HR Logo"
-                    className="h-8 w-8"
-                  />
+                <div className="sm:flex hidden items-center space-x-2">
+                  <img src={logo} alt="HR Logo" className="w-8 h-8" />
                   <h2 className="text-xl font-bold leading-7 text-gray-900 dark:text-white sm:text-2xl sm:truncate">
                     HRConnect
                   </h2>
                 </div>
               )}
+
+              <div className="sm:hidden flex items-center space-x-2">
+                <img src={logo} alt="HR Logo" className="w-8 h-8" />
+                <h2 className="text-xl font-bold leading-7 text-gray-900 dark:text-white sm:text-2xl sm:truncate">
+                  HRConnect
+                </h2>
+              </div>
             </div>
             <div className="flex items-center justify-center gap-1">
               <ModeToggle />
@@ -144,7 +194,7 @@ const Navbar = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="sm:flex justify-center hidden mr-2"
+                className="sm:flex justify-center hidden mr-2 dark:hover:bg-gray-900"
               >
                 <Bell className="h-5 w-5" />
               </Button>
@@ -153,31 +203,11 @@ const Navbar = () => {
                 onOpenChange={setIsProfileModalOpen}
               >
                 <DialogTrigger asChild>
-                  <div className="dark:hover:bg-slate-300 relative z-0 p-1 dark:hover:border-slate-300 hover:bg-blue-400 transition-all duration-200 rounded-full ">
-                    {/* <div className="relative z-0">
-                        <div
-                          className={`w-3 h-3 rounded-full ${changeStatus(
-                            coworker.status.type
-                          )} absolute bottom-0 right-1 z-10`}
-                        ></div>
-                        <Avatar className="border-[1px] dark:border-slate-700">
-                          <AvatarImage
-                            src={coworker.avatar}
-                            alt={coworker.name}
-                          />
-                          <AvatarFallback>
-                            {coworker.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </AvatarFallback>
-                        </Avatar>
-                      </div>*/}
-
+                  <div className="dark:hover:bg-slate-300 relative z-0 p-1 dark:hover:border-slate-300 hover:bg-blue-400 transition-all duration-200 rounded-full">
                     <div
                       className={`w-3 h-3 rounded-full bg-green-600 absolute bottom-[2%] right-2 z-10`}
                     ></div>
-                    <Avatar className="cursor-pointer ">
+                    <Avatar className="cursor-pointer">
                       <AvatarImage src={profilePicUrl} alt="Profile" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
@@ -187,8 +217,18 @@ const Navbar = () => {
                   variant="ghost"
                   size="icon"
                   onClick={toggleSidebar}
-                  className={`dark:hover:bg-gray-900 mr-4 transition-all duration-300 ${
+                  className={`sm:flex hidden dark:hover:bg-gray-900 mr-4 transition-all duration-300 ${
                     isSidebarOpen ? "hidden" : ""
+                  }`}
+                >
+                  <Menu className="h-6 w-6" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileSidebarOpen((prev) => !prev)}
+                  className={`sm:hidden flex  dark:hover:bg-gray-900 mr-4 transition-all duration-300 ${
+                    mobileSidebarOpen ? "hidden" : ""
                   }`}
                 >
                   <Menu className="h-6 w-6" />
@@ -201,7 +241,7 @@ const Navbar = () => {
                     </DialogDescription>
                   </DialogHeader>
                   <Tabs defaultValue="profile" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 ">
+                    <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="profile">My Profile</TabsTrigger>
                       <TabsTrigger value="settings">Settings</TabsTrigger>
                     </TabsList>
@@ -214,7 +254,7 @@ const Navbar = () => {
                           </Avatar>
                           <Label
                             htmlFor="picture"
-                            className="cursor-pointer dark:bg-blue-500 dark:text-white bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-3 rounded-md"
+                            className="cursor-pointer dark:bg-blue-500 dark:hover:bg-blue-600 dark:text-white bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-3 rounded-md"
                           >
                             Upload Picture
                           </Label>
@@ -238,14 +278,14 @@ const Navbar = () => {
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <Button className="w-full dark:bg-blue-500 text-white">
+                          <Button className="w-full dark:bg-blue-500 dark:hover:bg-blue-600 text-white">
                             Save
                           </Button>
                           <Button
                             onClick={() => {
-                              window.location.href = "/profile";
+                              window.location.href = "/profile/jcasipong";
                             }}
-                            className="w-full dark:bg-blue-500 text-white"
+                            className="w-full dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
                           >
                             View Complete Profile
                           </Button>
@@ -267,7 +307,7 @@ const Navbar = () => {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="notifications">Notifications</Label>
-                          <div className="flex items-center space-x-2 ">
+                          <div className="flex items-center space-x-2">
                             <Switch
                               id="notifications"
                               className="dark:bg-blue-500"
@@ -288,6 +328,99 @@ const Navbar = () => {
             </div>
           </div>
         </header>
+
+        {/*
+
+<Card
+className={` ${
+              chatIsOpen ? "" : "w-[100px]"
+            } dark:bg-gray-800 bottom-0 fixed right-1 shadow-md transition-all duration-300 ease-in-out`}
+          >
+            <CardHeader
+              onClick={() => setIsChatOpen((prev) => !prev)}
+              className={`bg-gray-700 ${
+                chatIsOpen ? "mb-5" : ""
+              } rounded-t-lg rounded-b-sm cursor-pointer p-4`}
+            >
+              <div className="flex justify-between">
+                {chatIsOpen ? (
+                  <CardTitle className="text-white">IT Teams</CardTitle>
+                ) : (
+                  <div className="p-0  transition-all duration-100 rounded-md flex gap-2 text-center text-white">
+                    Chat<Menu className="text-white "></Menu>
+                  </div>
+                )}
+
+                {chatIsOpen ? (
+                  <div
+                    onClick={() => {
+                      window.location.href = "/xd";
+                    }}
+                    className="p-1 hover:bg-gray-600 transition-all duration-100 rounded-md"
+                  >
+                    <Scaling className="text-white"></Scaling>
+                  </div>
+                ) : null}
+              </div>
+              <CardDescription
+                className={` ${chatIsOpen ? "" : "hidden"} text-blue-50`}
+              >
+                Communicate with your team members
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent
+              className={`transition-all duration-300 ease-in-out ${
+                chatIsOpen
+                  ? "max-h-[400px] opacity-100"
+                  : "p-0  scale-0 max-h-0  opacity-0 overflow-hidden"
+              }`}
+            >
+              <ScrollArea className="h-[300px] w-full rounded-md border p-4 dark:border-gray-700">
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`mb-4 dark:border-gray-600  border shadow-sm rounded-md p-2`}
+                  >
+                    <p
+                      className={`font-semibold ${
+                        message.sender == "You" ? "flex justify-end mr-5" : ""
+                      }`}
+                    >
+                      {message.sender}
+                    </p>
+                    <p
+                      className={`text-[12px] ${
+                        message.sender == "You" ? "flex justify-end mr-5" : ""
+                      } mb-2`}
+                    >
+                      {message.time}
+                    </p>
+                    <p
+                      className={`text-gray-700 ${
+                        message.sender == "You" ? "flex justify-start" : ""
+                      } dark:text-gray-300`}
+                    >
+                      {message.content}
+                    </p>
+                  </div>
+                ))}
+              </ScrollArea>
+              <div className="flex mt-4">
+                <Input
+                  placeholder="Type your message..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                  className="dark:bg-gray-700 dark:text-white"
+                />
+                <Button onClick={handleSendMessage} className="ml-2">
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+         */}
       </div>
     )
   );

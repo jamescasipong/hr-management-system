@@ -16,53 +16,17 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { employees } from "../../data";
 
-export default function EmployeeProfile() {
+export default function EmployeeProfile({params} : {params: {user: string}}) {
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
   const { isSidebarOpen, toggleSidebar } = context;
 
-  const [employee] = useState({
-    name: "James Casipong",
-    position: "Senior Software Engineer",
-    department: "Engineering",
-    eid: "EMP12345",
-    email: "jamesxcasipong@gmail.com",
-    phone: "+1 (555) 123-4567",
-    dateOfBirth: "2002-08-15",
-    gender: "Male",
-    address: "Quezon City, Philippines",
-    emergencyContact: "+1 (555) 765-4321",
-    education: [
-      {
-        degree: "Bachelor of Science in Information Technology",
-        institution: "STI College Cubao",
-        year: "2024",
-      },
-      {
-        degree: "Information Communication & Computation Technology",
-        institution: "STI College Cubao",
-        year: "2020",
-      },
-    ],
-    skills: [
-      "JavaScript",
-      "React",
-      "Next",
-      "ASP.NET",
-      "Tailwind",
-      "Node.js",
-      "Python",
-      "Azure",
-      "Docker",
-    ],
-    projects: ["HRConnect v1.0", "AM Monitoring", "Optinet"],
-    achievements: ["Best in Thesis", "5 Years Service Award"],
-    profilePicUrl: "https://avatars.githubusercontent.com/u/144509235?v=4",
-  });
+  const [employee] = useState(employees.find((e) => e.username === params.user));
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -81,32 +45,34 @@ export default function EmployeeProfile() {
           <h1 className="text-3xl font-bold mb-8 ">Employee Profile</h1>
 
           {/* Profile Overview */}
-          <Card className="mb-8 dark:bg-gray-800">
-            <CardContent className="flex flex-col md:flex-row items-center p-6 space-y-4 md:space-y-0 md:space-x-6">
-              <Avatar className="w-32 h-32">
-                <AvatarImage src={employee.profilePicUrl} alt={employee.name} />
-                <AvatarFallback>
-                  {employee.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
-              <div className="space-y-2 text-center md:text-left">
-                <h2 className="text-2xl font-bold">{employee.name}</h2>
-                <p className="text-muted-foreground">{employee.position}</p>
-                <p className="text-muted-foreground">{employee.department}</p>
-                <Badge variant="outline">EID: {employee.eid}</Badge>
-              </div>
-              <Button className="ml-auto">
-                <Edit className="mr-2 h-4 w-4" /> Edit Profile
-              </Button>
-            </CardContent>
-          </Card>
+          {employee && (
+            <Card className="mb-8 dark:bg-gray-800">
+              <CardContent className="flex flex-col md:flex-row items-center p-6 space-y-4 md:space-y-0 md:space-x-6">
+                <Avatar className="w-32 h-32">
+                  <AvatarImage src={employee.profilePicUrl} alt={employee.name} />
+                  <AvatarFallback>
+                    {employee.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="space-y-2 text-center md:text-left">
+                  <h2 className="text-2xl font-bold">{employee.name}</h2>
+                  <p className="text-muted-foreground">{employee.position}</p>
+                  <p className="text-muted-foreground">{employee.department}</p>
+                  <Badge variant="outline">EID: {employee.eid}</Badge>
+                </div>
+                <Button className="ml-auto">
+                  <Edit className="mr-2 h-4 w-4" /> Edit Profile
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
           <div className="grid md:grid-cols-2 gap-6 grid-cols-1 ">
             {/* Personal Information */}
-            <Card className="mb-1 dark:bg-gray-800">
+            {employee && <Card className="mb-1 dark:bg-gray-800">
               <CardHeader>
                 <CardTitle>Personal Information</CardTitle>
               </CardHeader>
@@ -128,10 +94,10 @@ export default function EmployeeProfile() {
                   <span>Emergency Contact: {employee.emergencyContact}</span>
                 </div>
               </CardContent>
-            </Card>
+            </Card>}
 
             {/* Contact Information */}
-            <Card className="mb-1 dark:bg-gray-800">
+           {employee && <Card className="mb-1 dark:bg-gray-800">
               <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
               </CardHeader>
@@ -145,10 +111,10 @@ export default function EmployeeProfile() {
                   <span>Phone: {employee.phone}</span>
                 </div>
               </CardContent>
-            </Card>
+            </Card>}
 
             {/* Employment Details */}
-            <Card className="mb-1 dark:bg-gray-800">
+            {employee &&<Card className="mb-1 dark:bg-gray-800">
               <CardHeader>
                 <CardTitle>Employment Details</CardTitle>
               </CardHeader>
@@ -171,10 +137,10 @@ export default function EmployeeProfile() {
                   ))}
                 </div>
               </CardContent>
-            </Card>
+            </Card>}
 
             {/* Education */}
-            <Card className="mb-1 dark:bg-gray-800">
+            {employee &&<Card className="mb-1 dark:bg-gray-800">
               <CardHeader>
                 <CardTitle>Education</CardTitle>
               </CardHeader>
@@ -191,10 +157,10 @@ export default function EmployeeProfile() {
                   </div>
                 ))}
               </CardContent>
-            </Card>
+            </Card>}
 
             {/* Skills and Achievements */}
-            <Card className="dark:bg-gray-800">
+            {employee &&<Card className="dark:bg-gray-800">
               <CardHeader>
                 <CardTitle>Skills and Achievements</CardTitle>
               </CardHeader>
@@ -221,7 +187,7 @@ export default function EmployeeProfile() {
                   ))}
                 </ul>
               </CardContent>
-            </Card>
+            </Card>}
           </div>
         </div>
       </main>

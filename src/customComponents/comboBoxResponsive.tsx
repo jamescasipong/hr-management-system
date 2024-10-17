@@ -34,16 +34,8 @@ const statuses: Status[] = [
     label: "In Office",
   },
   {
-    value: "On Leave",
-    label: "On Leave",
-  },
-  {
     value: "Working Remotely",
     label: "Working Remotely",
-  },
-  {
-    value: "Off Duty",
-    label: "Off Duty",
   },
 ]
 
@@ -58,8 +50,8 @@ export function ComboBoxResponsive() {
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start  bg-gray-900 hover:bg-gray-800 dark:bg-gray-900 dark:hover:bg-gray-950">
-            {selectedStatus ? <p className="text-white">{selectedStatus.label}</p> : <p className="text-white"> Set status</p>}
+          <Button variant="outline" className="w-[150px] justify-start dark:border-gray-600 border border-gray-300 shadow-sm">
+            {selectedStatus ? <p className="text-black dark:text-white">{selectedStatus.label}</p> : <p className="dark:text-white"> Set status</p>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
