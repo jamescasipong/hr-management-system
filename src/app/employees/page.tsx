@@ -1,4 +1,6 @@
 "use client";
+
+import React, { useContext, useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,13 +44,144 @@ import {
 } from "@/components/ui/table";
 import { SideDark } from "@/contextComponent/SideDark";
 import { MoreHorizontal, Plus, Search } from "lucide-react";
-import { useContext, useState } from "react";
+
+type Employee = {
+  id: number;
+  name: string;
+  email: string;
+  department: string;
+  position: string;
+  avatar: string;
+};
+
+type EmployeeFormData = Omit<Employee, "id" | "avatar">;
+
+function EmployeeForm({
+  isOpen,
+  onClose,
+  onSubmit,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (data: EmployeeFormData) => void;
+}) {
+  const [formData, setFormData] = useState<EmployeeFormData>({
+    name: "",
+    email: "",
+    department: "",
+    position: "",
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        name: "",
+        email: "",
+        department: "",
+        position: "",
+      });
+    }
+  }, [isOpen]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDepartmentChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, department: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(formData);
+    onClose();
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add New Employee</DialogTitle>
+          <DialogDescription>
+            Enter the details of the new employee.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Name
+              </Label>
+              <Input
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="col-span-3"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="email" className="text-right">
+                Email
+              </Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="col-span-3"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="department" className="text-right">
+                Department
+              </Label>
+              <Select
+                onValueChange={handleDepartmentChange}
+                value={formData.department}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Engineering">Engineering</SelectItem>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                  <SelectItem value="HR">HR</SelectItem>
+                  <SelectItem value="Finance">Finance</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="position" className="text-right">
+                Position
+              </Label>
+              <Input
+                id="position"
+                name="position"
+                value={formData.position}
+                onChange={handleChange}
+                className="col-span-3"
+                required
+              />
+            </div>
+          </div>
+          <Button type="submit" className="w-full">
+            Add Employee
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export default function Employees() {
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("All");
-  const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false);
 
   const context = useContext(SideDark);
   if (!context) {
@@ -57,7 +190,7 @@ export default function Employees() {
 
   const { toggleSidebar, isSidebarOpen } = context;
 
-  const employees = [
+  const initialEmployees: Employee[] = [
     {
       id: 1,
       name: "John Doe",
@@ -100,6 +233,17 @@ export default function Employees() {
     },
   ];
 
+  const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
+
+  const handleAddEmployee = (newEmployeeData: EmployeeFormData) => {
+    const newEmployee: Employee = {
+      id: employees.length + 1,
+      ...newEmployeeData,
+      avatar: "/placeholder.svg?height=40&width=40",
+    };
+    setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
+  };
+
   const filteredEmployees = employees.filter(
     (employee) =>
       employee.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -108,7 +252,7 @@ export default function Employees() {
 
   return (
     <div
-      className={`flex h-full min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200`}
+      className={`flex h-full  w-full min-h-screen overflow-x-hidden bg-gray-100 dark:bg-gray-900 transition-colors duration-200`}
     >
       {/* Main Content */}
       <main
@@ -118,16 +262,16 @@ export default function Employees() {
       >
         {/* Employees Content */}
         <div
-          className={`mx-auto  overflow-y-auto py-6 sm:px-6  lg:px-8 p-5 ${
-            isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
+          className={`mx-auto w-full py-6 sm:px-6 lg:px-8 p-1 ${
+            isSidebarOpen ? "" : "pt-24 w-full max-w-[1500px] lg:w-full"
           }`}
         >
-          <Card className="dark:bg-gray-800">
+          <Card className="dark:bg-gray-800 w-full overflow-visible">
             <CardHeader>
-              <div className="flex justify-between  items-center ">
+              <div className="flex justify-between items-center ">
                 <CardTitle>Employee List</CardTitle>
                 <Button onClick={() => setIsAddEmployeeModalOpen(true)}>
-                  <Plus className="sm:mr-2 mr-0 w-4 h-4" />{" "}
+                  <Plus className="sm:mr-2 mr-0 w-4 h-4" />
                   <p className="sm:block hidden">Add Employee</p>
                 </Button>
               </div>
@@ -136,10 +280,10 @@ export default function Employees() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center mb-4 overflow-x-visible">
                 <div className="flex sm:flex-row flex-col gap-2">
-                  <div className="flex items-center justify-center gap-4 ">
-                    <Search className="h-5 w-5 text-gray-400 " />
+                  <div className="flex items-center justify-center gap-4">
+                    <Search className="h-5 w-5 text-gray-400" />
                     <Input
                       placeholder="Search employees..."
                       value={searchTerm}
@@ -154,7 +298,7 @@ export default function Employees() {
                     <SelectTrigger className="w-full dark:border-gray-700 dark:hover:bg-gray-800">
                       <SelectValue placeholder="Filter by department" />
                     </SelectTrigger>
-                    <SelectContent >
+                    <SelectContent>
                       <SelectItem value="All">All Departments</SelectItem>
                       <SelectItem value="Engineering">Engineering</SelectItem>
                       <SelectItem value="Marketing">Marketing</SelectItem>
@@ -164,7 +308,7 @@ export default function Employees() {
                   </Select>
                 </div>
               </div>
-              <Table className="">
+              <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
@@ -174,7 +318,7 @@ export default function Employees() {
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody className="">
+                <TableBody>
                   {filteredEmployees.map((employee) => (
                     <TableRow
                       key={employee.id}
@@ -226,56 +370,11 @@ export default function Employees() {
       </main>
 
       {/* Add Employee Modal */}
-      <Dialog
-        open={isAddEmployeeModalOpen}
-        onOpenChange={setIsAddEmployeeModalOpen}
-      >
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Add New Employee</DialogTitle>
-            <DialogDescription>
-              Enter the details of the new employee.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-name" className="text-right">
-                Name
-              </Label>
-              <Input id="new-name" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-email" className="text-right">
-                Email
-              </Label>
-              <Input id="new-email" type="email" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-department" className="text-right">
-                Department
-              </Label>
-              <Select>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="hr">HR</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-position" className="text-right">
-                Position
-              </Label>
-              <Input id="new-position" className="col-span-3" />
-            </div>
-          </div>
-          <Button className="w-full">Add Employee</Button>
-        </DialogContent>
-      </Dialog>
+      <EmployeeForm
+        isOpen={isAddEmployeeModalOpen}
+        onClose={() => setIsAddEmployeeModalOpen(false)}
+        onSubmit={handleAddEmployee}
+      />
     </div>
   );
 }

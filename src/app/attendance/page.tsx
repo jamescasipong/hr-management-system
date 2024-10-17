@@ -141,13 +141,15 @@ export default function Attendance() {
           <Tooltip>
             <TooltipTrigger asChild>
               <div
-                className={`p-2 border rounded-md cursor-pointer ${isToday && "bg-gray-700 hover:bg-gray-800 dark:bg-gray-900"} transition-colors duration-200
+                className={`p-2 border rounded-md cursor-pointer ${
+                  isToday && "bg-gray-700 hover:bg-gray-800 dark:bg-gray-900"
+                } transition-colors duration-200
                   ${isToday ? " text-white" : ""}
                   ${isPast ? "bg-gray-200 dark:bg-gray-700" : ""}
                   ${isFuture ? "bg-white dark:bg-gray-800" : ""}
                   hover:bg-blue-100 dark:hover:bg-blue-900`}
               >
-                <span className="text-sm">{day}</span>
+                <span className="sm:text-sm text-xs">{day}</span>
               </div>
             </TooltipTrigger>
             <TooltipContent>
@@ -181,7 +183,7 @@ export default function Attendance() {
 
         {/* Attendance Content */}
         <div
-          className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
+          className={`mx-auto py-6 sm:px-6  lg:px-8 p-1 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}
         >
@@ -218,22 +220,34 @@ export default function Attendance() {
           </Card>*/}
 
           {/* Attendance Calendar */}
-          <div className="grid sm:grid-cols-2 grid-cols-1 gap-5">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
             <Card className="mb-6 h-full">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle>Attendance Calendar</CardTitle>
+                  <CardTitle className="md:text-[24px] text-[18px]">
+                    Attendance Calendar
+                  </CardTitle>
                   <div className="flex items-center space-x-2">
-                    <Button className="dark:border-gray-600 dark:hover:bg-gray-700" variant="outline" size="icon" onClick={prevMonth}>
+                    <Button
+                      className="dark:border-gray-600 dark:hover:bg-gray-700"
+                      variant="outline"
+                      size="icon"
+                      onClick={prevMonth}
+                    >
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
-                    <span className="text-sm font-medium">
+                    <span className="sm:text-sm text-xs font-medium">
                       {currentMonth.toLocaleString("default", {
                         month: "long",
                         year: "numeric",
                       })}
                     </span>
-                    <Button className="dark:border-gray-600 dark:hover:bg-gray-700" variant="outline" size="icon" onClick={nextMonth}>
+                    <Button
+                      className="dark:border-gray-600 dark:hover:bg-gray-700"
+                      variant="outline"
+                      size="icon"
+                      onClick={nextMonth}
+                    >
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -245,7 +259,7 @@ export default function Attendance() {
                     (day) => (
                       <div
                         key={day}
-                        className="font-medium text-gray-500 dark:text-gray-400"
+                        className="font-medium sm:text-md text-xs text-gray-500 dark:text-gray-400"
                       >
                         {day}
                       </div>
@@ -322,11 +336,11 @@ export default function Attendance() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Select >
+                <Select>
                   <SelectTrigger className="dark:border-gray-700 dark:hover:bg-gray-800 w-full">
-                    <SelectValue  placeholder="Select report type" />
+                    <SelectValue placeholder="Select report type" />
                   </SelectTrigger>
-                  <SelectContent >
+                  <SelectContent>
                     <SelectItem value="monthly">Monthly Report</SelectItem>
                     <SelectItem value="quarterly">Quarterly Report</SelectItem>
                     <SelectItem value="annual">Annual Report</SelectItem>

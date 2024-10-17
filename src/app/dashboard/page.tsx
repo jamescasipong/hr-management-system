@@ -28,7 +28,7 @@ import {
   CalendarDays,
   ChevronDown,
   Group,
-  Timer
+  Timer,
 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { SideDark } from "../../contextComponent/SideDark";
@@ -61,8 +61,12 @@ export default function Dashboard() {
     { day: "Thursday", clockIn: "08:30 AM", clockOut: "04:45 PM" },
     { day: "Friday", clockIn: "09:00 AM", clockOut: "05:00 PM" },
   ]);
-  const [coworkers, setCoworkers] = useState(employees.filter((e) => e.username !== "jcasipong"));
-  const [myProfile, setMyProfile] = useState(employees.find((e) => e.username === "jcasipong"));
+  const [coworkers, setCoworkers] = useState(
+    employees.filter((e) => e.username !== "jcasipong")
+  );
+  const [myProfile, setMyProfile] = useState(
+    employees.find((e) => e.username === "jcasipong")
+  );
   const [leaveHours, setLeaveHours] = useState([
     {
       type: "Vacation Leave",
@@ -186,7 +190,6 @@ export default function Dashboard() {
   };
 
   return (
-    
     <div
       className={`flex h-full  bg-gray-100  dark:bg-gray-900 transition-colors duration-200`}
     >
@@ -198,12 +201,12 @@ export default function Dashboard() {
       >
         {/* Dashboard Content */}
         <div
-          className={`mx-auto  overflow-y-auto py-6 sm:px-6  lg:px-8 p-5 ${
+          className={`mx-auto  overflow-y-auto py-6 sm:px-6  lg:px-8 p-1 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}
         >
           {/* Clock In/Out Card */}
-          <div className="grid lg:grid-cols-2 md:gap-4 gap-0 grid-cols-1">
+          <div className="grid lg:grid-cols-2 md:gap-4 md:grid-cols-1 gap-0 grid-cols-1">
             <Card className="lg:mb-6 md:mb-3 mb-6   dark:bg-gray-800">
               <CardHeader>
                 <div className="flex justify-between ">
@@ -350,38 +353,46 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                  {coworkers.filter(coworker => coworker.department == myProfile?.department).map((coworker, index) => (
-                    <div  onClick={() => {
-                      window.location.href = "/profile/" + coworker.username;
-                    }} key={index} className="flex items-center space-x-2 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg p-2 cursor-pointer transition-all duration-100 ease-in-out">
-                      <div className="relative z-0">
-                        <div
-                          className={`w-3 h-3 rounded-full ${changeStatus(
-                            coworker.status.type
-                          )} absolute bottom-0 right-1 z-10`}
-                        ></div>
-                        <Avatar className="border-[1px] dark:border-slate-700">
-                          <AvatarImage
-                            src={coworker.profilePicUrl}
-                            alt={coworker.name}
-                            
-                          />
-                          <AvatarFallback>
-                            {coworker.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </AvatarFallback>
-                        </Avatar>
+                  {coworkers
+                    .filter(
+                      (coworker) => coworker.department == myProfile?.department
+                    )
+                    .map((coworker, index) => (
+                      <div
+                        onClick={() => {
+                          window.location.href =
+                            "/profile/" + coworker.username;
+                        }}
+                        key={index}
+                        className="flex items-center space-x-2 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg p-2 cursor-pointer transition-all duration-100 ease-in-out"
+                      >
+                        <div className="relative z-0">
+                          <div
+                            className={`w-3 h-3 rounded-full ${changeStatus(
+                              coworker.status.type
+                            )} absolute bottom-0 right-1 z-10`}
+                          ></div>
+                          <Avatar className="border-[1px] dark:border-slate-700">
+                            <AvatarImage
+                              src={coworker.profilePicUrl}
+                              alt={coworker.name}
+                            />
+                            <AvatarFallback>
+                              {coworker.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </AvatarFallback>
+                          </Avatar>
+                        </div>
+                        <div>
+                          <p className="font-medium">{coworker.name}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            {coworker.status.type}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-medium">{coworker.name}</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {coworker.status.type}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </CardContent>
             </Card>
@@ -470,8 +481,6 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
-
-          
         </div>
       </main>
     </div>

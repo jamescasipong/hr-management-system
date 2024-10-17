@@ -183,9 +183,6 @@ const Navbar = () => {
 
               <div className="sm:hidden flex items-center space-x-2">
                 <img src={logo} alt="HR Logo" className="w-8 h-8" />
-                <h2 className="text-xl font-bold leading-7 text-gray-900 dark:text-white sm:text-2xl sm:truncate">
-                  HRConnect
-                </h2>
               </div>
             </div>
             <div className="flex items-center justify-center gap-1">

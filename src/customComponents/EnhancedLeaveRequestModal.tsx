@@ -32,6 +32,7 @@ import { format } from "date-fns";
 import { CalendarIcon, Clock } from "lucide-react";
 import { useState } from "react";
 import { Calendar } from "../components/ui/calendar";
+import { on } from "events";
 
 export default function EnhancedLeaveRequestModal({
   vacation,
@@ -45,7 +46,8 @@ export default function EnhancedLeaveRequestModal({
   const [endDate, setEndDate] = useState<Date>();
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-
+  const [reason, setReason] = useState("");
+  const [open, onClose] = useState(false);
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // Handle form submission logic here
@@ -55,15 +57,19 @@ export default function EnhancedLeaveRequestModal({
       endDate,
       startTime,
       endTime,
+      reason,
     });
+
+    onClose(false);
     // You would typically send this data to your backend here
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogTrigger asChild>
-        <Button className="font-medium dark:bg-blue-600 dark:hover:bg-blue-700 text-white">
-          Request Leave/OT
+        <Button className="font-medium dark:bg-blue-600 dark:hover:bg-blue-700 text-white sm:text-[12px] text-xs">
+          Request
+          <span className="sm:flex hidden "> Leave/OT</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px] dark:bg-gray-800">
@@ -220,6 +226,8 @@ export default function EnhancedLeaveRequestModal({
                   </Label>
                   <Textarea
                     id="reason"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
                     className="col-span-3 h-32 text-lg dark:bg-gray-800 dark:border-gray-600 border-gray-300"
                     placeholder="Enter reason for request"
                     required
