@@ -90,8 +90,6 @@ const Navbar = () => {
               { icon: Users, label: "Employees", link: "/employees" },
               { icon: Calendar, label: "Attendance", link: "/attendance" },
               { icon: DollarSign, label: "Payroll", link: "/payroll" },
-              { icon: FileText, label: "Leaves", link: "/leaves" },
-              { icon: Clock, label: "Overtimes", link: "/overtimes" },
             ].map((item, index) => (
               <a
                 key={index}
@@ -133,8 +131,6 @@ const Navbar = () => {
               { icon: Users, label: "Employees", link: "/employees" },
               { icon: Calendar, label: "Attendance", link: "/attendance" },
               { icon: DollarSign, label: "Payroll", link: "/payroll" },
-              { icon: FileText, label: "Leaves", link: "/leaves" },
-              { icon: Clock, label: "Overtimes", link: "/overtimes" },
             ].map((item, index) => (
               <a
                 key={index}
