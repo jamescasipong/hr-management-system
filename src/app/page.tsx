@@ -65,8 +65,8 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900  sm:p-6 p-2 ">
-      <Card className="w-full max-w-xl ">
+    <div className="min-h-screen flex items-center justify-center flex-col gap-4 bg-gray-100 dark:bg-gray-900  sm:p-6 p-2">
+      <Card className="w-full max-w-xl z-50 shadow-lg">
         <form onSubmit={handleSubmit}>
           <CardHeader className="space-y-2">
             <div className="flex items-center justify-between">
@@ -168,6 +168,9 @@ export default function Home() {
           </CardFooter>
         </form>
       </Card>
+      <p className="text-gray-500 text-sm">
+        © 2024 HRConnect, Inc. All Rights Reserved
+      </p>
     </div>
   );
 }
