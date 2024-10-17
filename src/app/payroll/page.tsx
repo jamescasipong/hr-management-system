@@ -57,7 +57,7 @@ export default function Payroll() {
       >
         {/* Payroll Content */}
         <div
-          className={`mx-auto py-6 sm:px-6  lg:px-8 p-5 ${
+          className={`mx-auto py-6 sm:px-6  lg:px-8 p-1 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}
         >
@@ -157,7 +157,10 @@ export default function Payroll() {
               <CardContent>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full dark:border-gray-700 dark:hover:bg-gray-800">
+                    <Button
+                      variant="outline"
+                      className="w-full dark:border-gray-700 dark:hover:bg-gray-800"
+                    >
                       Payroll Actions <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
