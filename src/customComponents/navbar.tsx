@@ -29,6 +29,13 @@ import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 const Navbar = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState(
@@ -37,6 +44,12 @@ const Navbar = () => {
   const [logo] = useState(
     "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogo.png"
   );
+
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: "New employee onboarded", read: false },
+    { id: 2, message: "Payroll processing complete", read: false },
+    { id: 3, message: "Team meeting at 3 PM", read: true },
+  ]);
 
   const context = useContext(SideDark);
 
@@ -57,6 +70,16 @@ const Navbar = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const handleNotificationClick = (id: number) => {
+    setNotifications(
+      notifications.map((notif) =>
+        notif.id === id ? { ...notif, read: true } : notif
+      )
+    );
+  };
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const pathname = usePathname();
   return (
@@ -171,13 +194,38 @@ const Navbar = () => {
             <div className="flex items-center justify-center gap-1">
               <ModeToggle />
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="sm:flex justify-center hidden mr-2 dark:hover:bg-gray-900"
-              >
-                <Bell className="h-5 w-5" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="sm:flex justify-center hidden mr-2 dark:hover:bg-gray-900 relative"
+                  >
+                    <Bell className="h-5 w-5" />
+                    {unreadCount > 0 && (
+                      <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                  {notifications.map((notif) => (
+                    <DropdownMenuItem
+                      key={notif.id}
+                      onClick={() => handleNotificationClick(notif.id)}
+                      className={`flex items-center justify-between p-2 ${
+                        notif.read ? "opacity-50" : ""
+                      }`}
+                    >
+                      <span>{notif.message}</span>
+                      {!notif.read && (
+                        <span className="h-2 w-2 bg-blue-500 rounded-full"></span>
+                      )}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Dialog
                 open={isProfileModalOpen}
                 onOpenChange={setIsProfileModalOpen}
