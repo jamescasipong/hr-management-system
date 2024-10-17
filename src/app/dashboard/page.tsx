@@ -310,7 +310,7 @@ export default function Dashboard() {
               open={isSummaryModalOpen}
               onOpenChange={setIsSummaryModalOpen}
             >
-              <DialogContent className="sm:max-w-[625px] dark:bg-slate-800">
+              <DialogContent className="sm:max-w-[625px] dark:bg-slate-800 rounded-lg">
                 <DialogHeader>
                   <DialogTitle>Weekly Time Summary</DialogTitle>
                   <DialogDescription>
