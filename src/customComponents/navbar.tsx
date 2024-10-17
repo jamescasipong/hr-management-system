@@ -69,7 +69,7 @@ const Navbar = () => {
         >
           <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
             <div className="flex items-center space-x-2">
-              <img src={logo} alt="HR Logo" className={`h-8 w-8  `} />
+              <img src={logo} alt="HR Logo" className={`h-10 w-10  `} />
               <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
                 HRConnect
               </h1>
@@ -106,13 +106,13 @@ const Navbar = () => {
         </aside>
 
         <aside
-          className={`fixed inset-y-0 left-0 sm:hidden block  z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
+          className={`fixed inset-y-0 left-0 sm:hidden block h-full z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-200 ease-in-out ${
             mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
             <div className="flex items-center space-x-2">
-              <img src={logo} alt="HR Logo" className={`h-8 w-8  `} />
+              <img src={logo} alt="HR Logo" className={`h-10 w-10  `} />
               <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
                 HRConnect
               </h1>
@@ -161,7 +161,7 @@ const Navbar = () => {
             <div className="flex  items-center">
               {isSidebarOpen ? null : (
                 <div className="sm:flex hidden items-center space-x-2">
-                  <img src={logo} alt="HR Logo" className="w-8 h-8" />
+                  <img src={logo} alt="HR Logo" className="h-12 w-12" />
                   <h2 className="text-xl font-bold leading-7 text-gray-900 dark:text-white sm:text-2xl sm:truncate">
                     HRConnect
                   </h2>
@@ -169,7 +169,7 @@ const Navbar = () => {
               )}
 
               <div className="sm:hidden flex items-center space-x-2">
-                <img src={logo} alt="HR Logo" className="w-8 h-8" />
+                <img src={logo} alt="HR Logo" className="h-12 w-12" />
               </div>
             </div>
             <div className="flex items-center justify-center gap-1">
