@@ -72,29 +72,37 @@ export default function EnhancedLeaveRequestModal({
           <span className="sm:flex hidden "> Leave/OT</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] dark:bg-gray-800">
+      <DialogContent className="sm:max-w-[700px] dark:bg-gray-800 rounded-lg ">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Request Leave or OT</DialogTitle>
-          <DialogDescription className="text-lg">
+          <DialogTitle className="sm:text-2xl text-md ">
+            Request Leave or OT
+          </DialogTitle>
+          <DialogDescription className="sm:text-lg text-sm">
             Fill out this form to request leave, overtime, or a certificate of
             attendance.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 ">
-          <Card className="dark:bg-gray-800 border dark:border-gray-600">
-            <CardContent className="pt-6">
+          <Card className="dark:bg-gray-800 border dark:border-gray-600 ">
+            <CardContent className="pt-6 gap-0">
               <div className="grid gap-6">
-                <div className="grid grid-cols-4  items-center gap-4">
-                  <Label htmlFor="request-type" className="text-right text-lg ">
+                <div className="sm:grid-cols-4 grid grid-cols-1  items-center gap-4">
+                  <Label
+                    htmlFor="request-type"
+                    className="sm:text-right text-start  sm:text-lg text-sm"
+                  >
                     Request Type
                   </Label>
                   <Select onValueChange={setRequestType} required>
-                    <SelectTrigger className="dark:bg-gray-800 dark:border-gray-600  border-gray-300 col-span-3 h-12 text-lg ">
-                      <SelectValue placeholder="Select request type" />
+                    <SelectTrigger className="dark:bg-gray-800  dark:border-gray-600  border-gray-300 col-span-3 h-12 sm:text-lg text-sm">
+                      <SelectValue
+                        className="sm:text-lg text-sm "
+                        placeholder="Select request type"
+                      />
                     </SelectTrigger>
-                    <SelectContent className="dark:bg-gray-800 dark:border-gray-600 border-gray-300 ">
+                    <SelectContent className="dark:bg-gray-800 dark:border-gray-600 border-gray-300 sm:text-lg text-sm">
                       <SelectItem
-                        className="dark:hover:bg-gray-700"
+                        className="dark:hover:bg-gray-700 "
                         value="vacation"
                       >
                         Vacation Leave
@@ -117,8 +125,11 @@ export default function EnhancedLeaveRequestModal({
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="start-date" className="text-right text-lg">
+                <div className="grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
+                  <Label
+                    htmlFor="start-date"
+                    className="sm:text-right text-start sm:text-lg text-sm"
+                  >
                     Start Date
                   </Label>
                   <Popover>
@@ -126,7 +137,7 @@ export default function EnhancedLeaveRequestModal({
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "col-span-3 dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-900 h-12 justify-start text-left text-lg font-normal",
+                          "col-span-3 dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-900 h-12 justify-start text-left sm:text-lg text-sm font-normal",
                           !startDate && "text-muted-foreground"
                         )}
                       >
@@ -149,8 +160,11 @@ export default function EnhancedLeaveRequestModal({
                   </Popover>
                 </div>
                 {(requestType === "vacation" || requestType === "sick") && (
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="end-date" className="text-right text-lg">
+                  <div className="grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
+                    <Label
+                      htmlFor="end-date"
+                      className="sm:text-right text-start sm:text-lg text-sm"
+                    >
                       End Date
                     </Label>
                     <Popover>
@@ -158,7 +172,7 @@ export default function EnhancedLeaveRequestModal({
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "col-span-3 h-12 justify-start dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-700 text-left text-lg font-normal",
+                            "col-span-3 h-12 justify-start dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-700 text-left sm:text-lg text-sm font-normal",
                             !endDate && "text-muted-foreground"
                           )}
                         >
@@ -183,10 +197,10 @@ export default function EnhancedLeaveRequestModal({
                 )}
                 {requestType === "ot" && (
                   <>
-                    <div className="grid grid-cols-4 items-center gap-4">
+                    <div className="grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
                       <Label
                         htmlFor="start-time"
-                        className="text-right text-lg"
+                        className="sm:text-right text-start sm:text-lg text-sm"
                       >
                         Start Time
                       </Label>
@@ -197,13 +211,16 @@ export default function EnhancedLeaveRequestModal({
                           type="time"
                           value={startTime}
                           onChange={(e) => setStartTime(e.target.value)}
-                          className="h-12 text-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white  border-gray-300 dark:hover:bg-gray-700"
+                          className="h-12 sm:text-lg text-sm dark:bg-gray-800 dark:border-gray-600 dark:text-white  border-gray-300 dark:hover:bg-gray-700"
                           required
                         />
                       </div>
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="end-time" className="text-right text-lg">
+                    <div className="grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
+                      <Label
+                        htmlFor="end-time"
+                        className="sm:text-right text-start sm:text-lg text-sm"
+                      >
                         End Time
                       </Label>
                       <div className="col-span-3 flex items-center">
@@ -213,22 +230,25 @@ export default function EnhancedLeaveRequestModal({
                           type="time"
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
-                          className="h-12 text-lg dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-700"
+                          className="h-12 sm:text-lg text-sm dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-700"
                           required
                         />
                       </div>
                     </div>
                   </>
                 )}
-                <div className="grid grid-cols-4  items-start gap-4">
-                  <Label htmlFor="reason" className="text-right text-lg pt-2">
+                <div className="grid sm:grid-cols-4 grid-cols-1  items-start gap-4">
+                  <Label
+                    htmlFor="reason"
+                    className="sm:text-right text-start sm:text-lg text-sm pt-2"
+                  >
                     Reason
                   </Label>
                   <Textarea
                     id="reason"
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
-                    className="col-span-3 h-32 text-lg dark:bg-gray-800 dark:border-gray-600 border-gray-300"
+                    className="col-span-3 h-32 sm:text-lg text-sm dark:bg-gray-800 dark:border-gray-600 border-gray-300"
                     placeholder="Enter reason for request"
                     required
                   />
@@ -240,13 +260,13 @@ export default function EnhancedLeaveRequestModal({
             <div className="space-x-2 ">
               <Badge
                 variant="outline"
-                className="dark:border-gray-600 border-gray-300 py-1"
+                className="dark:border-gray-600 border-gray-300 py-1 sm:text-[15px] text-[9px]"
               >
                 Remaining Vacation Hours: {vacation.toString()}
               </Badge>
               <Badge
                 variant="outline"
-                className="dark:border-gray-600 border-gray-300 py-1"
+                className="dark:border-gray-600 border-gray-300 py-1 sm:text-[15px] text-[9px]"
               >
                 Remaining Sick Hours: {sick.toString()}
               </Badge>
@@ -256,7 +276,7 @@ export default function EnhancedLeaveRequestModal({
                 type="submit"
                 className="dark:bg-gray-500 dark:hover:bg-gray-600 dark:text-white"
               >
-                Submit Request
+                Submit<span className="sm:block hidden"> Request</span>
               </Button>
             </DialogFooter>
           </div>

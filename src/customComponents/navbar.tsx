@@ -230,7 +230,7 @@ const Navbar = () => {
                 >
                   <Menu className="h-6 w-6" />
                 </Button>
-                <DialogContent className="sm:max-w-[425px] dark:bg-gray-900">
+                <DialogContent className="sm:max-w-[425px] dark:bg-gray-900 rounded-lg">
                   <DialogHeader>
                     <DialogTitle>Profile</DialogTitle>
                     <DialogDescription>
