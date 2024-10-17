@@ -209,7 +209,7 @@ export default function Dashboard() {
           <div className="grid lg:grid-cols-2 md:gap-4 md:grid-cols-1 gap-0 grid-cols-1">
             <Card className="lg:mb-6 md:mb-3 mb-6   dark:bg-gray-800">
               <CardHeader>
-                <div className="flex justify-between ">
+                <div className="flex justify-between  border-b border-blue-200 py-1 ">
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     My Schedule
                   </CardTitle>
@@ -342,7 +342,7 @@ export default function Dashboard() {
             {/* Co-workers Attendance */}
             <Card className="mb-6 dark:bg-gray-800 ">
               <CardHeader>
-                <div className="flex justify-between">
+                <div className="flex justify-between border-b border-blue-200 py-1">
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     Co-workers Attendance
                   </CardTitle>
@@ -352,7 +352,7 @@ export default function Dashboard() {
                 <CardDescription>Today's attendance status</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 ">
                   {coworkers
                     .filter(
                       (coworker) => coworker.department == myProfile?.department
@@ -401,7 +401,7 @@ export default function Dashboard() {
           <div className="mb-6 grid lg:grid-cols-3 grid-cols-1 gap-4">
             <Card className="dark:bg-gray-800 ">
               <CardHeader>
-                <div className="flex justify-between">
+                <div className="flex justify-between w-full border-b border-blue-200 py-1">
                   {" "}
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     My Time Off
@@ -465,7 +465,7 @@ export default function Dashboard() {
             </Card>
             <Card className=" dark:bg-gray-800  md:col-span-2 col-span-1">
               <CardHeader>
-                <div className="flex justify-between">
+                <div className="flex justify-between border-b border-blue-200 py-1">
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     Time Management
                   </CardTitle>
