@@ -306,7 +306,12 @@ const Navbar = () => {
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <Button className="w-full dark:bg-blue-500 dark:hover:bg-blue-600 text-white">
+                          <Button
+                            onClick={() => {
+                              setIsProfileModalOpen(false);
+                            }}
+                            className="w-full dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
+                          >
                             Save
                           </Button>
                           <Button
