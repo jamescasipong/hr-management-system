@@ -34,9 +34,8 @@ const Navbar = () => {
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
-  const { theme } = useTheme();
-  const [logo, setLogo] = useState(
-    "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogowhite.png"
+  const [logo] = useState(
+    "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogo.png"
   );
 
   const context = useContext(SideDark);
@@ -47,18 +46,6 @@ const Navbar = () => {
 
   const { isSidebarOpen, toggleSidebar } = context;
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    if (theme === "dark") {
-      setLogo(
-        "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogowhite.png"
-      );
-    } else {
-      setLogo(
-        "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogo.png"
-      );
-    }
-  }, [theme]);
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
