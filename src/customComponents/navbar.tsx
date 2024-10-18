@@ -18,16 +18,13 @@ import { SideDark } from "@/contextComponent/SideDark";
 import {
   Bell,
   Calendar,
-  Clock,
   DollarSign,
-  FileText,
   Home,
   Menu,
-  Users,
+  Users
 } from "lucide-react";
-import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import {
   DropdownMenu,
@@ -241,26 +238,22 @@ const Navbar = () => {
                     </Avatar>
                   </div>
                 </DialogTrigger>
-                <Button
+                {!isSidebarOpen && <Button
                   variant="ghost"
                   size="icon"
                   onClick={toggleSidebar}
-                  className={`sm:flex hidden dark:hover:bg-gray-900 mr-4 transition-all duration-300 ${
-                    isSidebarOpen ? "hidden" : ""
-                  }`}
+                  className={`sm:flex hidden dark:hover:bg-gray-900 mr-4 transition-all duration-300 `}
                 >
                   <Menu className="h-6 w-6" />
-                </Button>
-                <Button
+                </Button>}
+                {!mobileSidebarOpen && <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setMobileSidebarOpen((prev) => !prev)}
-                  className={`sm:hidden flex  dark:hover:bg-gray-900 mr-4 transition-all duration-300 ${
-                    mobileSidebarOpen ? "hidden" : ""
-                  }`}
+                  className={`sm:hidden flex  dark:hover:bg-gray-900 mr-4 transition-all duration-300 `}
                 >
                   <Menu className="h-6 w-6" />
-                </Button>
+                </Button>}
                 <DialogContent className="sm:max-w-[425px] dark:bg-gray-900 rounded-lg">
                   <DialogHeader>
                     <DialogTitle>Profile</DialogTitle>

@@ -8,10 +8,10 @@ import {
   format,
   isSameDay,
   isSameMonth,
+  isWithinInterval,
   startOfMonth,
   startOfWeek,
   subMonths,
-  isWithinInterval,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
@@ -43,21 +43,21 @@ const Calendar = ({ vacation, sick }: { vacation: number; sick: number }) => {
         <div className="flex items-center gap-2">
           <Button
             size="icon"
-            className="dark:bg-gray-900 dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
+            className="dark:bg-gray-900 bg-white hover:bg-gray-100 text-black dark:text-white dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
             onClick={handlePrevMonth}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
             size="sm"
-            className="dark:bg-gray-900  dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
+            className="dark:bg-gray-900 bg-white hover:bg-gray-100 text-black dark:text-white dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
             onClick={handleToday}
           >
             Today
           </Button>
           <Button
             size="icon"
-            className="dark:bg-gray-900 dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
+            className="dark:bg-gray-900 bg-white hover:bg-gray-100 text-black dark:text-white dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
             onClick={handleNextMonth}
           >
             <ChevronRight className="h-4 w-4 " />

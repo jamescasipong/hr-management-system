@@ -9,13 +9,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -25,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
@@ -32,21 +37,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { SideDark } from "@/contextComponent/SideDark";
+import { addDays } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { DatePickerWithRange } from "@/components/ui/date-range-picker";
-import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 type AttendanceRecord = {
@@ -343,9 +336,9 @@ export default function Attendance() {
         >
           <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
             <Card className="mb-6 h-full">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="md:text-[24px] text-[18px]">
+              <CardHeader className="">
+                <div className="flex items-center justify-between ">
+                  <CardTitle className="md:text-[24px] text-[18px] ">
                     Attendance Calendar
                   </CardTitle>
                   <div className="flex items-center space-x-2">

@@ -32,7 +32,6 @@ import { format } from "date-fns";
 import { CalendarIcon, Clock } from "lucide-react";
 import { useState } from "react";
 import { Calendar } from "../components/ui/calendar";
-import { on } from "events";
 
 export default function EnhancedLeaveRequestModal({
   vacation,
@@ -67,12 +66,12 @@ export default function EnhancedLeaveRequestModal({
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogTrigger asChild>
-        <Button className="font-medium dark:bg-blue-600 dark:hover:bg-blue-700 text-white sm:text-[12px] text-xs">
+        <Button className="font-medium dark:bg-blue-600 dark:hover:bg-blue-700 text-white sm:text-[14px] text-xs">
           Request
           <span className="sm:flex hidden "> Leave/OT</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] dark:bg-gray-800 rounded-lg ">
+      <DialogContent className="sm:max-w-[700px] dark:bg-gray-800 rounded-lg sm:w-full h-[90%] overflow-auto">
         <DialogHeader>
           <DialogTitle className="sm:text-2xl text-md ">
             Request Leave or OT
