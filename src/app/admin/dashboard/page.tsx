@@ -31,10 +31,10 @@ import {
   Timer,
 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
-import { SideDark } from "../../contextComponent/SideDark";
-import { ComboBoxResponsive } from "../../customComponents/comboBoxResponsive";
-import calendar from "../../customComponents/customCalendar";
-import employees from "../data";
+import { SideDark } from "../../../contextComponent/SideDark";
+import { ComboBoxResponsive } from "../../../customComponents/comboBoxResponsive";
+import calendar from "../../../customComponents/customCalendar";
+import employees from "../../data";
 import { useCookies } from 'react-cookie';
 import instanceApi from "@/api/auth";
 

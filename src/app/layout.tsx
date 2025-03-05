@@ -1,10 +1,11 @@
-
 import { SideThemeProvider } from "@/contextComponent/SideDark";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 import Navbar from "../customComponents/navbar";
+import { headers } from "next/headers";
 import "./globals.css";
+import { AuthProvider } from "@/context/authContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,33 +23,38 @@ export const metadata: Metadata = {
   description:
     "A website for employees to clock in/out, check payroll, attendances, performances, and file leaves. HRConnect simplifies employee management with features like payroll tracking, performance reviews, leave requests, and attendance monitoring.",
 };
- // Import your Navbar component
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = headers();
+
+  const nav = headersList.get("disable-nav");
+  const isAdmin = headersList.get("is-admin");
+
+  const isDisabled = nav === "true";
+
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
-        
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-        <SideThemeProvider>
-          {/* Conditionally render the Navbar */}
-          
-          <Navbar></Navbar>
-          {/* Page content */}
-          {children}
-        </SideThemeProvider>
+          <SideThemeProvider>
+
+            <AuthProvider>
+              <Navbar isDisabled={isDisabled} isAdmin={isAdmin === 'Admin'}/>
+              {children}
+            </AuthProvider>
+          </SideThemeProvider>
         </ThemeProvider>
       </body>
     </html>

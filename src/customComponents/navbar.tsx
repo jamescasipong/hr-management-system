@@ -1,5 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,7 +25,9 @@ import {
   Users
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import {logout} from "@/api/auth";
+import instanceApi from "@/api/auth";
 
 import {
   DropdownMenu,
@@ -32,23 +35,60 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AuthContext } from "@/context/authContext";
+import { stringify } from "querystring";
 
-const Navbar = () => {
+
+type UserNotification = {
+  notificationId: number;
+  employeeId: string;
+  isRead: boolean;
+  status: string;
+  notification: {
+    title: string;
+    message: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+}
+type NavBar = {
+  isAdmin: boolean;
+  isDisabled: boolean;
+}
+
+const Navbar = ({isAdmin, isDisabled}: NavBar) => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
   );
+
   const [logo] = useState(
     "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogo.png"
   );
 
-  const [notifications, setNotifications] = useState([
-    { id: 1, message: "New employee onboarded", read: false },
-    { id: 2, message: "Payroll processing complete", read: false },
-    { id: 3, message: "Team meeting at 3 PM", read: true },
-  ]);
+  const [notifications, setNotifications] = useState<UserNotification[]>([]);
 
   const context = useContext(SideDark);
+  console.log("isDisabled", isDisabled);
+  const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await instanceApi.get("/notification/my-notifications");
+        setNotifications(response.data.data);
+
+
+        console.log("notifications", response.data  );
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
 
   if (!context) {
     throw new Error("SideDark context is undefined");
@@ -56,6 +96,7 @@ const Navbar = () => {
 
   const { isSidebarOpen, toggleSidebar } = context;
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const router = useRouter();
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -68,15 +109,34 @@ const Navbar = () => {
     }
   };
 
+
   const handleNotificationClick = (id: number) => {
     setNotifications(
       notifications.map((notif) =>
-        notif.id === id ? { ...notif, read: true } : notif
+        notif.notificationId === id ? { ...notif, isRead: true } : notif
       )
     );
   };
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  console.log("isAdmin", isAdmin);
+
+  const handleLogout = async () => {
+    await logout();
+    setIsProfileModalOpen(false);
+    router.push("/");
+  }
+
+  const handleViewProfile = async () => {
+    setIsProfileModalOpen(false);
+    router.push("/profile/me");
+  }
+
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
+
+
+  if (isDisabled) {
+    return null;
+  }
 
   const pathname = usePathname();
   return (
@@ -105,21 +165,41 @@ const Navbar = () => {
             </Button>
           </div>
           <nav className="mt-6">
-            {[
-              { icon: Home, label: "Dashboard", link: "/dashboard" },
-              { icon: Users, label: "Employees", link: "/employees" },
-              { icon: Calendar, label: "Attendance", link: "/attendance" },
-              { icon: DollarSign, label: "Payroll", link: "/payroll" },
-            ].map((item, index) => (
-              <a
-                key={index}
-                href={item.link}
-                className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-              >
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.label}
-              </a>
-            ))}
+            {
+              isAdmin ?
+              (
+                  [
+                    { icon: Home, label: "Dashboard", link: "/dashboard" },
+                    { icon: Users, label: "Employees", link: "/employees" },
+                    { icon: Calendar, label: "Attendance", link: "/attendance" },
+                    { icon: DollarSign, label: "Payroll", link: "/payroll" },
+                  ].map((item: { icon: React.ElementType; label: string; link: string }, index: number) => (
+                    <a
+                      key={index}
+                      href={item.link}
+                      className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                    >
+                      <item.icon className="w-5 h-5 mr-3" />
+                      {item.label}
+                    </a>
+                  ))
+              ) : (
+                [
+                  { icon: Home, label: "Dashboard", link: "/dashboard" },
+                  { icon: Calendar, label: "Attendance", link: "/attendance" },
+                  { icon: DollarSign, label: "Payroll", link: "/payroll" },
+                ].map((item: { icon: React.ElementType; label: string; link: string }, index: number) => (
+                  <a
+                    key={index}
+                    href={item.link}
+                    className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                  >
+                    <item.icon className="w-5 h-5 mr-3" />
+                    {item.label}
+                  </a>
+                ))
+              )
+            }
           </nav>
         </aside>
 
@@ -146,21 +226,23 @@ const Navbar = () => {
             </Button>
           </div>
           <nav className="mt-6">
-            {[
-              { icon: Home, label: "Dashboard", link: "/dashboard" },
-              { icon: Users, label: "Employees", link: "/employees" },
-              { icon: Calendar, label: "Attendance", link: "/attendance" },
-              { icon: DollarSign, label: "Payroll", link: "/payroll" },
-            ].map((item, index) => (
-              <a
-                key={index}
-                href={item.link}
-                className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-              >
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.label}
-              </a>
-            ))}
+           {(
+              [
+                { icon: Home, label: "Dashboard", link: "/dashboard" },
+                { icon: Users, label: "Employees", link: "/employees" },
+                { icon: Calendar, label: "Attendance", link: "/attendance" },
+                { icon: DollarSign, label: "Payroll", link: "/payroll" },
+              ].map((item: { icon: React.ElementType; label: string; link: string }, index: number) => (
+                <a
+                  key={index}
+                  href={item.link}
+                  className="flex items-center px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                >
+                  <item.icon className="w-5 h-5 mr-3" />
+                  {item.label}
+                </a>
+              ))
+            )}
           </nav>
         </aside>
 
@@ -209,14 +291,14 @@ const Navbar = () => {
                 <DropdownMenuContent align="end" className="w-80">
                   {notifications.map((notif) => (
                     <DropdownMenuItem
-                      key={notif.id}
-                      onClick={() => handleNotificationClick(notif.id)}
+                      key={notif.notificationId}
+                      onClick={() => handleNotificationClick(notif.notificationId)}
                       className={`flex items-center justify-between p-2 ${
-                        notif.read ? "opacity-50" : ""
+                        notif.isRead ? "opacity-50" : ""
                       }`}
                     >
-                      <span>{notif.message}</span>
-                      {!notif.read && (
+                      <span>{notif.notificationId}</span>
+                      {!notif.isRead && (
                         <span className="h-2 w-2 bg-blue-500 rounded-full"></span>
                       )}
                     </DropdownMenuItem>
@@ -308,12 +390,16 @@ const Navbar = () => {
                             Save
                           </Button>
                           <Button
-                            onClick={() => {
-                              window.location.href = "/profile/jcasipong";
-                            }}
+                            onClick={handleViewProfile}
                             className="w-full dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
                           >
                             View Complete Profile
+                          </Button>
+                          <Button
+                            onClick={handleLogout}
+                            className="w-full dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
+                          >
+                            Logout
                           </Button>
                         </div>
                       </div>

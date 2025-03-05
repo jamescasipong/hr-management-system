@@ -71,7 +71,7 @@ export default function EnhancedLeaveRequestModal({
           <span className="sm:flex hidden "> Leave/OT</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] dark:bg-gray-800 rounded-lg sm:w-full h-[90%] overflow-auto">
+      <DialogContent className="sm:max-w-[700px] dark:bg-gray-800 rounded-lg sm:w-full max-h-[90%] overflow-auto">
         <DialogHeader>
           <DialogTitle className="sm:text-2xl text-md ">
             Request Leave or OT
@@ -153,7 +153,6 @@ export default function EnhancedLeaveRequestModal({
                         mode="single"
                         selected={startDate}
                         onSelect={setStartDate}
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -188,7 +187,7 @@ export default function EnhancedLeaveRequestModal({
                           mode="single"
                           selected={endDate}
                           onSelect={setEndDate}
-                          initialFocus
+
                         />
                       </PopoverContent>
                     </Popover>
