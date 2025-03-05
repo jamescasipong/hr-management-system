@@ -57,6 +57,7 @@ type NavBar = {
 }
 
 const Navbar = ({isAdmin, isDisabled}: NavBar) => {
+  const pathname = usePathname();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState(
     "https://avatars.githubusercontent.com/u/144509235?v=4"
@@ -138,7 +139,6 @@ const Navbar = ({isAdmin, isDisabled}: NavBar) => {
     return null;
   }
 
-  const pathname = usePathname();
   return (
     pathname !== "/" && (
       <div>

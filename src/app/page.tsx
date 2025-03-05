@@ -13,9 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Calendar, Clock, CreditCard, Users } from "lucide-react";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import "../app/globals.css";
-import { JWTType } from "@/middleware";
 import { AuthContext } from "@/context/authContext";
 
 export default function Home() {
@@ -24,7 +22,6 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  // const [loading, setLoading] = useState(false);
 
 
   const {isLoading, setLoading, login, data }: {isLoading: boolean, setLoading: (state: boolean) => void, login: (e: React.FormEvent, email: string, password: string) => Promise<{success: boolean, message: string, data: any}>, data: object} = useContext<any>(AuthContext);

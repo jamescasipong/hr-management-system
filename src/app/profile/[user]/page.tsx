@@ -91,6 +91,7 @@ export default function EmployeeProfile({
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [countApiRequest, setCountApiRequest] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     // Fetch employee data from API
@@ -128,7 +129,7 @@ export default function EmployeeProfile({
           }
 
           if (response.status === 404) {
-            useRouter().push("/404");
+            router.push("/404");
             console.error("Employee not found");
           }
         } catch (error: any) {
@@ -138,7 +139,7 @@ export default function EmployeeProfile({
     };
 
     fetchEmployee();
-  }, []);
+  }, [params.user, router]);
 
   console.log(countApiRequest);
 
