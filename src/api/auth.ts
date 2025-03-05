@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 const axios = require('axios');
 
 const instanceApi = axios.create({
-    baseURL: 'http://localhost:5075/api/v1/',
+    baseURL: 'https://localhost:7147/api/v1/',
     // timeout: 1000,
     withCredentials: true,
     headers: {

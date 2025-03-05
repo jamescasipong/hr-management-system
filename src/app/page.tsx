@@ -58,7 +58,6 @@ export default function Home() {
             setTimeout(() => {
             setLoading(false);
             }, 3000);
-            window.location.reload()
         } else {
           setTimeout(() => {
             setLoading(false);
