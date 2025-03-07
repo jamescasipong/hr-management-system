@@ -15,13 +15,19 @@ import { Calendar, Clock, CreditCard, Users } from "lucide-react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import "../app/globals.css";
 import { AuthContext } from "@/context/authContext";
+import { useRouter } from "next/navigation";
+import VerificationCodeWithTimer from "@/customComponents/verification-code/verification-code-with-timer";
 
 export default function Home() {
+  const router = useRouter();
+
   // const [isAdmin, setIsAdmin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [twoFactorCode, setTwoFactorCode] = useState("");
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
 
 
   const {isLoading, setLoading, login, data }: {isLoading: boolean, setLoading: (state: boolean) => void, login: (e: React.FormEvent, email: string, password: string) => Promise<{success: boolean, message: string, data: any}>, data: object} = useContext<any>(AuthContext);
@@ -53,11 +59,14 @@ export default function Home() {
         setLoading(true);
         const response = await login(e, email, password);
 
+        if (response.data.twoFactor && !response.success){
+            setTwoFactorEnabled(true);
+        }
+
         if (response.success) {
-          
-            setTimeout(() => {
-            setLoading(false);
-            }, 3000);
+            router.push("/dashboard");
+            router.refresh();
+
         } else {
           setTimeout(() => {
             setLoading(false);
@@ -71,6 +80,9 @@ export default function Home() {
         // setEmailError("An error occurred");
         setPasswordError("An error occurred");
       }
+      finally{
+        setLoading(false);
+      }
     
     },
     [email, password]
@@ -78,7 +90,7 @@ export default function Home() {
 
 
   return (
-    isLoading ? <div>Loading...</div> : <div className="min-h-screen flex items-center justify-center flex-col gap-4 bg-gray-100 dark:bg-gray-900  sm:p-6 p-2">
+    twoFactorEnabled ? <VerificationCodeWithTimer className="flex h-screen w-full justify-center items-center" email={email} password={password}/> : <div className="min-h-screen flex items-center justify-center flex-col gap-4 bg-gray-100 dark:bg-gray-900  sm:p-6 p-2">
     <Card className="w-full max-w-xl z-50 shadow-lg">
       <form onSubmit={handleSubmit}>
         <CardHeader className="space-y-2">
@@ -170,8 +182,8 @@ export default function Home() {
           </div>
         </CardContent>
         <CardFooter className="flex-col space-y-4">
-          <Button type="submit" className="w-full sm:text-lg text-sm   py-6">
-            Sign In
+          <Button type="submit" className={`w-full sm:text-lg text-sm py-6 disabled:opacity-50 ${isLoading ? "bg-gray-500 disabled" : "bg-primary enabled"}`}>
+            {isLoading ? "Loading..." : "Sign in"}
           </Button>
           {/* <div className="text-center sm:text-lg  text-sm text-muted-foreground">
             {isAdmin

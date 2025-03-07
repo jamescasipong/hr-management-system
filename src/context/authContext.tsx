@@ -30,7 +30,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         try {
             const response = await Login(email, password);
-
+            
+            if (response.data){
+                setIsAuthenticated(false);
+                return response;
+            }
             setIsAuthenticated(response.success);
             
             return response;       
