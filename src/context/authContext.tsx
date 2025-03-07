@@ -3,7 +3,7 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import instanceApi, {login as Login, logout as Logout} from '@/api/auth';
 
-interface AuthContextType {
+export interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
     setLoading: (loading: boolean) => void;

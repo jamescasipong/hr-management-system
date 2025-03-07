@@ -13,6 +13,17 @@ const instanceApi = axios.create({
     responseType: 'json',
 });
 
+instanceApi.interceptors.request.use((config: any) => {
+    config.headers.Authorization = `X-API-KEY key`;
+    config.withCredentials = true;
+
+    return config;
+}, (error: any) => {
+
+    return Promise.reject(error);
+}
+);
+
 
 
 export const login = async (email: string, password: string) => {

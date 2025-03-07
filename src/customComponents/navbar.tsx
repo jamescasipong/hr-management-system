@@ -28,6 +28,7 @@ import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import {logout} from "@/api/auth";
 import instanceApi from "@/api/auth";
+import {AuthContextType} from "@/context/authContext";
 
 import {
   DropdownMenu,
@@ -56,6 +57,11 @@ type NavBar = {
   isDisabled: boolean;
 }
 
+type Auth = {
+  isAuthenticated: boolean;
+}
+
+
 const Navbar = ({isAdmin, isDisabled}: NavBar) => {
   const pathname = usePathname();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -73,21 +79,26 @@ const Navbar = ({isAdmin, isDisabled}: NavBar) => {
   console.log("isDisabled", isDisabled);
   const authContext = useContext(AuthContext);
 
+  const fetchNotifications = async () => {
+    try {
+      const response = await instanceApi.get("/notification/my-notifications");
+      setNotifications(response.data.data);
+
+
+      console.log("notifications", response.data  );
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await instanceApi.get("/notification/my-notifications");
-        setNotifications(response.data.data);
-
-
-        console.log("notifications", response.data  );
-
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchNotifications();
+    
+    if (authContext?.isAuthenticated){
+      fetchNotifications();
+    }
+    
   }, []);
 
 
