@@ -252,13 +252,11 @@ export default function Employees() {
 
   return (
     <div
-      className={`flex h-full  w-full min-h-screen overflow-x-hidden bg-gray-100 dark:bg-gray-900 transition-colors duration-200`}
+      className={`flex h-full  w-full min-h-screen overflow-x-hidden  transition-colors duration-200`}
     >
       {/* Main Content */}
       <main
-        className={`flex-1 w-full duration-200 ${
-          isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
-        }`}
+        className={`flex-1 w-full duration-200`}
       >
         {/* Employees Content */}
         <div
@@ -266,7 +264,7 @@ export default function Employees() {
             isSidebarOpen ? "" : "pt-24 w-full max-w-[1500px] lg:w-full"
           }`}
         >
-          <Card className="dark:bg-gray-800 w-full overflow-visible">
+          <Card className=" w-full overflow-visible">
             <CardHeader>
               <div className="flex justify-between items-center ">
                 <CardTitle>Employee List</CardTitle>
@@ -288,14 +286,14 @@ export default function Employees() {
                       placeholder="Search employees..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="sm:w-64 w-full dark:border-gray-700"
+                      className="sm:w-64 w-full "
                     />
                   </div>
                   <Select
                     value={departmentFilter}
                     onValueChange={setDepartmentFilter}
                   >
-                    <SelectTrigger className="w-full dark:border-gray-700 dark:hover:bg-gray-800">
+                    <SelectTrigger className="w-full ">
                       <SelectValue placeholder="Filter by department" />
                     </SelectTrigger>
                     <SelectContent>
@@ -322,7 +320,7 @@ export default function Employees() {
                   {filteredEmployees.map((employee) => (
                     <TableRow
                       key={employee.id}
-                      className="border-b dark:border-gray-700"
+                      className="border-b "
                     >
                       <TableCell className="font-medium">
                         <div className="flex items-center">

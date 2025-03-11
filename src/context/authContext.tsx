@@ -7,7 +7,7 @@ export interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
     setLoading: (loading: boolean) => void;
-    login: (e: React.FormEvent, email: string, password: string) => Promise<{ success: boolean, message: string, data: any }>;
+    login: (email: string, password: string) => Promise<{ success: boolean, message: string, data: any }>;
     logout: () => Promise<void>;
     data: any;
 }
@@ -25,10 +25,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading(loading);
     }
 
-    const login = async (e: React.FormEvent, email: string, password: string) => {
-        e.preventDefault();
+    const login = async (email: string, password: string) => {
 
         try {
+            
             const response = await Login(email, password);
             
             if (response.data){

@@ -170,19 +170,19 @@ export default function Attendance() {
     return attendanceRecords.find((record) => record.date === dateString);
   };
 
-  const renderCalendar = () => {
+  const RenderCalendar = () => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
     const firstDayOfMonth = getFirstDayOfMonth(year, month);
     const today = new Date();
-
+    console.log(firstDayOfMonth)
     const days = [];
     for (let i = 0; i < firstDayOfMonth; i++) {
       days.push(
         <div
           key={`empty-${i}`}
-          className="p-2 border rounded-md bg-gray-100 dark:bg-gray-800"
+          className="p-2 border rounded-md bg-green-700 dark:bg-green-800"
         ></div>
       );
     }
@@ -201,11 +201,11 @@ export default function Attendance() {
             <TooltipTrigger asChild>
               <div
                 className={`p-2 border rounded-md cursor-pointer ${
-                  isToday && "bg-gray-700 hover:bg-gray-800 dark:bg-gray-900"
+                  isToday && ""
                 } transition-colors duration-200
                   ${isToday ? " text-white" : ""}
-                  ${isPast ? "bg-gray-200 dark:bg-gray-700" : ""}
-                  ${isFuture ? "bg-white dark:bg-gray-800" : ""}
+                  ${isPast ? "bg-green-700 dark:bg-green-700" : ""}
+                  ${isFuture ? "bg-green-600 dark:bg-green-600" : ""}
                   ${
                     attendanceStatus?.status === "Absent"
                       ? "bg-red-200 dark:bg-red-900"
@@ -322,7 +322,7 @@ export default function Attendance() {
 
   return (
     <div
-      className={`flex h-full min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200`}
+      className={`flex h-full min-h-screen bg-background transition-colors duration-200`}
     >
       <main
         className={`flex-1 duration-200 ${
@@ -343,7 +343,7 @@ export default function Attendance() {
                   </CardTitle>
                   <div className="flex items-center space-x-2">
                     <Button
-                      className="dark:border-gray-600 dark:hover:bg-gray-700"
+                      className=""
                       variant="outline"
                       size="icon"
                       onClick={prevMonth}
@@ -357,7 +357,7 @@ export default function Attendance() {
                       })}
                     </span>
                     <Button
-                      className="dark:border-gray-600 dark:hover:bg-gray-700"
+                      className=""
                       variant="outline"
                       size="icon"
                       onClick={nextMonth}
@@ -373,13 +373,13 @@ export default function Attendance() {
                     (day) => (
                       <div
                         key={day}
-                        className="font-medium sm:text-md text-xs text-gray-500 dark:text-gray-400"
+                        className="font-medium sm:text-md text-xs "
                       >
                         {day}
                       </div>
                     )
                   )}
-                  {renderCalendar()}
+                  {RenderCalendar()}
                 </div>
               </CardContent>
             </Card>

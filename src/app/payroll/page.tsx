@@ -45,7 +45,7 @@ export default function Payroll() {
 
   return (
     <div
-      className={`flex h-full  bg-gray-100 dark:bg-gray-900 transition-colors duration-200 `}
+      className={`flex h-full bg-background transition-colors duration-200 `}
     >
       {/* Sidebar */}
 
@@ -62,7 +62,7 @@ export default function Payroll() {
           }`}
         >
           {/* Salary Summary Card */}
-          <Card className="mb-6 dark:bg-gray-800">
+          <Card className="mb-6">
             <CardHeader>
               <CardTitle>Salary Summary</CardTitle>
               <CardDescription>Your current salary information</CardDescription>
@@ -92,7 +92,7 @@ export default function Payroll() {
           </Card>
 
           {/* Payment History Table */}
-          <Card className="mb-6 dark:bg-gray-800">
+          <Card className="mb-6">
             <CardHeader>
               <CardTitle>Payment History</CardTitle>
               <CardDescription>Your recent salary payments</CardDescription>
@@ -114,7 +114,7 @@ export default function Payroll() {
                   {paymentHistory.map((payment, index) => (
                     <TableRow
                       key={index}
-                      className="dark:border-b dark:border-gray-500"
+                      className="dark:border-b"
                     >
                       <TableCell>{payment.date}</TableCell>
                       <TableCell>${payment.amount.toFixed(2)}</TableCell>
@@ -123,7 +123,7 @@ export default function Payroll() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="dark:bg-blue-600 dark:hover:bg-blue-700"
+                          className=""
                         >
                           <Download className="mr-2 h-4 w-4" />
                           Payslip
@@ -138,7 +138,7 @@ export default function Payroll() {
 
           {/* Additional Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="dark:bg-gray-800">
+            <Card className="">
               <CardHeader>
                 <CardTitle>Tax Information</CardTitle>
                 <CardDescription>Manage your tax details</CardDescription>
@@ -147,7 +147,7 @@ export default function Payroll() {
                 <Button className="w-full">Update Tax Information</Button>
               </CardContent>
             </Card>
-            <Card className="dark:bg-gray-800">
+            <Card className="">
               <CardHeader>
                 <CardTitle>Payroll Settings</CardTitle>
                 <CardDescription>
@@ -159,7 +159,7 @@ export default function Payroll() {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
-                      className="w-full dark:border-gray-700 dark:hover:bg-gray-800"
+                      className="w-full"
                     >
                       Payroll Actions <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>

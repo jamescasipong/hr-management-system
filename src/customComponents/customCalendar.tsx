@@ -43,21 +43,21 @@ const Calendar = ({ vacation, sick }: { vacation: number; sick: number }) => {
         <div className="flex items-center gap-2">
           <Button
             size="icon"
-            className="dark:bg-gray-900 bg-white hover:bg-gray-100 text-black dark:text-white dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
+            className=" sm:flex justify-center hidden"
             onClick={handlePrevMonth}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
             size="sm"
-            className="dark:bg-gray-900 bg-white hover:bg-gray-100 text-black dark:text-white dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
+            className=" sm:flex justify-center hidden"
             onClick={handleToday}
           >
             Today
           </Button>
           <Button
             size="icon"
-            className="dark:bg-gray-900 bg-white hover:bg-gray-100 text-black dark:text-white dark:hover:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 sm:flex justify-center hidden"
+            className=" sm:flex justify-center hidden"
             onClick={handleNextMonth}
           >
             <ChevronRight className="h-4 w-4 " />
@@ -91,7 +91,7 @@ const Calendar = ({ vacation, sick }: { vacation: number; sick: number }) => {
           
           ${
             isSameDay(day, new Date())
-              ? "bg-blue-500 text-white text-primary-foreground font-semibold rounded-full hover:bg-blue-600"
+              ? "bg-green-500 text-white font-semibold rounded-full"
               : ""
           }`}
         >
@@ -116,7 +116,7 @@ const Calendar = ({ vacation, sick }: { vacation: number; sick: number }) => {
 
   return (
     <div>
-      <Card className="sm:block hidden w-full mx-auto dark:bg-gray-800 dark:border-gray-700 sm:border border-0 ">
+      <Card className="sm:block hidden w-full mx-auto sm:border border-0 ">
         {renderHeader()}
         <CardContent>
           <div className="grid grid-cols-7 gap-px text-center text-sm font-medium">

@@ -44,7 +44,7 @@ export function CountdownTimer({
     setIsSending(true)
 
     // Call the onResend callback
-    Promise.resolve(onResend()).finally(() => {
+    Promise.resolve(oresetnResend()).finally(() => {
       setIsSending(false)
       setCountdown(duration)
     })

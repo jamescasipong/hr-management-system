@@ -11,6 +11,7 @@ interface VerificationCodeInputProps {
   onComplete?: (code: string) => void
   disabled?: boolean
   autoFocus?: boolean
+  reset: {reset: boolean, code: string},
   className?: string
   inputClassName?: string
   error?: string
@@ -22,6 +23,7 @@ export function VerificationCodeInput({
   onComplete,
   disabled = false,
   autoFocus = true,
+  reset,
   className,
   inputClassName,
   error,
@@ -30,6 +32,13 @@ export function VerificationCodeInput({
   const [code, setCode] = useState<string[]>(Array(length).fill(""))
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
+
+  useEffect(() => {
+    if (reset.reset && reset.code === "") {
+      setCode(Array(length).fill(""))
+      inputRefs.current[0]?.focus()
+    }
+  }, [reset])
   // Focus on the first input when component mounts
   useEffect(() => {
     if (autoFocus && inputRefs.current[0]) {
@@ -37,7 +46,6 @@ export function VerificationCodeInput({
     }
   }, [autoFocus])
 
-  console.log(error)
 
   // When code is complete, call the onComplete callback
   useEffect(() => {
@@ -122,7 +130,7 @@ export function VerificationCodeInput({
             disabled={disabled}
             className={cn(
               "w-10 h-12 text-center text-lg font-medium",
-              error && "border-destructive focus-visible:ring-destructive",
+              error && "dark:border-red-500  border-destructive focus-visible:ring-destructive",
               inputClassName,
             )}
             aria-label={`Digit ${index + 1} of verification code`}
@@ -130,7 +138,7 @@ export function VerificationCodeInput({
         ))}
       </div>
 
-      {error && <p className="text-sm text-destructive mt-1">{error}</p>}
+      {error && <p className="text-sm text-destructive mt-1 dark:text-red-500">{error}</p>}
     </div>
   )
 }

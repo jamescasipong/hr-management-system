@@ -30,6 +30,7 @@ export default function VerificationCodeWithTimer({
   const [error, setError] = useState<string | undefined>();
   const [isVerifying, setIsVerifying] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [resetStatus, setResetStatus] = useState(false);
 
   useEffect(() => {
     if (error?.includes("Invalid verification code") || error?.includes("An error occurred")) {
@@ -65,7 +66,7 @@ export default function VerificationCodeWithTimer({
         // that falls out of the range of 2xx
         if (error.response.status === 401) {
           console.log("Invalid verification code. Please try again.");
-          setError("Invalid verification code. Please try again.");
+          setError(error.response.data.message);
         } else {
           console.log("An error occurred. Please try again later.");
           setError("An error occurred. Please try again later.");
@@ -101,6 +102,7 @@ export default function VerificationCodeWithTimer({
   };
 
   const handleReset = () => {
+    setResetStatus(true);
     setCode("");
     setError(undefined);
     setIsVerified(false);
@@ -143,6 +145,7 @@ export default function VerificationCodeWithTimer({
                 onComplete={handleComplete}
                 disabled={isVerifying}
                 error={error}
+                reset={{reset: resetStatus, code: code}}
               />
 
               <div className="flex justify-center">

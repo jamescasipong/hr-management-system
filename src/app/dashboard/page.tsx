@@ -205,7 +205,7 @@ export default function Dashboard() {
 
   return (
     <div
-      className={`flex h-full  bg-gray-100  dark:bg-gray-900 transition-colors duration-200`}
+      className={`flex h-full transition-colors duration-200`}
     >
       {/* Main Content */}
       <main
@@ -221,17 +221,17 @@ export default function Dashboard() {
         >
           {/* Clock In/Out Card */}
           <div className="grid lg:grid-cols-2 md:gap-4 md:grid-cols-1 gap-0 grid-cols-1">
-            <Card className="lg:mb-6 md:mb-3 mb-6   dark:bg-gray-800">
+            <Card className="lg:mb-6 md:mb-3 mb-6 ">
               <CardHeader>
-                <div className="flex justify-between  border-b border-blue-200 py-1 ">
+                <div className="flex justify-between  border-b border-green-200 py-1 ">
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     My Schedule
                   </CardTitle>
-                  <CalendarCheck2 className="text-blue-500"></CalendarCheck2>
+                  <CalendarCheck2 className=""></CalendarCheck2>
                 </div>
                 <CardDescription>
                   <span className="font-medium t">Working </span>{" "}
-                  <span className="text-blue-400 font-bold">
+                  <span className="text-green-400 font-bold">
                     8:00 AM to 5:00 PM
                   </span>
                 </CardDescription>
@@ -259,13 +259,13 @@ export default function Dashboard() {
                     >
                       <DialogTrigger asChild>
                         <Button
-                          className="dark:bg-blue-600 dark:hover:bg-blue-700 w-full dark:text-white"
+                          className="w-full "
                           variant={isClockedIn ? "destructive" : "default"}
                         >
                           {isClockedIn ? "Clock Out" : "Clock In"}
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="dark:bg-gray-800 rounded-lg">
+                      <DialogContent className="rounded-lg">
                         <DialogHeader>
                           <DialogTitle>
                             {isClockedIn ? "Clock Out" : "Clock In"}
@@ -279,14 +279,14 @@ export default function Dashboard() {
                         </DialogHeader>
                         <div className="flex justify-end space-x-2">
                           <Button
-                            className="border-gray-300 dark:border-gray-600 border shadow-sm dark:bg-gray-700 dark:hover:bg-gray-600"
+                            className=""
                             variant="outline"
                             onClick={() => setIsClockModalOpen(false)}
                           >
                             Cancel
                           </Button>
                           <Button
-                            className="dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white"
+                            className=""
                             onClick={handleClockInOut}
                           >
                             {isClockedIn ? "Clock Out" : "Clock In"}
@@ -297,7 +297,7 @@ export default function Dashboard() {
                     <DropdownMenu>
                       <DropdownMenuTrigger
                         asChild
-                        className="dark:bg-gray-900 dark:hover:bg-gray-700"
+                        className=""
                       >
                         <Button
                           className="border-gray-300 dark:border-gray-700 border-[1px]  dark:hover:bg-slate-800 shadow-sm"
@@ -309,6 +309,7 @@ export default function Dashboard() {
                       <DropdownMenuContent>
                         <DropdownMenuItem
                           onSelect={() => setIsSummaryModalOpen(true)}
+
                         >
                           Weekly Summary
                         </DropdownMenuItem>
@@ -324,7 +325,7 @@ export default function Dashboard() {
               open={isSummaryModalOpen}
               onOpenChange={setIsSummaryModalOpen}
             >
-              <DialogContent className="sm:max-w-[625px] dark:bg-slate-800 rounded-lg">
+              <DialogContent className="sm:max-w-[625px] rounded-lg">
                 <DialogHeader>
                   <DialogTitle>Weekly Time Summary</DialogTitle>
                   <DialogDescription>
@@ -354,13 +355,13 @@ export default function Dashboard() {
               </DialogContent>
             </Dialog>
             {/* Co-workers Attendance */}
-            <Card className="mb-6 dark:bg-gray-800 ">
+            <Card className="mb-6 ">
               <CardHeader>
-                <div className="flex justify-between border-b border-blue-200 py-1">
+                <div className="flex justify-between border-b border-green-200 py-1">
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     Co-workers Attendance
                   </CardTitle>
-                  <Group className="text-blue-500"></Group>
+                  <Group className=""></Group>
                 </div>
 
                 <CardDescription>Today's attendance status</CardDescription>
@@ -378,7 +379,7 @@ export default function Dashboard() {
                             "/profile/" + coworker.username;
                         }}
                         key={index}
-                        className="flex items-center space-x-2 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg p-2 cursor-pointer transition-all duration-100 ease-in-out"
+                        className="flex items-center space-x-2 rounded-lg p-2 cursor-pointer transition-all duration-100 ease-in-out"
                       >
                         <div className="relative z-0">
                           <div
@@ -413,14 +414,14 @@ export default function Dashboard() {
           </div>
 
           <div className="mb-6 grid lg:grid-cols-3 grid-cols-1 gap-4">
-            <Card className="dark:bg-gray-800 ">
+            <Card className="">
               <CardHeader>
-                <div className="flex justify-between w-full border-b border-blue-200 py-1">
+                <div className="flex justify-between w-full border-b border-green-200 py-1">
                   {" "}
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     My Time Off
                   </CardTitle>
-                  <Timer className="text-blue-500"></Timer>
+                  <Timer className=""></Timer>
                 </div>
 
                 <CardDescription className="text-[15px] font-medium"></CardDescription>
@@ -439,7 +440,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-2">
                         <div className="flex items-baseline space-x-2">
-                          <h1 className="text-4xl font-semibold text-gray-800 dark:text-blue-600">
+                          <h1 className="text-4xl font-semibold text-gray-800 dark:text-green-600">
                             {value.hours}
                           </h1>
                           <span className="text-xl text-gray-500 dark:text-gray-400">
@@ -461,12 +462,12 @@ export default function Dashboard() {
                           <div
                             className={`h-10  rounded-md ${
                               (value.hours / 120) * 100 < 50
-                                ? "bg-blue-300 dark:bg-blue-300"
+                                ? "bg-green-300 dark:bg-green-300"
                                 : (value.hours / 120) * 100 < 75
-                                ? "bg-blue-400 dark:bg-blue-400"
+                                ? "bg-green-400 dark:bg-green-400"
                                 : (value.hours / 120) * 100 == 100
-                                ? "bg-blue-600"
-                                : "bg-blue-500 dark:bg-blue-500"
+                                ? "bg-green-600"
+                                : "bg-green-500 dark:bg-green-500"
                             }`}
                             style={{ width: `${(value.hours / 120) * 100}%` }}
                           ></div>
@@ -477,13 +478,13 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-            <Card className=" dark:bg-gray-800  md:col-span-2 col-span-1">
+            <Card className="md:col-span-2 col-span-1">
               <CardHeader>
-                <div className="flex justify-between border-b border-blue-200 py-1">
+                <div className="flex justify-between border-b border-green-200 py-1">
                   <CardTitle className="text-[20px] md:text-[24px] xl:text-[24px]">
                     Time Management
                   </CardTitle>
-                  <CalendarDays className="text-blue-500"></CalendarDays>
+                  <CalendarDays className=""></CalendarDays>
                 </div>
                 <CardDescription>Tasks assigned to you</CardDescription>
               </CardHeader>

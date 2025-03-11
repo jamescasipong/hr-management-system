@@ -6,7 +6,6 @@ const axios = require('axios');
 const instanceApi = axios.create({
     baseURL: 'https://localhost:7147/api/v1/',
     // timeout: 1000,
-    withCredentials: true,
     headers: {
         'Authorization': 'X-API-KEY key'
     },
@@ -34,7 +33,7 @@ export const login = async (email: string, password: string) => {
 
         if (response.status === 200) {
             const { data } = response;
-            console.log(data);
+            // console.log(data);
             return data;
         }
 

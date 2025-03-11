@@ -17,7 +17,7 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import instanceApi from "@/api/auth";
 import { set } from "date-fns";
@@ -88,19 +88,20 @@ export default function EmployeeProfile({
   const [education, setEducation] = useState<EducationBackgroundType[]>();
   const [aboutMe, setAboutMe] = useState<AboutEmployeeType | null>(null);
   const [department, setDepartment] = useState<DepartmentType | null>(null);
-  const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [countApiRequest, setCountApiRequest] = useState(0);
   const router = useRouter();
+  const [loading, startTransitioning] = useTransition();
 
   useEffect(() => {
     // Fetch employee data from API
     const fetchEmployee = async () => {
-      if (!params.user) return;
+
+      startTransitioning(async () => {
+        if (!params.user) return;
 
       if (params.user === "me") {
         try {
-          setLoading(true);
           const response = await instanceApi.get("employee/me");
           setCountApiRequest((countApiRequest) => countApiRequest + 1);
 
@@ -115,7 +116,6 @@ export default function EmployeeProfile({
             setEducation(aboutMe.educationBackground);
           }
 
-          setLoading(false);
         } catch (error: any) {
           console.error(error.response.data);
         }
@@ -136,18 +136,29 @@ export default function EmployeeProfile({
           console.error(error);
         }
       }
+      })
+      
     };
 
     fetchEmployee();
   }, [params.user, router]);
 
-  console.log(countApiRequest);
 
   const handleEdit = useCallback(() => {
     setEdit((prev) => !prev);
+    if (edit){
+      setEmployee((prev) => {
+        if (prev) {
+          return {
+            ...prev,
+            firstName: "New Name",
+          };
+        }
+        return prev;
+      });
+    }
   }, []);
 
-  console.log(employee);
   return loading ? (
     <main
       className={`flex-1 overflow-y-auto duration-200 ${
@@ -165,7 +176,7 @@ export default function EmployeeProfile({
       </div>
     </main>
   ) : (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex min-h-screen bg-background">
       {/* Main Content */}
       <main
         className={`flex-1 overflow-y-auto duration-200 ${
@@ -183,7 +194,7 @@ export default function EmployeeProfile({
 
           {/* Profile Overview */}
           {employee && (
-            <Card className="sm:mb-8 mb-6  dark:bg-gray-800">
+            <Card className="sm:mb-8 mb-6">
               <CardContent className="flex flex-col md:flex-row items-center p-6 space-y-4 md:space-y-0 md:space-x-6">
                 <Avatar className="w-32 h-32 rounded-full">
                   <AvatarImage
@@ -196,7 +207,17 @@ export default function EmployeeProfile({
                   {edit ? (
                     <Input
                       type="text"
+                      className="text-secondary"
                       placeholder="First Name"
+                      onChange={(e) => setEmployee((prev) => {
+                        if (prev) {
+                          return {
+                            ...prev,
+                            firstName: e.target.value,
+                          };
+                        }
+                        return prev;
+                      })}
                       defaultValue={employee.firstName}
                     />
                   ) : (
@@ -213,7 +234,7 @@ export default function EmployeeProfile({
                 {edit ? (
                   <Button
                     onClick={handleEdit}
-                    className="ml-auto bg-green-500 hover:bg-green-600"
+                    className="ml-auto"
                   >
                     <Edit className="mr-2 h-4 w-4 " /> Save Changes
                   </Button>
@@ -229,7 +250,7 @@ export default function EmployeeProfile({
           <div className="grid lg:grid-cols-2 sm:gap-6 gap-2 grid-cols-1 ">
             {/* Personal Information */}
             {employee && (
-              <Card className="mb-1 dark:bg-gray-800">
+              <Card className="mb-1 ">
                 <CardHeader>
                   <CardTitle>Personal Information</CardTitle>
                 </CardHeader>
@@ -248,7 +269,7 @@ export default function EmployeeProfile({
                   </div>
                   <div className="flex items-center space-x-2">
                     <Heart className="h-4 w-4 text-muted-foreground" />
-                    <span>Emergency Contact: "N/A"</span>
+                    <span>Emergency Contact: N/A</span>
                   </div>
                 </CardContent>
               </Card>
@@ -256,7 +277,7 @@ export default function EmployeeProfile({
 
             {/* Contact Information */}
             {employee && (
-              <Card className="mb-1 dark:bg-gray-800">
+              <Card className="mb-1">
                 <CardHeader>
                   <CardTitle>Contact Information</CardTitle>
                 </CardHeader>
@@ -267,7 +288,7 @@ export default function EmployeeProfile({
                   </div>
                   <div className="flex items-center space-x-2">
                     <Phone className="h-4 w-4 text-muted-foreground" />
-                    <span>Phone: 'N/A'</span>
+                    <span>Phone: N/A</span>
                   </div>
                 </CardContent>
               </Card>
@@ -275,7 +296,7 @@ export default function EmployeeProfile({
 
             {/* Employment Details */}
             {employee && (
-              <Card className="mb-1 dark:bg-gray-800">
+              <Card className="mb-1">
                 <CardHeader>
                   <CardTitle>Employment Details</CardTitle>
                 </CardHeader>
@@ -306,7 +327,7 @@ export default function EmployeeProfile({
 
             {/* Education */}
             {employee && (
-              <Card className="mb-1 dark:bg-gray-800">
+              <Card className="mb-1">
                 <CardHeader>
                   <CardTitle>Education</CardTitle>
                 </CardHeader>
@@ -328,7 +349,7 @@ export default function EmployeeProfile({
 
             {/* Skills and Achievements */}
             {employee && (
-              <Card className="dark:bg-gray-800">
+              <Card className="">
                 <CardHeader>
                   <CardTitle>Skills and Achievements</CardTitle>
                 </CardHeader>

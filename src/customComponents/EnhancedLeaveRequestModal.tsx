@@ -63,15 +63,54 @@ export default function EnhancedLeaveRequestModal({
     // You would typically send this data to your backend here
   };
 
+  const onSubmit = (e:any) => {
+    e.preventDefault();
+    if (requestType === "vacation" || requestType === "sick") {
+      if (!startDate || !endDate) {
+        alert("Please select a start and end date.");
+        return;
+      }
+
+      alert("Vacation submitted successfully!");
+    } else if (requestType === "ot") {
+      if (!startTime || !endTime) {
+        alert("Please select a start and end time.");
+        return;
+      }
+
+      alert("OT submitted successfully!");
+    }
+    else if (requestType === "coa") {
+      if (!startTime || !endTime) {
+        alert("Please select a start and end time.");
+        return;
+      }
+
+      
+      console.log({
+        requestType,
+        startDate: startDate?.toISOString(),
+        endDate,
+        startTime,
+        endTime,
+        reason,
+      })
+    }
+    if (!reason) {
+      alert("Please enter a reason for your request.");
+      return;
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogTrigger asChild>
-        <Button className="font-medium dark:bg-blue-600 dark:hover:bg-blue-700 text-white sm:text-[14px] text-xs">
+        <Button className="font-medium  sm:text-[14px] text-xs">
           Request
           <span className="sm:flex hidden "> Leave/OT</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] dark:bg-gray-800 rounded-lg sm:w-full max-h-[90%] overflow-auto">
+      <DialogContent className="sm:max-w-[700px]  sm:w-full max-h-[90%] overflow-auto">
         <DialogHeader>
           <DialogTitle className="sm:text-2xl text-md ">
             Request Leave or OT
@@ -81,8 +120,8 @@ export default function EnhancedLeaveRequestModal({
             attendance.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6 ">
-          <Card className="dark:bg-gray-800 border dark:border-gray-600 ">
+        <form onSubmit={onSubmit} className="space-y-6 ">
+          <Card className="">
             <CardContent className="pt-6 gap-0">
               <div className="grid gap-6">
                 <div className="sm:grid-cols-4 grid grid-cols-1  items-center gap-4">
@@ -93,30 +132,30 @@ export default function EnhancedLeaveRequestModal({
                     Request Type
                   </Label>
                   <Select onValueChange={setRequestType} required>
-                    <SelectTrigger className="dark:bg-gray-800  dark:border-gray-600  border-gray-300 col-span-3 h-12 sm:text-lg text-sm">
+                    <SelectTrigger className=" col-span-3 h-12 sm:text-lg text-sm">
                       <SelectValue
                         className="sm:text-lg text-sm "
                         placeholder="Select request type"
                       />
                     </SelectTrigger>
-                    <SelectContent className="dark:bg-gray-800 dark:border-gray-600 border-gray-300 sm:text-lg text-sm">
+                    <SelectContent className=" sm:text-lg text-sm">
                       <SelectItem
-                        className="dark:hover:bg-gray-700 "
+                        className=""
                         value="vacation"
                       >
                         Vacation Leave
                       </SelectItem>
                       <SelectItem
-                        className="dark:hover:bg-gray-700"
+                        className=""
                         value="sick"
                       >
                         Sick Leave
                       </SelectItem>
-                      <SelectItem className="dark:hover:bg-gray-700" value="ot">
+                      <SelectItem className="" value="ot">
                         Overtime (OT)
                       </SelectItem>
                       <SelectItem
-                        className="dark:hover:bg-gray-700"
+                        className=""
                         value="coa"
                       >
                         Certificate of Attendance
@@ -136,7 +175,7 @@ export default function EnhancedLeaveRequestModal({
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "col-span-3 dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-900 h-12 justify-start text-left sm:text-lg text-sm font-normal",
+                          "col-span-3  h-12 justify-start text-left sm:text-lg text-sm font-normal",
                           !startDate && "text-muted-foreground"
                         )}
                       >
@@ -170,7 +209,7 @@ export default function EnhancedLeaveRequestModal({
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "col-span-3 h-12 justify-start dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-700 text-left sm:text-lg text-sm font-normal",
+                            "col-span-3 h-12 justify-start  text-left sm:text-lg text-sm font-normal",
                             !endDate && "text-muted-foreground"
                           )}
                         >
@@ -209,7 +248,7 @@ export default function EnhancedLeaveRequestModal({
                           type="time"
                           value={startTime}
                           onChange={(e) => setStartTime(e.target.value)}
-                          className="h-12 sm:text-lg text-sm dark:bg-gray-800 dark:border-gray-600 dark:text-white  border-gray-300 dark:hover:bg-gray-700"
+                          className="h-12 sm:text-lg text-sm "
                           required
                         />
                       </div>
@@ -228,13 +267,51 @@ export default function EnhancedLeaveRequestModal({
                           type="time"
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
-                          className="h-12 sm:text-lg text-sm dark:bg-gray-800 dark:border-gray-600 border-gray-300 dark:hover:bg-gray-700"
+                          className="h-12 sm:text-lg text-sm "
                           required
                         />
                       </div>
                     </div>
                   </>
                 )}
+                {requestType === "coa" &&  <><div className="grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
+                      <Label
+                        htmlFor="start-time"
+                        className="sm:text-right text-start sm:text-lg text-sm"
+                      >
+                        Start Time
+                      </Label>
+                      <div className="col-span-3 flex items-center">
+                        <Clock className="mr-2 h-5 w-5 " />
+                        <Input
+                          id="start-time"
+                          type="time"
+                          disabled
+                          value={startTime}
+                          className="h-12 sm:text-lg text-sm "
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
+                      <Label
+                        htmlFor="end-time"
+                        className="sm:text-right text-start sm:text-lg text-sm"
+                      >
+                        End Time
+                      </Label>
+                      <div className="col-span-3 flex items-center">
+                        <Clock className="mr-2 h-5 w-5" />
+                        <Input
+                          id="end-time"
+                          type="time"
+                          value={endTime}
+                          onChange={(e) => setEndTime(e.target.value)}
+                          className="h-12 sm:text-lg text-sm "
+                          required
+                        />
+                      </div>
+                    </div></>}
                 <div className="grid sm:grid-cols-4 grid-cols-1  items-start gap-4">
                   <Label
                     htmlFor="reason"
@@ -246,7 +323,7 @@ export default function EnhancedLeaveRequestModal({
                     id="reason"
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
-                    className="col-span-3 h-32 sm:text-lg text-sm dark:bg-gray-800 dark:border-gray-600 border-gray-300"
+                    className="col-span-3 h-32 sm:text-lg text-sm"
                     placeholder="Enter reason for request"
                     required
                   />
@@ -258,13 +335,13 @@ export default function EnhancedLeaveRequestModal({
             <div className="space-x-2 ">
               <Badge
                 variant="outline"
-                className="dark:border-gray-600 border-gray-300 py-1 sm:text-[15px] text-[9px]"
+                className="py-1 sm:text-[15px] text-[9px]"
               >
                 Remaining Vacation Hours: {vacation.toString()}
               </Badge>
               <Badge
                 variant="outline"
-                className="dark:border-gray-600 border-gray-300 py-1 sm:text-[15px] text-[9px]"
+                className="py-1 sm:text-[15px] text-[9px]"
               >
                 Remaining Sick Hours: {sick.toString()}
               </Badge>
@@ -272,7 +349,7 @@ export default function EnhancedLeaveRequestModal({
             <DialogFooter>
               <Button
                 type="submit"
-                className="dark:bg-gray-500 dark:hover:bg-gray-600 dark:text-white"
+                className=""
               >
                 Submit<span className="sm:block hidden"> Request</span>
               </Button>

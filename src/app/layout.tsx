@@ -2,7 +2,7 @@ import { SideThemeProvider } from "@/contextComponent/SideDark";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
-import Navbar from "../customComponents/navbar";
+import {Navbar} from "../customComponents/navbar";
 import { headers } from "next/headers";
 import "./globals.css";
 import { AuthProvider } from "@/context/authContext";
@@ -44,6 +44,7 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
+          themes={["light", "dark", "system"]}
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
@@ -51,8 +52,9 @@ export default function RootLayout({
           <SideThemeProvider>
 
             <AuthProvider>
-              <Navbar isDisabled={isDisabled} isAdmin={isAdmin === 'Admin'}/>
+              <Navbar isDisabled={isDisabled} isAdmin={isAdmin === 'Admin'}>
               {children}
+              </Navbar>
             </AuthProvider>
           </SideThemeProvider>
         </ThemeProvider>
