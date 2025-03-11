@@ -33,6 +33,7 @@ export default function RootLayout({
 
   const nav = headersList.get("disable-nav");
   const isAdmin = headersList.get("is-admin");
+  const authenticated = headersList.get("authenticated");
 
   const isDisabled = nav === "true";
 
@@ -52,9 +53,7 @@ export default function RootLayout({
           <SideThemeProvider>
 
             <AuthProvider>
-              <Navbar isDisabled={isDisabled} isAdmin={isAdmin === 'Admin'}>
-              {children}
-              </Navbar>
+              {authenticated ? <Navbar isAdmin={isAdmin === "Admin"} isDisabled={isDisabled}>{children}</Navbar> : children}
             </AuthProvider>
           </SideThemeProvider>
         </ThemeProvider>

@@ -34,7 +34,8 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
+import { AuthContext } from "@/context/authContext"
 
 type UserNotification = {
   notificationId: number
@@ -65,6 +66,7 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
   )
   const [notifications, setNotifications] = useState<UserNotification[]>([])
   const [isAuthenticated, setIsAuthenticated] = useState(true) // Default to true for demo
+  const auth = useContext(AuthContext)
 
   const fetchNotifications = async () => {
     try {
@@ -122,7 +124,7 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
   }
 
   const handleLogout = async () => {
-    // Mock logout functionality
+    auth?.logout();
     setIsAuthenticated(false)
     setIsProfileModalOpen(false)
     router.push("/")
@@ -173,7 +175,7 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
               <SidebarMenu>
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton asChild isActive={pathname === item.link}>
+                    <SidebarMenuButton asChild isActive={pathname === item.link} className="hover:bg-primary/10">
                       <a href={item.link}>
                         <item.icon className="size-5" />
                         <span>{item.label}</span>

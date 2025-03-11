@@ -5,15 +5,11 @@ const axios = require('axios');
 
 const instanceApi = axios.create({
     baseURL: 'https://localhost:7147/api/v1/',
-    // timeout: 1000,
-    headers: {
-        'Authorization': 'X-API-KEY key'
-    },
     responseType: 'json',
+    withCredentials: true
 });
 
 instanceApi.interceptors.request.use((config: any) => {
-    config.headers.Authorization = `X-API-KEY key`;
     config.withCredentials = true;
 
     return config;
@@ -53,7 +49,9 @@ export const login = async (email: string, password: string) => {
 export const logout = async () => {
 
     try {
-        const response = await instanceApi.post('user/account/logout');
+        const response = await instanceApi.post('user/account/logout', {
+            withCredentials: true
+        });
 
         
     }

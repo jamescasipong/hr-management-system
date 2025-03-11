@@ -44,6 +44,7 @@ export async function middleware(request: NextRequest) {
     const isAdmin = decodedToken.Role === 'Admin';
     requestHeaders.set('is-admin', isAdmin ? 'Admin' : 'Employee');
     requestHeaders.set('disable-nav', 'false');
+    requestHeaders.set('authenticated', 'true');
 
     if (isAdmin && roleBasedRedirects[pathname]) {
       return NextResponse.redirect(new URL(roleBasedRedirects[pathname], request.url));
