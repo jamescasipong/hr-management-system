@@ -39,6 +39,7 @@ export async function middleware(request: NextRequest) {
 
 
   if (token) {
+    
     const decodedToken = jwtDecode<JWTType>(token.value);
 
     const isAdmin = decodedToken.Role === 'Admin';

@@ -55,6 +55,9 @@ export default function VerificationCodeWithTimer({
       });
   
       if (response.status === 200) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + 15 * 60 * 1000); // 15 minutes from now
+        document.cookie = `token=${response.data.data}; path=/; expires=${expires.toUTCString()}; secure; HttpOnly`;
         router.push("/dashboard");
         router.refresh();
         return response.data.success;

@@ -330,7 +330,7 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
+              {/* <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
                 <DialogTrigger asChild>
                   <div className="relative cursor-pointer">
                     <div className="w-2 h-2 rounded-full bg-green-600 absolute bottom-0 right-0 z-10"></div>
@@ -340,7 +340,7 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
                     </Avatar>
                   </div>
                 </DialogTrigger>
-              </Dialog>
+              </Dialog> */}
             </div>
           </div>
         </header>
