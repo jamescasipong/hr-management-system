@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Calendar, Clock, CreditCard, Users } from "lucide-react";
 import { useCallback, useContext, useEffect, useState } from "react";
-import "../app/globals.css";
 import { AuthContext } from "@/context/authContext";
 import { useRouter, redirect } from "next/navigation";
 import VerificationCodeWithTimer from "@/customComponents/verification-code/verification-code-with-timer";

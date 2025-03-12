@@ -274,7 +274,7 @@ export default function Dashboard() {
                               ? "Are you sure you want to clock out?"
                               : "Are you ready to start your workday?"}
                           </DialogDescription>
-                          <ComboBoxResponsive></ComboBoxResponsive>
+                          {/* <ComboBoxResponsive></ComboBoxResponsive> */}
                         </DialogHeader>
                         <div className="flex justify-end space-x-2">
                           <Button

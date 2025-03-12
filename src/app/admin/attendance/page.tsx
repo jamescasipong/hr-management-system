@@ -182,7 +182,7 @@ export default function Attendance() {
       days.push(
         <div
           key={`empty-${i}`}
-          className="p-2 border rounded-md bg-green-700 dark:bg-green-800"
+          className="p-2 border rounded-md bg-green-900 dark:bg-green-900"
         ></div>
       );
     }

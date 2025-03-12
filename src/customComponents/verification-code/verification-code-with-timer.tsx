@@ -55,7 +55,11 @@ export default function VerificationCodeWithTimer({
       });
   
       if (response.status === 200) {
-
+        // const token = response.data.data;
+        // document.cookie = `token=${token}; path=/ expires=${new Date(Date.now() + 86400).toUTCString()}`;
+        // instanceApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const token = await response.data.data;
+        localStorage.setItem("token", token);
         router.push("/dashboard");
         router.refresh();
         return response.data.success;

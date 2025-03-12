@@ -176,17 +176,13 @@ export default function EmployeeProfile({
       </div>
     </main>
   ) : (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background w-full justify-center">
       {/* Main Content */}
       <main
-        className={`flex-1 overflow-y-auto duration-200 ${
-          isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
-        }`}
+        className={`flex-1 overflow-y-auto duration-200`}
       >
         <div
-          className={`mx-auto py-6 sm:px-6  lg:px-8 p-2 ${
-            isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
-          }`}
+          className={`mx-auto py-6 sm:px-6  lg:px-8 p-2`}
         >
           <h1 className="text-3xl font-bold sm:mb-8 mb-4 sm:text-start text-center">
             Employee Profile

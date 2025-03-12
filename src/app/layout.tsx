@@ -6,6 +6,7 @@ import {Navbar} from "../customComponents/navbar";
 import { headers } from "next/headers";
 import "./globals.css";
 import { AuthProvider } from "@/context/authContext";
+import { NotificationProvider } from "@/context/NotificationContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -53,7 +54,9 @@ export default function RootLayout({
           <SideThemeProvider>
 
             <AuthProvider>
+              <NotificationProvider>
               {authenticated ? <Navbar isAdmin={isAdmin === "Admin"} isDisabled={isDisabled}>{children}</Navbar> : children}
+              </NotificationProvider>
             </AuthProvider>
           </SideThemeProvider>
         </ThemeProvider>

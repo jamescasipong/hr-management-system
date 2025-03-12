@@ -39,9 +39,8 @@ export default function EmployeeProfile({
       {/* Main Content */}
 
       <main
-        className={`flex-1 overflow-y-auto duration-200 ${
-          isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
-        }`}
+        className={`flex-1 overflow-y-auto duration-200 
+        `}
       >
         <div
           className={`mx-auto py-6 sm:px-6  lg:px-8 p-2 ${

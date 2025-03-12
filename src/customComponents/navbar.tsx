@@ -1,11 +1,18 @@
-"use client"
+"use client";
 
-import type * as React from "react"
-import { useRouter, usePathname } from "next/navigation"
-import { Bell, Calendar, DollarSign, Home, Settings, Users } from "lucide-react"
+import type * as React from "react";
+import { useRouter, usePathname } from "next/navigation";
+import {
+  Bell,
+  Calendar,
+  DollarSign,
+  Home,
+  Settings,
+  Users,
+} from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,13 +20,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ModeToggle } from "@/components/ui/modeToggle"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ModeToggle } from "@/components/ui/modeToggle";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useNotifications } from "@/context/NotificationContext";
 import {
   Sidebar,
   SidebarContent,
@@ -33,112 +46,98 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { useState, useEffect, useContext } from "react"
-import { AuthContext } from "@/context/authContext"
+} from "@/components/ui/sidebar";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "@/context/authContext";
+import { icons } from "lucide-react";
+import { House } from "lucide-react";
+import { Building } from "lucide-react";
 
 type UserNotification = {
-  notificationId: number
-  employeeId: string
-  isRead: boolean
-  status: string
+  notificationId: number;
+  employeeId: string;
+  isRead: boolean;
+  status: string;
   notification: {
-    title: string
-    message: string
-    createdAt: string
-    updatedAt: string
-  }
-}
+    title: string;
+    message: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+};
 
 type AppSidebarProps = {
-  isAdmin: boolean
-  isDisabled?: boolean
-  children: React.ReactNode
-}
+  isAdmin: boolean;
+  isDisabled?: boolean;
+  children: React.ReactNode;
+};
 
-export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProps) {
-  const pathname = usePathname()
-  const router = useRouter()
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
-  const [profilePicUrl, setProfilePicUrl] = useState("https://avatars.githubusercontent.com/u/144509235?v=4")
+export function Navbar({
+  isAdmin,
+  isDisabled = false,
+  children,
+}: AppSidebarProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [profilePicUrl, setProfilePicUrl] = useState(
+    "https://avatars.githubusercontent.com/u/144509235?v=4"
+  );
   const [logo] = useState(
-    "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogo.png",
-  )
-  const [notifications, setNotifications] = useState<UserNotification[]>([])
-  const [isAuthenticated, setIsAuthenticated] = useState(true) // Default to true for demo
-  const auth = useContext(AuthContext)
+    "https://raw.githubusercontent.com/jamescasipong/hr-management-system/refs/heads/main/public/hrlogo.png"
+  );
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for demo
+  const [language, setLanguage] = useState("English");
+  const auth = useContext(AuthContext);
+  const { notifications, setNotifications } = useNotifications() ?? { notifications: [], setNotifications: () => {} };
 
-  const fetchNotifications = async () => {
-    try {
-      // Mock notifications data since we don't have the API
-      setNotifications([
-        {
-          notificationId: 1,
-          employeeId: "emp123",
-          isRead: false,
-          status: "unread",
-          notification: {
-            title: "New Payslip Available",
-            message: "Your payslip for March 2024 is now available",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-        },
-        {
-          notificationId: 2,
-          employeeId: "emp123",
-          isRead: true,
-          status: "read",
-          notification: {
-            title: "Attendance Reminder",
-            message: "Don't forget to clock in today",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-        },
-      ])
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchNotifications()
-    }
-  }, [isAuthenticated])
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
+    const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setProfilePicUrl(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+        setProfilePicUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleNotificationClick = (id: number) => {
-    setNotifications(notifications.map((notif) => (notif.notificationId === id ? { ...notif, isRead: true } : notif)))
-  }
+    setNotifications(
+      notifications.map((notif) =>
+        notif.notificationId === id ? { ...notif, isRead: true } : notif
+      )
+    );
+  };
 
   const handleLogout = async () => {
     auth?.logout();
-    setIsAuthenticated(false)
-    setIsProfileModalOpen(false)
-    router.push("/")
-  }
+    setIsAuthenticated(false);
+    setIsProfileModalOpen(false);
+    router.push("/");
+  };
 
   const handleViewProfile = async () => {
-    setIsProfileModalOpen(false)
-    router.push("/profile/me")
-  }
+    setIsProfileModalOpen(false);
+    router.push("/profile/me");
+  };
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   if (isDisabled || pathname === "/") {
-    return null
+    return null;
   }
 
   const adminNavItems = [
@@ -147,16 +146,17 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
     { icon: Calendar, label: "Attendance", link: "/attendance" },
     { icon: DollarSign, label: "Payroll", link: "/payroll" },
     { icon: Settings, label: "Settings", link: "/usersettings" },
-  ]
+    { icon: Building, label: "Department", link: "/admin/department" },
+  ];
 
   const userNavItems = [
     { icon: Home, label: "Dashboard", link: "/dashboard" },
     { icon: Calendar, label: "Attendance", link: "/attendance" },
     { icon: DollarSign, label: "Payroll", link: "/payroll" },
     { icon: Settings, label: "Settings", link: "/usersettings" },
-  ]
+  ];
 
-  const navItems = isAdmin ? adminNavItems : userNavItems
+  const navItems = isAdmin ? adminNavItems : userNavItems;
 
   return (
     <SidebarProvider className="">
@@ -164,7 +164,11 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
         <SidebarHeader className="bg-card">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-2">
-              <img src={logo || "/placeholder.svg"} alt="HR Logo" className="h-10 w-10" />
+              <img
+                src={logo || "/placeholder.svg"}
+                alt="HR Logo"
+                className="h-10 w-10"
+              />
               <h1 className="text-2xl font-bold text-primary">HRConnect</h1>
             </div>
           </div>
@@ -175,7 +179,11 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
               <SidebarMenu>
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton asChild isActive={pathname === item.link} className="hover:bg-primary/10">
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.link}
+                      className="hover:bg-primary/10"
+                    >
                       <a href={item.link}>
                         <item.icon className="size-5" />
                         <span>{item.label}</span>
@@ -189,9 +197,15 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
         </SidebarContent>
         <SidebarFooter className="bg-card">
           <div className="p-4">
-            <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
+            <Dialog
+              open={isProfileModalOpen}
+              onOpenChange={setIsProfileModalOpen}
+            >
               <DialogTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-start gap-2">
+                <Button
+                  variant="outline"
+                  className="w-full flex items-center justify-start gap-2"
+                >
                   <div className="relative">
                     <div className="w-2 h-2 rounded-full bg-green-600 absolute bottom-0 right-0 z-10"></div>
                     <Avatar className="h-6 w-6">
@@ -205,7 +219,9 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
               <DialogContent className="sm:max-w-[425px] rounded-lg">
                 <DialogHeader>
                   <DialogTitle>Profile</DialogTitle>
-                  <DialogDescription>View and update your profile information</DialogDescription>
+                  <DialogDescription>
+                    View and update your profile information
+                  </DialogDescription>
                 </DialogHeader>
                 <Tabs defaultValue="profile" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">
@@ -239,12 +255,15 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" defaultValue="jamesxcasipong@gmail.com" />
+                        <Input
+                          id="email"
+                          defaultValue="jamesxcasipong@gmail.com"
+                        />
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         <Button
                           onClick={() => {
-                            setIsProfileModalOpen(false)
+                            setIsProfileModalOpen(false);
                           }}
                           className="w-full"
                         >
@@ -260,25 +279,32 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
                     </div>
                   </TabsContent>
                   <TabsContent value="settings">
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="language">Language</Label>
-                        <select id="language" className="w-full p-2 border rounded bg-input">
-                          <option>English</option>
-                          <option>Spanish</option>
-                          <option>French</option>
-                        </select>
-                      </div>
+                    <div className="space-y-4 mt-5">
+                      <Select className="" value={language} onValueChange={(value:string) => setLanguage(value)} >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a Language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Fruits</SelectLabel>
+                            {["English", "Filipino", "Japanese"].map((lang) => (
+                              <SelectItem value={lang} key={lang}>{lang}</SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                       <div className="space-y-2">
                         <Label htmlFor="notifications">Notifications</Label>
                         <div className="flex items-center space-x-2">
                           <Switch id="notifications" />
-                          <Label htmlFor="notifications">Receive email notifications</Label>
+                          <Label htmlFor="notifications">
+                            Receive email notifications
+                          </Label>
                         </div>
                       </div>
                       <Button
                         onClick={() => {
-                          setIsProfileModalOpen(false)
+                          setIsProfileModalOpen(false);
                         }}
                         className="w-full"
                       >
@@ -315,18 +341,30 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
                     notifications.map((notif) => (
                       <DropdownMenuItem
                         key={notif.notificationId}
-                        onClick={() => handleNotificationClick(notif.notificationId)}
-                        className={`flex items-center justify-between p-2 ${notif.isRead ? "opacity-50" : ""}`}
+                        onClick={() =>
+                          handleNotificationClick(notif.notificationId)
+                        }
+                        className={`flex items-center justify-between p-2 ${
+                          notif.isRead ? "opacity-50" : ""
+                        }`}
                       >
                         <div>
-                          <div className="font-medium">{notif.notification.title}</div>
-                          <div className="text-sm text-muted-foreground">{notif.notification.message}</div>
+                          <div className="font-medium">
+                            {notif.notification.title}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {notif.notification.message}
+                          </div>
                         </div>
-                        {!notif.isRead && <span className="h-2 w-2 bg-blue-500 rounded-full"></span>}
+                        {!notif.isRead && (
+                          <span className="h-2 w-2 bg-blue-500 rounded-full"></span>
+                        )}
                       </DropdownMenuItem>
                     ))
                   ) : (
-                    <DropdownMenuItem disabled>No notifications</DropdownMenuItem>
+                    <DropdownMenuItem disabled>
+                      No notifications
+                    </DropdownMenuItem>
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -347,6 +385,5 @@ export function Navbar({ isAdmin, isDisabled = false, children }: AppSidebarProp
         <main className="p-4">{children}</main>
       </div>
     </SidebarProvider>
-  )
+  );
 }
-
