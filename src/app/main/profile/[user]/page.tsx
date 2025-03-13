@@ -100,12 +100,13 @@ export default function EmployeeProfile({ params }: Params) {
   const [countApiRequest, setCountApiRequest] = useState(0);
   const router = useRouter();
   const [loading, startTransitioning] = useTransition();
+  const {user} = await params;
 
   useEffect(() => {
     // Fetch employee data from API
     const fetchEmployee = async () => {
       startTransitioning(async () => {
-        const {user} = await params;
+        
         if (!user) return;
 
         if (user === "me") {
@@ -147,7 +148,7 @@ export default function EmployeeProfile({ params }: Params) {
     };
 
     fetchEmployee();
-  }, [params.user, router]);
+  }, [user, router]);
 
   const handleEdit = useCallback(() => {
     setEdit((prev) => !prev);
