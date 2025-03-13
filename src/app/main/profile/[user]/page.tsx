@@ -128,7 +128,7 @@ export default function EmployeeProfile({ params }: Params) {
           }
         } else {
           try {
-            const response = await instanceApi.get(`employee/${params.user}`);
+            const response = await instanceApi.get(`employee/${user}`);
 
             if (response.status === 200) {
               const { data } = response as EmployeeResponse;
