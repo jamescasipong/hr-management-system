@@ -14,7 +14,7 @@ export default function DocumentationPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm sticky">
+      <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 border-b-[1px] dark:border-gray-700 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
@@ -70,7 +70,7 @@ export default function DocumentationPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="sticky top-8 space-y-6">
+            <div className="sticky top-24 space-y-5">
               <div>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">Documentation</h3>
                 <ul className="mt-2 space-y-2">
@@ -102,7 +102,7 @@ export default function DocumentationPage() {
                 </ul>
               </div>
               
-              <div>
+              {/* <div>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">Modules</h3>
                 <ul className="mt-2 space-y-2">
                   <li>
@@ -131,7 +131,7 @@ export default function DocumentationPage() {
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </div> */}
               
               <div className="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
                 <h3 className="text-sm font-medium text-blue-800 dark:text-blue-300">Need help?</h3>
