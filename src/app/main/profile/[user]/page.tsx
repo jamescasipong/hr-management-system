@@ -107,9 +107,10 @@ export default function EmployeeProfile({ params }: Params) {
     // Fetch employee data from API
     const fetchEmployee = async () => {
       startTransitioning(async () => {
-        if (!params.user) return;
+        const {user} = await params;
+        if (!user) return;
 
-        if (params.user === "me") {
+        if (user === "me") {
           try {
             const response = await instanceApi.get("employee/me");
             setCountApiRequest((countApiRequest) => countApiRequest + 1);
