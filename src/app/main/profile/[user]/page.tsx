@@ -17,10 +17,18 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { useCallback, useContext, useEffect, useState, useTransition } from "react";
+import {
+  Suspense,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 import instanceApi from "@/api/auth";
 import { set } from "date-fns";
+import Loading from "./loading";
 
 type ApiResponse<Data extends object> = {
   sucess: boolean;
@@ -77,12 +85,10 @@ type EmployeeResponse = ApiResponse<EmployeeType>;
 type Params = {
   params: {
     user: string;
-  }
-}
+  };
+};
 
-export default function EmployeeProfile({
-  params,
-}: Params) {
+export default function EmployeeProfile({ params }: Params) {
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
@@ -100,57 +106,53 @@ export default function EmployeeProfile({
   useEffect(() => {
     // Fetch employee data from API
     const fetchEmployee = async () => {
-
       startTransitioning(async () => {
         if (!params.user) return;
 
-      if (params.user === "me") {
-        try {
-          const response = await instanceApi.get("employee/me");
-          setCountApiRequest((countApiRequest) => countApiRequest + 1);
+        if (params.user === "me") {
+          try {
+            const response = await instanceApi.get("employee/me");
+            setCountApiRequest((countApiRequest) => countApiRequest + 1);
 
-          if (response.status === 200) {
-            const responseData = (await response.data) as EmployeeResponse;
-            const employee = responseData.data as EmployeeType;
-            const aboutMe = employee.aboutEmployee;
-            const department = employee.department;
-            setAboutMe(aboutMe);
-            setDepartment(department);
-            setEmployee(employee);
-            setEducation(aboutMe.educationBackground);
+            if (response.status === 200) {
+              const responseData = (await response.data) as EmployeeResponse;
+              const employee = responseData.data as EmployeeType;
+              const aboutMe = employee.aboutEmployee;
+              const department = employee.department;
+              setAboutMe(aboutMe);
+              setDepartment(department);
+              setEmployee(employee);
+              setEducation(aboutMe.educationBackground);
+            }
+          } catch (error: any) {
+            console.error(error.response.data);
           }
+        } else {
+          try {
+            const response = await instanceApi.get(`employee/${params.user}`);
 
-        } catch (error: any) {
-          console.error(error.response.data);
+            if (response.status === 200) {
+              const { data } = response as EmployeeResponse;
+              // Handle the data as needed
+            }
+
+            if (response.status === 404) {
+              router.push("/404");
+              console.error("Employee not found");
+            }
+          } catch (error: any) {
+            console.error(error);
+          }
         }
-      } else {
-        try {
-          const response = await instanceApi.get(`employee/${params.user}`);
-
-          if (response.status === 200) {
-            const { data } = response as EmployeeResponse;
-            // Handle the data as needed
-          }
-
-          if (response.status === 404) {
-            router.push("/404");
-            console.error("Employee not found");
-          }
-        } catch (error: any) {
-          console.error(error);
-        }
-      }
-      })
-      
+      });
     };
 
     fetchEmployee();
   }, [params.user, router]);
 
-
   const handleEdit = useCallback(() => {
     setEdit((prev) => !prev);
-    if (edit){
+    if (edit) {
       setEmployee((prev) => {
         if (prev) {
           return {
@@ -164,30 +166,29 @@ export default function EmployeeProfile({
   }, []);
 
   return loading ? (
-    <main
-      className={`flex-1 overflow-y-auto duration-200 ${
-        isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
-      }`}
-    >
-      <div
-        className={`mx-auto py-6 sm:px-6  lg:px-8 p-2 ${
-          isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
+    <Suspense fallback={<Loading />}>
+      {" "}
+      <main
+        className={`flex-1 overflow-y-auto duration-200 ${
+          isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
         }`}
       >
-        <div className="flex justify-center items-center h-full">
-          <div className="loader">Loading...</div>
+        <div
+          className={`mx-auto py-6 sm:px-6  lg:px-8 p-2 ${
+            isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
+          }`}
+        >
+          <div className="flex justify-center items-center h-full">
+            <div className="loader">Loading...</div>
+          </div>
         </div>
-      </div>
-    </main>
-  ) : (
+      </main>
+    </Suspense>
+  ) : (<Suspense fallback={<Loading />}>
     <div className="flex min-h-screen bg-background w-full justify-center">
       {/* Main Content */}
-      <main
-        className={`flex-1 overflow-y-auto duration-200`}
-      >
-        <div
-          className={`mx-auto py-6 sm:px-6  lg:px-8 p-2`}
-        >
+      <main className={`flex-1 overflow-y-auto duration-200`}>
+        <div className={`mx-auto py-6 sm:px-6  lg:px-8 p-2`}>
           <h1 className="text-3xl font-bold sm:mb-8 mb-4 sm:text-start text-center">
             Employee Profile
           </h1>
@@ -209,15 +210,17 @@ export default function EmployeeProfile({
                       type="text"
                       className="text-secondary"
                       placeholder="First Name"
-                      onChange={(e) => setEmployee((prev) => {
-                        if (prev) {
-                          return {
-                            ...prev,
-                            firstName: e.target.value,
-                          };
-                        }
-                        return prev;
-                      })}
+                      onChange={(e) =>
+                        setEmployee((prev) => {
+                          if (prev) {
+                            return {
+                              ...prev,
+                              firstName: e.target.value,
+                            };
+                          }
+                          return prev;
+                        })
+                      }
                       defaultValue={employee.firstName}
                     />
                   ) : (
@@ -232,10 +235,7 @@ export default function EmployeeProfile({
                   <Badge variant="outline">EID: {employee.id}</Badge>
                 </div>
                 {edit ? (
-                  <Button
-                    onClick={handleEdit}
-                    className="ml-auto"
-                  >
+                  <Button onClick={handleEdit} className="ml-auto">
                     <Edit className="mr-2 h-4 w-4 " /> Save Changes
                   </Button>
                 ) : (
@@ -382,5 +382,5 @@ export default function EmployeeProfile({
         </div>
       </main>
     </div>
-  );
+    </Suspense>);
 }
