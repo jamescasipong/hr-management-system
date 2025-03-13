@@ -19,11 +19,15 @@ import {
 import { useContext, useState } from "react";
 import { employees } from "../../../../data";
 
+type Params = {
+  params: {
+    user: string;
+  }
+}
+
 export default function EmployeeProfile({
   params,
-}: {
-  params: { user: string };
-}) {
+}: Params) {
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
