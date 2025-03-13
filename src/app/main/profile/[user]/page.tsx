@@ -4,6 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { GetServerSideProps } from 'next';
+
+interface PageProps {
+  params: {
+    user: string;
+  };
+}
 import { SideDark } from "@/contextComponent/SideDark";
 import { Input } from "@/components/ui/input";
 import {
@@ -380,3 +387,14 @@ export default function EmployeeProfile({
     </div>
   );
 }
+
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { user } = context.params as { user: string };
+
+  return {
+    props: {
+      params: { user },
+    },
+  };
+};
