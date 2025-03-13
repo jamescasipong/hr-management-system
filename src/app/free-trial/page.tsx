@@ -19,7 +19,7 @@ import { Progress } from "@/components/ui/progress";
 import { Users, Building2, Settings, Calendar } from "lucide-react";
 
 export default function FreeTrialPage() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [setupProgress, setSetupProgress] = useState(0);
   const router = useRouter();
