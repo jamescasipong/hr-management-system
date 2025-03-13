@@ -4,13 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { GetServerSideProps } from 'next';
-
-interface PageProps {
-  params: {
-    user: string;
-  };
-}
 import { SideDark } from "@/contextComponent/SideDark";
 import { Input } from "@/components/ui/input";
 import {
@@ -81,11 +74,15 @@ type EmployeeType = {
 
 type EmployeeResponse = ApiResponse<EmployeeType>;
 
+type Params = {
+  params: {
+    user: string;
+  }
+}
+
 export default function EmployeeProfile({
   params,
-}: {
-  params: { user: string };
-}) {
+}: Params) {
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
@@ -387,14 +384,3 @@ export default function EmployeeProfile({
     </div>
   );
 }
-
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { user } = context.params as { user: string };
-
-  return {
-    props: {
-      params: { user },
-    },
-  };
-};
