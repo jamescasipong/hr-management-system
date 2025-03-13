@@ -259,36 +259,13 @@ export default function HomePage() {
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">Connect</span>
               </Link>
               <div className="hidden md:ml-10 md:flex md:space-x-8">
-                <a
-                  href="#features"
-                  className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
-                >
-                  Features
-                </a>
-                <a
-                  href="#how-it-works"
-                  className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
-                >
-                  How It Works
-                </a>
-                <a
-                  href="#pricing"
-                  className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
-                >
-                  Pricing
-                </a>
-                <a
-                  href="#testimonials"
-                  className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
-                >
-                  Testimonials
-                </a>
-                <a
-                  href="#faq"
-                  className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
-                >
-                  FAQ
-                </a>
+                {[{ name: "Features", href: "#features" }, { name: "How It Works", href: "#how-it-works" }, { name: "Pricing", href: "#pricing" }, { name: "FAQ", href: "#faq" }].map((item) => {
+                  return (
+                    <a key={item.name} href={item.href} className="font-medium text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200">
+                      {item.name}
+                    </a>
+                  )
+                })}
               </div>
             </div>
             <div className="flex items-center">
@@ -649,7 +626,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section
       <section id="testimonials" className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -696,7 +673,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-white dark:bg-gray-800">
