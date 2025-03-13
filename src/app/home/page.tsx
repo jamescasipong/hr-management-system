@@ -278,16 +278,10 @@ export default function HomePage() {
                   Pricing
                 </a>
                 <a
-                  href="#testimonials"
+                  href="#qna"
                   className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
                 >
-                  Testimonials
-                </a>
-                <a
-                  href="#faq"
-                  className="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium"
-                >
-                  FAQ
+                  Q&A
                 </a>
               </div>
             </div>
@@ -331,12 +325,6 @@ export default function HomePage() {
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 Pricing
-              </a>
-              <a
-                href="#testimonials"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                Testimonials
               </a>
               <a
                 href="#faq"
@@ -638,6 +626,7 @@ export default function HomePage() {
                 </CardContent>
                 <CardFooter className="px-6 pt-0 pb-8 bg-gray-50 dark:bg-gray-700">
                   <Button
+                    onClick={() => window.location.href = "/free-trial"}
                     className={`w-full ${plan.popular ? "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600" : ""}`}
                   >
                     {plan.cta}
@@ -649,7 +638,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section
       <section id="testimonials" className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -696,7 +685,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-white dark:bg-gray-800">
@@ -802,7 +791,7 @@ export default function HomePage() {
           <ul className="mt-4 space-y-4">
             {["Features", "Pricing", "Integrations", "Updates"].map((item) => (
               <li key={item}>
-            <Link href={`/${item.toLowerCase()}`} className="text-base text-gray-400 hover:text-gray-300">
+            <Link href={`${item == "Integrations" || item == "Updates" ? `/${item.toLowerCase()}` : `/#${item.toLowerCase()}`}`} className="text-base text-gray-400 hover:text-gray-300">
               {item}
             </Link>
               </li>
@@ -823,7 +812,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="md:grid md:grid-cols-2 md:gap-8">
-            <div>
+            {/* <div>
           <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase">Company</h3>
           <ul className="mt-4 space-y-4">
             {["About", "Blog"].map((item) => (
@@ -834,7 +823,7 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-            </div>
+            </div> */}
             <div className="mt-12 md:mt-0">
           <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase">Legal</h3>
           <ul className="mt-4 space-y-4">
