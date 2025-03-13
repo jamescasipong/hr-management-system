@@ -83,9 +83,7 @@ type EmployeeType = {
 type EmployeeResponse = ApiResponse<EmployeeType>;
 
 type Params = {
-  params: {
-    user: string;
-  };
+  params: Promise<{ user: string }>
 };
 
 export default function EmployeeProfile({ params }: Params) {
