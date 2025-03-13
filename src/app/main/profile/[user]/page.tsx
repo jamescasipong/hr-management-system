@@ -86,7 +86,7 @@ type Params = {
   params: Promise<{ user: string }>
 };
 
-export default function EmployeeProfile({ params }: Params) {
+export default async function EmployeeProfile({ params }: Params) {
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
