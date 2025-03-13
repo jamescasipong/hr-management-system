@@ -14,7 +14,7 @@ export default function DocumentationPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
+      <header className="bg-white dark:bg-gray-800 shadow-sm sticky">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
@@ -26,9 +26,9 @@ export default function DocumentationPage() {
             <Link href="/api-status">
               <Button variant="ghost" size="sm">API Status</Button>
             </Link>
-            <Link href="/guides">
+            {/* <Link href="/guides">
               <Button variant="ghost" size="sm">Guides</Button>
-            </Link>
+            </Link> */}
             <Link href="/contact-us">
               <Button variant="ghost" size="sm">Contact Us</Button>
             </Link>
@@ -160,7 +160,7 @@ export default function DocumentationPage() {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card>
+                <Card className="dark:border-gray-700">
                   <CardHeader>
                     <CardTitle>Quick Start Guide</CardTitle>
                     <CardDescription>Set up your account in minutes</CardDescription>
@@ -203,7 +203,7 @@ export default function DocumentationPage() {
                   </CardContent>
                 </Card>
                 
-                <Card>
+                <Card className="dark:border-gray-700">
                   <CardHeader>
                     <CardTitle>Video Tutorials</CardTitle>
                     <CardDescription>Learn through step-by-step videos</CardDescription>
@@ -254,7 +254,7 @@ export default function DocumentationPage() {
                     <TabsTrigger value="features">Key Features</TabsTrigger>
                     <TabsTrigger value="requirements">Requirements</TabsTrigger>
                   </TabsList>
-                  <TabsContent value="overview" className="p-4 border rounded-md mt-2">
+                  <TabsContent value="overview" className="p-4 border rounded-md mt-2 dark:border-gray-700">
                     <h3 className="text-lg font-medium text-gray-900 dark:text-white">HRConnect Overview</h3>
                     <p className="mt-2 text-gray-600 dark:text-gray-300">
                       HRConnect is a comprehensive HR management platform designed to streamline your HR processes, 
@@ -326,7 +326,7 @@ export default function DocumentationPage() {
               </p>
               
               <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card>
+                <Card className="dark:border-gray-700">
                   <CardHeader>
                     <CardTitle>REST API</CardTitle>
                     <CardDescription>Standard REST endpoints for all resources</CardDescription>
@@ -349,7 +349,7 @@ export default function DocumentationPage() {
                   </CardContent>
                 </Card>
                 
-                <Card>
+                <Card className="dark:border-gray-700">
                   <CardHeader>
                     <CardTitle>Webhooks</CardTitle>
                     <CardDescription>Real-time event notifications</CardDescription>
@@ -374,7 +374,7 @@ export default function DocumentationPage() {
               </div>
               
               <div className="mt-6">
-                <Card>
+                <Card className="dark:border-gray-700">
                   <CardHeader>
                     <CardTitle>API Authentication</CardTitle>
                     <CardDescription>Secure your API requests</CardDescription>

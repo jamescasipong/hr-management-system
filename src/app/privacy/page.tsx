@@ -63,7 +63,7 @@ export default function PrivacyPage() {
             </TabsList>
             
             <TabsContent value="personal" className="mt-4">
-              <Card>
+              <Card className="dark:border-gray-700">
                 <CardHeader>
                   <CardTitle>Personal Data</CardTitle>
                   <CardDescription>Information that identifies you as an individual</CardDescription>
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
             </TabsContent>
             
             <TabsContent value="usage" className="mt-4">
-              <Card>
+              <Card className="dark:border-gray-700">
                 <CardHeader>
                   <CardTitle>Usage Data</CardTitle>
                   <CardDescription>Information about how you use our platform</CardDescription>
@@ -101,7 +101,7 @@ export default function PrivacyPage() {
             </TabsContent>
             
             <TabsContent value="cookies" className="mt-4">
-              <Card>
+              <Card className="dark:border-gray-700">
                 <CardHeader>
                   <CardTitle>Cookies & Similar Technologies</CardTitle>
                   <CardDescription>Information collected through cookies and tracking technologies</CardDescription>
@@ -244,35 +244,35 @@ export default function PrivacyPage() {
           </p>
           
           <div className="mt-6 space-y-4">
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 border rounded-lg dark:border-gray-700">
               <h3 className="font-medium text-gray-900 dark:text-white">Right to Access</h3>
               <p className="text-gray-600 dark:text-gray-300">
                 You have the right to request copies of your personal information.
               </p>
             </div>
             
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 border rounded-lg dark:border-gray-700">
               <h3 className="font-medium text-gray-900 dark:text-white">Right to Rectification</h3>
               <p className="text-gray-600 dark:text-gray-300">
                 You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.
               </p>
             </div>
             
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 border rounded-lg dark:border-gray-700">
               <h3 className="font-medium text-gray-900 dark:text-white">Right to Erasure</h3>
               <p className="text-gray-600 dark:text-gray-300">
                 You have the right to request that we erase your personal information, under certain conditions.
               </p>
             </div>
             
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 border rounded-lg dark:border-gray-700">
               <h3 className="font-medium text-gray-900 dark:text-white">Right to Restrict Processing</h3>
               <p className="text-gray-600 dark:text-gray-300">
                 You have the right to request that we restrict the processing of your personal information, under certain conditions.
               </p>
             </div>
             
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 border rounded-lg dark:border-gray-700">
               <h3 className="font-medium text-gray-900 dark:text-white">Right to Data Portability</h3>
               <p className="text-gray-600 dark:text-gray-300">
                 You have the right to request that we transfer the data we have collected to another organization, or directly to you, under certain conditions.

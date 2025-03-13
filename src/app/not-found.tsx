@@ -36,7 +36,7 @@ export default function NotFound() {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild variant="outline">
+          <Button className="dark:border-gray-700" asChild variant="outline">
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
               Back to Home

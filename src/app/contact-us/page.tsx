@@ -87,7 +87,7 @@ export default function ContactUsPage() {
           {/* Contact Information */}
           <div className="lg:col-span-1">
             <div className="space-y-6">
-              <Card>
+              <Card className="dark:border-gray-700">
                 <CardHeader>
                   <CardTitle>Contact Information</CardTitle>
                   <CardDescription>Reach out to us through various channels</CardDescription>
@@ -128,7 +128,7 @@ export default function ContactUsPage() {
                 </CardContent>
               </Card>
               
-              <Card>
+              <Card className="dark:border-gray-700">
                 <CardHeader>
                   <CardTitle>Office Location</CardTitle>
                   <CardDescription>Visit our headquarters</CardDescription>
@@ -160,7 +160,7 @@ export default function ContactUsPage() {
                 </CardContent>
               </Card>
               
-              <Card>
+              <Card className="dark:border-gray-700">
                 <CardHeader>
                   <CardTitle>Connect With Us</CardTitle>
                   <CardDescription>Follow us on social media</CardDescription>

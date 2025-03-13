@@ -60,7 +60,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <Card className="w-full">
+        <Card className="w-full dark:bg-gray-800 border dark:border-gray-700">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
             <CardDescription className="text-center">Enter your credentials to sign in to your account</CardDescription>
@@ -74,6 +74,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
+                  className="border dark:border-gray-700"
                   id="email"
                   type="email"
                   placeholder="name@example.com"
@@ -95,6 +96,7 @@ export default function LoginPage() {
                 </div>
                 <div className="relative">
                   <Input
+                    className="border dark:border-gray-700"
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
@@ -106,10 +108,10 @@ export default function LoginPage() {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-0 top-0"
+                    className="absolute right-0 top-0 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? <EyeOff className="h-4 w-4 hover:text-blue-300" /> : <Eye className="h-4 w-4" />}
                   </Button>
                 </div>
               </div>
@@ -127,7 +129,7 @@ export default function LoginPage() {
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-blue-600 dark:hover:bg-blue-700" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
               <p className="text-center text-sm text-gray-500 dark:text-gray-400">

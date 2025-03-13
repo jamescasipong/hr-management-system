@@ -96,7 +96,7 @@ export default function SignupPage() {
       // Redirect to free trial after 2 seconds
       setTimeout(() => {
         router.push("/free-trial")
-      }, 2000)
+      }, 5000)
     } catch (err) {
       setError("An error occurred. Please try again.")
     } finally {
@@ -107,7 +107,7 @@ export default function SignupPage() {
   if (isComplete) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md dark:bg-gray-800 dark:border-gray-700">
           <CardContent className="pt-6 flex flex-col items-center text-center">
             <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
               <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
@@ -141,7 +141,7 @@ export default function SignupPage() {
           </div>
         </div>
 
-        <Card className="w-full">
+        <Card className="w-full dark:bg-gray-800 dark:border-gray-700">
           <CardHeader className="space-y-1">
             <div className="flex justify-between items-center">
               <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">{step}</div>
@@ -170,6 +170,7 @@ export default function SignupPage() {
                   <div className="space-y-2">
                     <Label htmlFor="fullName">Full Name</Label>
                     <Input
+                      className="dark:border-gray-700"
                       id="fullName"
                       name="fullName"
                       placeholder="John Doe"
@@ -181,6 +182,7 @@ export default function SignupPage() {
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
+                      className="dark:border-gray-700"
                       id="email"
                       name="email"
                       type="email"
@@ -194,6 +196,7 @@ export default function SignupPage() {
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
                       <Input
+                        className="dark:border-gray-700"
                         id="password"
                         name="password"
                         type={showPassword ? "text" : "password"}
@@ -218,6 +221,7 @@ export default function SignupPage() {
                     <Label htmlFor="confirmPassword">Confirm Password</Label>
                     <div className="relative">
                       <Input
+                        className="dark:border-gray-700"
                         id="confirmPassword"
                         name="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
@@ -242,6 +246,7 @@ export default function SignupPage() {
                   <div className="space-y-2">
                     <Label htmlFor="companyName">Company Name</Label>
                     <Input
+                      className="dark:border-gray-700"
                       id="companyName"
                       name="companyName"
                       placeholder="Acme Inc."
@@ -256,10 +261,10 @@ export default function SignupPage() {
                       value={formData.companySize}
                       onValueChange={(value) => handleSelectChange("companySize", value)}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="dark:border-gray-700">
                         <SelectValue placeholder="Select company size" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="dark:border-gray-700">
                         <SelectItem value="1-10">1-10 employees</SelectItem>
                         <SelectItem value="11-50">11-50 employees</SelectItem>
                         <SelectItem value="51-200">51-200 employees</SelectItem>
@@ -272,10 +277,10 @@ export default function SignupPage() {
                   <div className="space-y-2">
                     <Label htmlFor="industry">Industry</Label>
                     <Select value={formData.industry} onValueChange={(value) => handleSelectChange("industry", value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="dark:bg-gray-900 dark:border-gray-700 dark:focus-visible:ring-blue-500">
                         <SelectValue placeholder="Select industry" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="dark:bg-gray-900 dark:border-gray-700 dark:focus-visible:ring-blue-500">
                         <SelectItem value="technology">Technology</SelectItem>
                         <SelectItem value="healthcare">Healthcare</SelectItem>
                         <SelectItem value="finance">Finance</SelectItem>
@@ -309,7 +314,7 @@ export default function SignupPage() {
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
                 {isLoading ? "Processing..." : step === 1 ? "Continue" : "Create Account"}
               </Button>
 
@@ -326,7 +331,7 @@ export default function SignupPage() {
               )}
 
               {step === 2 && (
-                <Button type="button" variant="outline" className="w-full" onClick={() => setStep(1)}>
+                <Button type="button" variant="outline" className="w-full dark:border-gray-700" onClick={() => setStep(1)}>
                   Back
                 </Button>
               )}
