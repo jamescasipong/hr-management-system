@@ -31,32 +31,60 @@ import {
   Timer,
 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
-import { SideDark } from "../../contextComponent/SideDark";
-import { ComboBoxResponsive } from "../../customComponents/comboBoxResponsive";
-import calendar from "../../customComponents/customCalendar";
-import employees from "../data";
-import { useCookies } from 'react-cookie';
-import instanceApi from "@/api/auth";
+import { SideDark } from "../../../contextComponent/SideDark";
+import calendar from "../../../customComponents/customCalendar";
+import employees from "../../data";
+import { useAttendance } from "@/context/attendance-context";
+import { AttendanceResponse, clockIn, clockOut } from "@/api/dashboard/attendance";
+import { set } from "date-fns";
+import { time } from "console";
 
+type AttendanceType = {
+  clockedIn: boolean;
+  clockedOut: boolean;
+  setClockedOut: (state: boolean) => void;
+  setClockedIn: (state: boolean) => void;
+  hasShift: boolean;
+  isPending: boolean;
+  attendanceToday: AttendanceResponse;
+};
 
 export default function Dashboard() {
   const context = useContext(SideDark);
   if (!context) {
     throw new Error("SideDark context is undefined");
   }
+  const {
+    clockedIn,
+    setClockedIn,
+    hasShift,
+    isPending,
+    clockedOut,
+    setClockedOut,
+    attendanceToday,
+  } = useAttendance() as AttendanceType;
   const { isSidebarOpen, toggleSidebar } = context;
-  const [isClockedIn, setIsClockedIn] = useState(false);
   const [workingHours, setWorkingHours] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
-  const [chatIsOpen, setIsChatOpen] = useState(false);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [isClockModalOpen, setIsClockModalOpen] = useState(false);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
-  const [profilePicUrl, setProfilePicUrl] = useState(
-    "https://avatars.githubusercontent.com/u/144509235?v=4"
-  );
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+  useEffect(() => {
+    setWorkingHours(attendanceToday?.workingHours ?? attendanceToday?.clockIn ? attendanceToday?.clockIn == "00:00:00" ? 0 : convertToDate(attendanceToday.clockIn).getTime() - new Date().getTime() : 0);
+    setStartTime(attendanceToday?.clockIn ? attendanceToday?.clockIn == "00:00:00" ? null : convertToDate(attendanceToday.clockIn) : null);
+    setEndTime(attendanceToday?.clockOut ? attendanceToday?.clockOut == "00:00:00" ? null : convertToDate(attendanceToday.clockOut) : null);
+
+  }, [workingHours, attendanceToday, isPending]);
+
+  const convertToDate = (time: string) => {
+    const [hours, minutes] = time.split(".")[0].split(":");
+    const date = new Date();
+    date.setHours(parseInt(hours));
+    date.setMinutes(parseInt(minutes));
+    return date;
+  };
+
 
   const [weeklyClockData, setWeeklyClockData] = useState([
     { day: "Monday", clockIn: "09:00 AM", clockOut: "05:00 PM" },
@@ -71,15 +99,6 @@ export default function Dashboard() {
   const [myProfile, setMyProfile] = useState(
     employees.find((e) => e.username === "blank")
   );
-  useEffect(() => {
-    const getProfile = async () => {
-      const profile = await instanceApi.get('user/account/profile');
-
-      setMyProfile(profile.data.data.userName);
-    }
-
-    getProfile();
-  }, []);
 
   const [leaveHours, setLeaveHours] = useState([
     {
@@ -114,7 +133,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isClockedIn && startTime) {
+    if (clockedIn && startTime) {
       interval = setInterval(() => {
         const now = new Date();
         const diff = (now.getTime() - startTime.getTime()) / 1000 / 60 / 60;
@@ -122,95 +141,75 @@ export default function Dashboard() {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isClockedIn, startTime]);
-
-  const changeStatus = (status: string) => {
-    if (status === "In Office") {
-      return "bg-green-500";
-    }
-    if (status === "On Leave") {
-      return "bg-red-500";
-    }
-    if (status === "Working Remotely") {
-      return "bg-yellow-500";
-    }
-  };
+  }, [clockedIn, startTime]);
 
   const handleClockInOut = () => {
     const now = new Date();
-    if (isClockedIn) {
-      setIsClockedIn(false);
-      setEndTime(now);
-      setWeeklyClockData((prev) => {
-        prev[0] = {
-          ...prev[0],
-          clockOut: now.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        };
-        return prev;
-      });
-    } else {
-      setWeeklyClockData((prev) => {
-        prev[0] = {
-          ...prev[0],
-          clockIn: now.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        };
-        return prev;
-      });
-      setIsClockedIn(true);
-      setStartTime(now);
-      setWorkingHours(0);
-      setEndTime(null);
-    }
-    setIsClockModalOpen(false);
-  };
 
-  const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicUrl(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    if (!clockedOut) {
+      if (clockedIn) {
+        setClockedIn(false);
+        clockOut();
+        setEndTime(now);
+        setWorkingHours(startTime ? (now.getTime() - startTime.getTime()) / 1000 / 60 / 60 : 0);
+        setWeeklyClockData((prev) => {
+          prev[0] = {
+            ...prev[0],
+            clockOut: now.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+          return prev;
+        });
+      } else {
+        setWeeklyClockData((prev) => {
+          prev[0] = {
+            ...prev[0],
+            clockIn: now.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+          return prev;
+        });
+        setClockedIn(true);
+        clockIn();
+        setStartTime(now);
+        setWorkingHours(0);
+        setEndTime(null);
+      }
+      setIsClockModalOpen(false);
+    }
+    else {
+      alert("You have already clocked out");
     }
   };
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      setMessages([
-        ...messages,
-        {
-          sender: "You",
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-          content: newMessage.trim(),
-        },
-      ]);
-      setNewMessage("");
-    }
-  };
+  function convertTo12HourFormat(date?: Date | null) {
+    if (date == null) return "N/A";
 
-  const formatTime = (date: Date | null) => {
-    if (!date) return "N/A";
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours to 12-hour format
+    hours = hours % 12 || 12;
+
+    // Pad minutes with leading zero if needed
+    const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
+
+    const format = `${hours}:${minutesStr} ${period}`;
+
+    return format;
+  }
+
 
   return (
-    <div
-      className={`flex h-full transition-colors duration-200`}
-    >
+    <div className={`flex h-full transition-colors duration-200`}>
       {/* Main Content */}
       <main
-        className={`flex-1 overflow-y-auto duration-200 ${
-          isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
+        className={`flex-1 overflow-y-auto duration-200
         }`}
       >
         {/* Dashboard Content */}
@@ -240,16 +239,18 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between ">
                   <div className="">
                     <p className="text-2xl font-bold">
-                      {workingHours.toFixed(2)} hrs
+                        {isPending
+                        ? "Loading..."
+                        : attendanceToday?.workingHours ?? 0} {isPending ? "" : "hours"}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
                       Today&apos;s working hour
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
-                      Clock In: {formatTime(startTime)}
+                      Clock In: {convertTo12HourFormat(startTime ?? null)}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
-                      Clock Out: {formatTime(endTime)}
+                      Clock Out: {convertTo12HourFormat(endTime ?? null)}
                     </p>
                   </div>
                   <div className="flex items-center justify-center sm:flex-row flex-col gap-2">
@@ -259,19 +260,26 @@ export default function Dashboard() {
                     >
                       <DialogTrigger asChild>
                         <Button
-                          className="w-full "
-                          variant={isClockedIn ? "destructive" : "default"}
+                          disabled={isPending || clockedOut || !hasShift}
+                          className="w-full"
+                          variant={clockedIn ? "destructive" : "default"}
                         >
-                          {isClockedIn ? "Clock Out" : "Clock In"}
+                          {isPending
+                            ? "Loading"
+                            : clockedIn
+                            ? clockedOut
+                              ? "Clocked Out"
+                              : "Clock Out"
+                            : "Clock In"}
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="rounded-lg">
                         <DialogHeader>
                           <DialogTitle>
-                            {isClockedIn ? "Clock Out" : "Clock In"}
+                            {clockedIn ? "Clock Out" : "Clock In"}
                           </DialogTitle>
                           <DialogDescription>
-                            {isClockedIn
+                            {clockedIn
                               ? "Are you sure you want to clock out?"
                               : "Are you ready to start your workday?"}
                           </DialogDescription>
@@ -285,20 +293,14 @@ export default function Dashboard() {
                           >
                             Cancel
                           </Button>
-                          <Button
-                            className=""
-                            onClick={handleClockInOut}
-                          >
-                            {isClockedIn ? "Clock Out" : "Clock In"}
+                          <Button className="" onClick={handleClockInOut}>
+                            {clockedIn ? "Clock Out" : "Clock In"}
                           </Button>
                         </div>
                       </DialogContent>
                     </Dialog>
                     <DropdownMenu>
-                      <DropdownMenuTrigger
-                        asChild
-                        className=""
-                      >
+                      <DropdownMenuTrigger asChild className="">
                         <Button
                           className="border-gray-300 dark:border-gray-700 border-[1px]  dark:hover:bg-slate-800 shadow-sm"
                           variant="outline"
@@ -309,7 +311,6 @@ export default function Dashboard() {
                       <DropdownMenuContent>
                         <DropdownMenuItem
                           onSelect={() => setIsSummaryModalOpen(true)}
-
                         >
                           Weekly Summary
                         </DropdownMenuItem>
@@ -383,9 +384,7 @@ export default function Dashboard() {
                       >
                         <div className="relative z-0">
                           <div
-                            className={`w-3 h-3 rounded-full ${changeStatus(
-                              coworker.status.type
-                            )} absolute bottom-0 right-1 z-10`}
+                            className={`w-3 h-3 rounded-full absolute bottom-0 right-1 z-10`}
                           ></div>
                           <Avatar className="border-[1px] dark:border-slate-700">
                             <AvatarImage

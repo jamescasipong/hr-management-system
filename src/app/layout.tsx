@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 import "./globals.css";
 import { AuthProvider } from "@/context/authContext";
 import { NotificationProvider } from "@/context/NotificationContext";
+import { AttendanceProvider } from "@/context/attendance-context";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,18 +26,11 @@ export const metadata: Metadata = {
     "A website for employees to clock in/out, check payroll, attendances, performances, and file leaves. HRConnect simplifies employee management with features like payroll tracking, performance reviews, leave requests, and attendance monitoring.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = headers();
-
-  const nav = headersList.get("disable-nav");
-  const isAdmin = headersList.get("is-admin");
-  const authenticated = headersList.get("authenticated");
-
-  const isDisabled = nav === "true";
 
 
   return (
@@ -53,11 +47,7 @@ export default function RootLayout({
         >
           <SideThemeProvider>
 
-            <AuthProvider>
-              <NotificationProvider>
-              {authenticated ? <Navbar isAdmin={isAdmin === "Admin"} isDisabled={isDisabled}>{children}</Navbar> : children}
-              </NotificationProvider>
-            </AuthProvider>
+            {children}
           </SideThemeProvider>
         </ThemeProvider>
       </body>

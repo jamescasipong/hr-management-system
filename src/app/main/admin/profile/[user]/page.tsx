@@ -17,7 +17,7 @@ import {
   User,
 } from "lucide-react";
 import { useContext, useState } from "react";
-import { employees } from "../../../data";
+import { employees } from "../../../../data";
 
 export default function EmployeeProfile({
   params,

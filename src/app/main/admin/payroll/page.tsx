@@ -51,14 +51,12 @@ export default function Payroll() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 w-full duration-200 ${
-          isSidebarOpen ? "sm:ml-64 ml-0 " : "ml-0"
-        }`}
+        className={`flex-1 w-full`}
       >
         {/* Payroll Content */}
         <div
           className={`mx-auto py-6 sm:px-6  lg:px-8 p-1 ${
-            isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
+            isSidebarOpen ? "" : "pt-24 max-w-[1500px] lg:w-full"
           }`}
         >
           {/* Salary Summary Card */}

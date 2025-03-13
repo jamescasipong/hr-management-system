@@ -239,27 +239,27 @@ export default function UserSettings() {
         <div className={`mx-auto py-6 sm:px-6  lg:px-8 p-1 ${
             isSidebarOpen ? "" : "pt-24  w-full max-w-[1500px]  lg:w-full"
           }`}>
-          <Tabs defaultValue="profile" value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-5 mb-8">
+          <Tabs  defaultValue="profile" value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid grid-cols-5 mb-8 border border-border">
               <TabsTrigger value="profile" className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Profile</span>
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Profile</span>
               </TabsTrigger>
               <TabsTrigger value="security" className="flex items-center gap-2">
-                <Shield className="h-4 w-4" />
-                <span className="hidden sm:inline">Security</span>
+              <Shield className="h-4 w-4" />
+              <span className="hidden sm:inline">Security</span>
               </TabsTrigger>
               <TabsTrigger value="appearance" className="flex items-center gap-2">
-                <Palette className="h-4 w-4" />
-                <span className="hidden sm:inline">Appearance</span>
+              <Palette className="h-4 w-4" />
+              <span className="hidden sm:inline">Appearance</span>
               </TabsTrigger>
               <TabsTrigger value="notifications" className="flex items-center gap-2">
-                <BellRing className="h-4 w-4" />
-                <span className="hidden sm:inline">Notifications</span>
+              <BellRing className="h-4 w-4" />
+              <span className="hidden sm:inline">Notifications</span>
               </TabsTrigger>
               <TabsTrigger value="account" className="flex items-center gap-2">
-                <Globe className="h-4 w-4" />
-                <span className="hidden sm:inline">Account</span>
+              <Globe className="h-4 w-4" />
+              <span className="hidden sm:inline">Account</span>
               </TabsTrigger>
             </TabsList>
 

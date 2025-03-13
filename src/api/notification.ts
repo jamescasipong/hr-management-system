@@ -10,3 +10,13 @@ export const fetchMyNotification = async () => {
 
     return response.data;
 }
+
+export const updateNotfication = async (notificationId: number) => {
+    const response = await instanceApi.put(`notification/mark-as-read/${notificationId}`);
+
+    if (response.status !== 200){
+        throw new Error("An error occourred");
+    }
+
+    return response.data;
+}

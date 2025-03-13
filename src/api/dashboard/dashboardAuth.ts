@@ -1,1 +1,0 @@
-// const instanceApi = require('./auth');

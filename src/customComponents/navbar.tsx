@@ -59,11 +59,8 @@ import {
 } from "@/components/ui/select";
 
 import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "@/context/authContext";
-import { icons } from "lucide-react";
-import { House } from "lucide-react";
 import { Building } from "lucide-react";
-
+import { logout } from "@/api/auth";
 type UserNotification = {
   notificationId: number;
   employeeId: string;
@@ -99,8 +96,9 @@ export function Navbar({
   );
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for demo
   const [language, setLanguage] = useState("English");
-  const auth = useContext(AuthContext);
-  const { notifications, setNotifications } = useNotifications() ?? { notifications: [], setNotifications: () => {} };
+  const { notifications, setNotifications, markAsRead } = useNotifications() ?? { notifications: [], setNotifications: () => {}, markAsRead: () => {}};
+
+  console.log(notifications)
 
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,16 +118,19 @@ export function Navbar({
         notif.notificationId === id ? { ...notif, isRead: true } : notif
       )
     );
+
+    markAsRead(id);
   };
 
-  const handleLogout = async () => {
-    auth?.logout();
+  const handleLogout = () => {
+    logout();
     setIsAuthenticated(false);
     setIsProfileModalOpen(false);
-    router.push("/");
+    router.push("/login");
+    router.refresh();
   };
 
-  const handleViewProfile = async () => {
+  const handleViewProfile = () => {
     setIsProfileModalOpen(false);
     router.push("/profile/me");
   };
@@ -141,19 +142,19 @@ export function Navbar({
   }
 
   const adminNavItems = [
-    { icon: Home, label: "Dashboard", link: "/dashboard" },
-    { icon: Users, label: "Employees", link: "/employees" },
-    { icon: Calendar, label: "Attendance", link: "/attendance" },
-    { icon: DollarSign, label: "Payroll", link: "/payroll" },
-    { icon: Settings, label: "Settings", link: "/usersettings" },
-    { icon: Building, label: "Department", link: "/admin/department" },
+    { icon: Home, label: "Dashboard", link: "main/dashboard" },
+    { icon: Users, label: "Employees", link: "main/employees" },
+    { icon: Calendar, label: "Attendance", link: "main/attendance" },
+    { icon: DollarSign, label: "Payroll", link: "main/payroll" },
+    { icon: Settings, label: "Settings", link: "main/usersettings" },
+    { icon: Building, label: "Department", link: "main/admin/department" },
   ];
 
   const userNavItems = [
-    { icon: Home, label: "Dashboard", link: "/dashboard" },
-    { icon: Calendar, label: "Attendance", link: "/attendance" },
-    { icon: DollarSign, label: "Payroll", link: "/payroll" },
-    { icon: Settings, label: "Settings", link: "/usersettings" },
+    { icon: Home, label: "Dashboard", link: "main/dashboard" },
+    { icon: Calendar, label: "Attendance", link: "main/attendance" },
+    { icon: DollarSign, label: "Payroll", link: "main/payroll" },
+    { icon: Settings, label: "Settings", link: "main/usersettings" },
   ];
 
   const navItems = isAdmin ? adminNavItems : userNavItems;
@@ -280,7 +281,7 @@ export function Navbar({
                   </TabsContent>
                   <TabsContent value="settings">
                     <div className="space-y-4 mt-5">
-                      <Select className="" value={language} onValueChange={(value:string) => setLanguage(value)} >
+                      <Select value={language} onValueChange={(value:string) => setLanguage(value)} >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a Language" />
                         </SelectTrigger>

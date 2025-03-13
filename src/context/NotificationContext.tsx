@@ -1,9 +1,9 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchMyNotification } from "@/api/notification";
+import { fetchMyNotification, updateNotfication } from "@/api/notification";
 import { useTransition } from "react";
-
+import { usePathname } from "next/navigation";
 
 
 const NotificationContext = createContext<NotificationProviderType | null>(null);
@@ -25,6 +25,7 @@ type NotificationProviderType = {
     notifications: NotificationType[];
     isLoading: boolean;
     setNotifications: (notifications: NotificationType[]) => void;
+    markAsRead: (notifId:number) => Promise<void>;
 }
 
 type NotificationProviderProps = {
@@ -34,21 +35,41 @@ type NotificationProviderProps = {
 export const NotificationProvider = ({ children }: NotificationProviderProps) => {
     const [notifications, setNotifications] = useState<NotificationType[]>([]);
     const [isLoading, startTransitioning] = useTransition();
+    const pathname = usePathname();
 
     useEffect(() => {
         const fetchAndUpdate = async () => {
-            startTransitioning(async () => {
-                const response = await fetchMyNotification();
-
-                setNotifications(response.data);
-            });
+            if (pathname !== "/login" && pathname !== "/home"){
+                startTransitioning(async () => {
+                    const response = await fetchMyNotification();
+    
+                    try {
+                        setNotifications(response.data);
+                    }
+                    catch (error) {
+                        console.error(error);
+                    }
+                });
+            }
         };
 
         fetchAndUpdate();
     }, []);
 
+
+    const markAsRead = async (notifId:number) => {
+        const response = await updateNotfication(notifId);
+
+        if (response.success){
+            alert("successfully updated")
+            return;
+        }
+
+        alert("Not working")
+    }
+
     return (
-        <NotificationContext.Provider value={{ notifications, isLoading, setNotifications }}>
+        <NotificationContext.Provider value={{ notifications, isLoading, setNotifications, markAsRead }}>
             {children}
         </NotificationContext.Provider>
     );

@@ -182,7 +182,7 @@ export default function Attendance() {
       days.push(
         <div
           key={`empty-${i}`}
-          className="p-2 border rounded-md bg-green-700 dark:bg-green-800"
+          className="p-2 border rounded-md bg-green-900 dark:bg-green-900"
         ></div>
       );
     }
@@ -325,8 +325,7 @@ export default function Attendance() {
       className={`flex h-full min-h-screen bg-background transition-colors duration-200`}
     >
       <main
-        className={`flex-1 duration-200 ${
-          isSidebarOpen ? "sm:ml-64 ml-0" : "ml-0"
+        className={`flex-1 duration-200
         }`}
       >
         <div
