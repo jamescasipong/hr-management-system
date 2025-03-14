@@ -8,15 +8,13 @@ interface AppContextProps {
 
 export const SideDark = createContext<AppContextProps | undefined>(undefined);
 
-export const SideThemeProvider = ({ children }: { children: ReactNode }) => {
+export const SideBarProvider = ({ children }: { children: ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-
 
   return (
     <SideDark.Provider

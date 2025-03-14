@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle, AlertTriangle, XCircle, Clock, RefreshCw, Calendar, Bell } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 // Mock data for API status
 const apiServices = [
@@ -372,6 +373,7 @@ export default function ApiStatusPage() {
           </CardContent>
         </Card>
       </div>
+      <Footer></Footer>
     </div>
   )
 }

@@ -25,6 +25,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { Menu } from "lucide-react";
+import { Footer } from "@/components/footer";
 
 export default function DocumentationPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -604,6 +605,7 @@ export default function DocumentationPage() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }

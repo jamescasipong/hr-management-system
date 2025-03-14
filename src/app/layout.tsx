@@ -1,13 +1,11 @@
-import { SideThemeProvider } from "@/contextComponent/SideDark";
+import { SideBarProvider } from "@/contextComponent/SideDark";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 import {Navbar} from "../customComponents/navbar";
 import { headers } from "next/headers";
 import "./globals.css";
-import { AuthProvider } from "@/context/authContext";
-import { NotificationProvider } from "@/context/NotificationContext";
-import { AttendanceProvider } from "@/context/attendance-context";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,10 +43,10 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SideThemeProvider>
-
+          <SideBarProvider>
+            <Toaster />
             {children}
-          </SideThemeProvider>
+          </SideBarProvider>
         </ThemeProvider>
       </body>
     </html>

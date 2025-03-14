@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, Shield, FileText, ExternalLink } from 'lucide-react'
+import { Footer } from "@/components/footer"
 
 export default function TermsPage() {
   return (
@@ -362,6 +363,7 @@ export default function TermsPage() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   )
 }

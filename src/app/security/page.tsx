@@ -6,12 +6,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { ArrowLeft, Shield, Lock, Server, UserCheck, AlertTriangle, CheckCircle2, Clock, RefreshCw } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 export default function SecurityPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
+      <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
@@ -114,10 +115,10 @@ export default function SecurityPage() {
           </div>
 
           <Tabs defaultValue="data-security" className="mt-8">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="data-security">Data Security</TabsTrigger>
               <TabsTrigger value="access-control">Access Control</TabsTrigger>
-              <TabsTrigger value="compliance">Compliance</TabsTrigger>
+              {/* <TabsTrigger value="compliance">Compliance</TabsTrigger> */}
               <TabsTrigger value="incident-response">Incident Response</TabsTrigger>
             </TabsList>
 
@@ -233,7 +234,7 @@ export default function SecurityPage() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="compliance" className="mt-4">
+            {/* <TabsContent value="compliance" className="mt-4">
               <Card>
                 <CardHeader>
                   <CardTitle>Compliance & Certifications</CardTitle>
@@ -287,7 +288,7 @@ export default function SecurityPage() {
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
+            </TabsContent> */}
 
             <TabsContent value="incident-response" className="mt-4">
               <Card>
@@ -456,6 +457,7 @@ export default function SecurityPage() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   )
 }

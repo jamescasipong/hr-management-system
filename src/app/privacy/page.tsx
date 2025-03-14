@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Shield, Lock, Database, UserCheck, FileText, Globe } from 'lucide-react'
+import { Footer } from "@/components/footer"
 
 export default function PrivacyPage() {
   return (
@@ -350,6 +351,7 @@ export default function PrivacyPage() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   )
 }

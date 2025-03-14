@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Calendar, ArrowLeft, Download, ExternalLink, Newspaper, Award, FileText, MessageSquare } from 'lucide-react'
+import { Footer } from "@/components/footer"
 
 // Mock press releases data
 const pressReleases = [
@@ -544,6 +545,7 @@ export default function PressPage() {
           </TabsContent>
         </Tabs>
       </div>
+      <Footer></Footer>
     </div>
   )
 }

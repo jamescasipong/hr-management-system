@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,10 +33,75 @@ import {
   Sun,
 } from "lucide-react";
 import { ModeToggle } from "@/components/ui/modeToggle";
-
+import { currency as Currencies } from "../currency-symbols";
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currency, setCurrency] = useState<any>("default");
+  const [loading, setLoading] = useState(false);
+  const [currencyValue, setCurrencyValue] = useState(0);
   const [billingPeriod, setBillingPeriod] = useState("monthly");
+  const instanceAxios = axios.create({
+    baseURL:
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  useEffect(() => {
+    setLoading(true);
+      const fetchCurrency = async () => {
+        setLoading(true);
+        const response = await instanceAxios.get(
+          "http://ip-api.com/json/?fields=currency",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        setCurrency(response.data.currency.toLowerCase());
+      };
+
+      fetchCurrency();
+
+      setLoading(false);
+    
+  });
+
+  useEffect(() => {
+    setLoading(true);
+
+    if (currency !== "default") {
+      const fetchCountry = async () => {
+        const response = await instanceAxios.get(`php.json`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        setCurrencyValue(response.data["php"][currency]);
+        console.log("currencyValue", response.data["php"][currency]);
+      };
+      fetchCountry();
+      setLoading(false);
+    }
+  }, [currency]);
+
+  console.log(currencyValue);
+
+  const calculatePricing = (price: number) => {
+    if (loading || currencyValue === 0) {
+      return "loading...";
+    }
+
+    let newPrice = currencyValue * price;
+    let [p, decimal] = newPrice.toFixed(2).split(".");
+    let symbol = Currencies[currency.toUpperCase()]?.symbol ?? "₱";
+
+    return `${symbol}${p}.${decimal}`;
+  };
 
   const features = [
     {
@@ -96,7 +162,8 @@ export default function HomePage() {
     monthly: [
       {
         name: "Basic",
-        price: "$12",
+        price: `${calculatePricing(1999)
+        }`,
         period: "per user/month",
         description: "Perfect for small businesses just getting started",
         features: [
@@ -117,7 +184,7 @@ export default function HomePage() {
       },
       {
         name: "Premium",
-        price: "$29",
+        price: `${calculatePricing(4999)}`,
         period: "per user/month",
         description: "Ideal for growing businesses with advanced needs",
         features: [
@@ -135,7 +202,7 @@ export default function HomePage() {
       },
       {
         name: "Enterprise",
-        price: "$49",
+        price: `${calculatePricing(14999)}`,
         period: "per user/month",
         description: "Tailored solutions for large organizations",
         features: [
@@ -156,7 +223,7 @@ export default function HomePage() {
     yearly: [
       {
         name: "Basic",
-        price: "$10",
+        price: `${calculatePricing(1499)}`,
         period: "per user/month, billed annually",
         description: "Perfect for small businesses just getting started",
         features: [
@@ -177,7 +244,7 @@ export default function HomePage() {
       },
       {
         name: "Premium",
-        price: "$24",
+        price: `${calculatePricing(3749)}`,
         period: "per user/month, billed annually",
         description: "Ideal for growing businesses with advanced needs",
         features: [
@@ -195,7 +262,7 @@ export default function HomePage() {
       },
       {
         name: "Enterprise",
-        price: "$42",
+        price: `${calculatePricing(11249)}`,
         period: "per user/month, billed annually",
         description: "Tailored solutions for large organizations",
         features: [
@@ -313,7 +380,7 @@ export default function HomePage() {
               <div className="hidden md:flex md:items-center md:space-x-4">
                 <ModeToggle />
                 <Link href="/login">
-                  <Button variant="ghost">Log in</Button>
+                  <Button>Sign in</Button>
                 </Link>
                 <Link href="/signup">
                   <Button className="bg-blue-600 text-white hover:bg-blue-700 dark:blue-600 dark:hover:bg-blue-700">
@@ -631,7 +698,7 @@ export default function HomePage() {
                     variant="secondary"
                     className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
                   >
-                    Save 15%
+                    Save 25%
                   </Badge>
                 </span>
               </button>
@@ -648,7 +715,7 @@ export default function HomePage() {
                   }`}
                 >
                   {plan.popular && (
-                    <div className="px-4 py-1 pricing-popular-badge text-center text-sm font-medium dark:bg-blue-600">
+                    <div className="px-4 py-1 pricing-popular-badge text-center text-sm font-medium dark:bg-blue-600 bg-blue-600 text-white">
                       Most Popular
                     </div>
                   )}
@@ -657,10 +724,10 @@ export default function HomePage() {
                       {plan.name}
                     </CardTitle>
                     <div className="mt-4 flex items-baseline text-gray-900 dark:text-white">
-                      <span className="text-5xl font-extrabold tracking-tight">
+                      <span className="text-4xl font-extrabold tracking-tight">
                         {plan.price}
                       </span>
-                      <span className="ml-1 text-xl font-medium">
+                      <span className="ml-1 text-lg font-medium">
                         {plan.period}
                       </span>
                     </div>
@@ -765,7 +832,7 @@ export default function HomePage() {
       </section> */}
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 bg-white dark:bg-gray-800">
+      <section id="qna" className="py-20 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-base font-semibold text-blue-600 dark:text-blue-400 tracking-wide uppercase">
@@ -904,7 +971,7 @@ export default function HomePage() {
                     Product
                   </h3>
                   <ul className="mt-4 space-y-4">
-                    {["Features", "Pricing", "Integrations", "Updates"].map(
+                    {["Features", "Pricing", "Updates"].map(
                       (item) => (
                         <li key={item}>
                           <Link
@@ -943,7 +1010,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-8">
-                    {/* <div>
+                {/* <div>
               <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase">Company</h3>
               <ul className="mt-4 space-y-4">
                 {["About", "Blog"].map((item) => (

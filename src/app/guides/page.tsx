@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Search, FileText, Video, ChevronRight, Clock, BookOpen, Bookmark, Star, ArrowRight } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 // Mock data for guides
 const guides = [
@@ -468,6 +469,8 @@ export default function GuidesPage() {
           </div>
         </div>
       </div>
+
+      <Footer></Footer>
     </div>
   )
 }
