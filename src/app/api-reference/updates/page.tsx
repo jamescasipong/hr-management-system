@@ -271,7 +271,7 @@ export default function ApiUpdatesPage() {
                   <CardContent>
                     <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Changes:</h3>
                     <ul className="space-y-2">
-                      {update.changes.map((change, changeIndex) => (
+                      {update.changes.map((change: any, changeIndex: number) => (
                         <li key={changeIndex} className="flex items-start">
                           {change.type === "feature" && (
                             <Badge className="mr-2 mt-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">

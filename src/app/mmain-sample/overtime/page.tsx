@@ -15,7 +15,7 @@ import { toast } from "sonner"
 
 export default function NewOvertimePage() {
   const router = useRouter()
-  const [date, setDate] = useState(null)
+  const [date, setDate] = useState<Date | null>(null)
   const [startTime, setStartTime] = useState("")
   const [endTime, setEndTime] = useState("")
   const [hours, setHours] = useState("")
@@ -40,21 +40,21 @@ export default function NewOvertimePage() {
     }
   }
 
-  const handleStartTimeChange = (e) => {
+  const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartTime(e.target.value)
     if (endTime) {
       calculateHours()
     }
   }
 
-  const handleEndTimeChange = (e) => {
+  const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEndTime(e.target.value)
     if (startTime) {
       calculateHours()
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     // Validate form
@@ -73,10 +73,8 @@ export default function NewOvertimePage() {
     }
 
     if (!hours || Number.parseFloat(hours) <= 0) {
-      toast({
-        title: "Invalid Hours",
+      toast("Invalid Hours", {
         description: "Please enter valid overtime hours.",
-        variant: "destructive",
       })
       return
     }
@@ -125,7 +123,7 @@ export default function NewOvertimePage() {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                  <Calendar mode="single" selected={date ?? undefined} onSelect={(day) => setDate(day ?? null)} initialFocus />
                 </PopoverContent>
               </Popover>
             </div>

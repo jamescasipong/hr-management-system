@@ -132,12 +132,14 @@ export default function MyAttendancePage() {
   const [filteredData, setFilteredData] = useState(mockAttendanceData)
   const [statusFilter, setStatusFilter] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
-  const [userRole, setUserRole] = useState("employee")
+  const [userRole, setUserRole] = useState<"hr" | "employee" | "manager">("employee")
 
   // Get user role from localStorage
   useEffect(() => {
     const savedRole = localStorage.getItem("userRole") || "employee"
-    setUserRole(savedRole)
+    if (savedRole === "hr" || savedRole === "employee" || savedRole === "manager") {
+      setUserRole(savedRole)
+    }
   }, [])
 
   // Filter data based on status and search query
@@ -160,13 +162,13 @@ export default function MyAttendancePage() {
   }, [statusFilter, searchQuery, attendanceData])
 
   // Format date for display
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return format(date, "MMM dd, yyyy")
   }
 
   // Get status badge variant
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
       case "present":
         return "outline"
@@ -197,7 +199,7 @@ export default function MyAttendancePage() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="end">
-              <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+              <Calendar mode="single" selected={date} onSelect={(day) => day && setDate(day)} initialFocus />
             </PopoverContent>
           </Popover>
           <Button variant="outline">

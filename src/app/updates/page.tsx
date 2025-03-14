@@ -87,7 +87,7 @@ const updates = [
 ]
 
 // Categories with their corresponding colors
-const categories = {
+const categories: { [key in 'Feature' | 'Enhancement' | 'Security' | 'Release' | 'Maintenance']: string } = {
   "Feature": "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
   "Enhancement": "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
   "Security": "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
@@ -271,7 +271,17 @@ export default function UpdatesPage() {
 }
 
 // Update Card Component
-function UpdateCard({ update }) {
+interface Update {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  category: string;
+  isNew: boolean;
+  isImportant: boolean;
+}
+
+function UpdateCard({ update }: { update: Update }) {
   const [liked, setLiked] = useState(false)
   const [expanded, setExpanded] = useState(false)
 
@@ -281,7 +291,7 @@ function UpdateCard({ update }) {
         <div className="p-6">
           <div className="flex justify-between items-start mb-2">
             <div className="flex items-center gap-2">
-              <Badge className={categories[update.category] || "bg-gray-100 text-gray-800"}>
+              <Badge className={categories[update.category as keyof typeof categories] || "bg-gray-100 text-gray-800"}>
                 {update.category}
               </Badge>
               {update.isNew && (

@@ -194,7 +194,7 @@ function DashboardSkeleton() {
 }
 
 // Admin Dashboard
-function AdminDashboard({ lastUpdated }) {
+function AdminDashboard({ lastUpdated }: {lastUpdated: Date}) {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -354,7 +354,7 @@ function AdminDashboard({ lastUpdated }) {
 }
 
 // HR Dashboard
-function HRDashboard({ lastUpdated }) {
+function HRDashboard({ lastUpdated }: {lastUpdated: Date}) {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -496,7 +496,7 @@ function HRDashboard({ lastUpdated }) {
 }
 
 // Manager Dashboard
-function ManagerDashboard({ lastUpdated }) {
+function ManagerDashboard({ lastUpdated }: {lastUpdated: Date}) {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -757,7 +757,7 @@ function ManagerDashboard({ lastUpdated }) {
 }
 
 // Employee Dashboard
-function EmployeeDashboard({ lastUpdated }) {
+function EmployeeDashboard({ lastUpdated }: {lastUpdated: Date}) {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

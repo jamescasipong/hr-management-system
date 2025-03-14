@@ -91,8 +91,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
 
   const toggleDarkMode = () => {
+    const { theme, setTheme } = useTheme()
     setTheme(theme === "dark" ? "light" : "dark")
-    document.documentElement.classList.toggle("dark")
   }
 
   const toggleSidebar = () => {
@@ -118,9 +118,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
 type MainLayoutContentProps = {
   children: React.ReactNode,
-  userRole: string,
-  setUserRole: (role: UserRole) => void,
-  currentUser: { name: string, email: string, role: string, avatar: string },
+  userRole: UserRole,
+  setUserRole: React.Dispatch<React.SetStateAction<UserRole>>,
+  currentUser: User,
   pathname: string,
   toggleDarkMode: () => void,
   isSidebarCollapsed: boolean,
@@ -408,12 +408,14 @@ function MainLayoutContent({
                         variant="outline" 
                         size="icon"
                         className="h-9 w-9"
-                        onClick={() => setUserRole(prev => {
-                          const roles = ["admin", "hr", "manager", "employee"];
-                          const currentIndex = roles.indexOf(prev);
-                          const nextIndex = (currentIndex + 1) % roles.length;
-                          return roles[nextIndex];
-                        })}
+                        onClick={() => {
+                          setUserRole((prev) => {
+                            const roles: UserRole[] = ["admin", "hr", "manager", "employee"];
+                            const currentIndex = roles.indexOf(prev);
+                            const nextIndex = (currentIndex + 1) % roles.length;
+                            return roles[nextIndex] as UserRole;
+                          })
+                        }}
                       >
                         <Users className="h-4 w-4" />
                       </Button>

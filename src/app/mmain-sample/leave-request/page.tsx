@@ -18,7 +18,7 @@ import { toast } from "sonner"
 export default function NewLeaveRequestPage() {
   const router = useRouter()
   const [leaveType, setLeaveType] = useState("")
-  const [dateRange, setDateRange] = useState({
+  const [dateRange, setDateRange] = useState<{ from: Date | null; to: Date | null }>({
     from: null,
     to: null,
   })
@@ -42,7 +42,7 @@ export default function NewLeaveRequestPage() {
     return diffDays
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     // Validate form
@@ -123,8 +123,8 @@ export default function NewLeaveRequestPage() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={dateRange.from}
-                      onSelect={(date) => setDateRange({ ...dateRange, from: date })}
+                      selected={dateRange.from || undefined}
+                      onSelect={(date) => date && setDateRange({ ...dateRange, from: date })}
                       initialFocus
                     />
                   </PopoverContent>
@@ -140,8 +140,8 @@ export default function NewLeaveRequestPage() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={dateRange.to}
-                      onSelect={(date) => setDateRange({ ...dateRange, to: date })}
+                      selected={dateRange.to || undefined}
+                      onSelect={(date) => setDateRange({ ...dateRange, to: date || null })}
                       initialFocus
                       disabled={(date) => (dateRange.from ? date < dateRange.from : false)}
                     />
