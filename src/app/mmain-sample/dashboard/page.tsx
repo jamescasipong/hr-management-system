@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ClockInOutCard } from "@/components/clock-in-out-card"
+import { ClockInOutCard } from "@/app/mmain-sample/components/clock-in-out-card"
 
 // Mock data for charts and statistics
 const departmentData = [
@@ -756,8 +756,16 @@ function ManagerDashboard({ lastUpdated }: {lastUpdated: Date}) {
   )
 }
 
+interface lastUpdated {
+  lastUpdated: Date
+}
+
+type lastUpdatedTypes = {
+  lastUpdated: Date
+}
+
 // Employee Dashboard
-function EmployeeDashboard({ lastUpdated }: {lastUpdated: Date}) {
+function EmployeeDashboard( l : lastUpdatedTypes) {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -948,7 +956,7 @@ function EmployeeDashboard({ lastUpdated }: {lastUpdated: Date}) {
           </div>
         </CardContent>
         <CardFooter className="text-xs text-muted-foreground">
-          Last updated: {lastUpdated.toLocaleTimeString()}
+          Last updated: {l.lastUpdated.toLocaleTimeString()}
         </CardFooter>
       </Card>
     </>

@@ -20,7 +20,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
   useSidebar
-} from "@/components/ui/sidebar"
+} from "@/components/layout/sidebar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +33,7 @@ import { Home, Users, Calendar, Clock, FileText, BarChart2, Settings, HelpCircle
 import { useTheme } from "next-themes"
 
 type UserRole = "admin" | "manager" | "employee"
+
 
 interface UserData {
   name: string

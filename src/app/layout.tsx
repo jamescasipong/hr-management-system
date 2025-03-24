@@ -1,8 +1,8 @@
-import { SideBarProvider } from "@/contextComponent/SideDark";
+import { SideBarProvider } from "@/context/layout/custom-sidebar";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
-import {Navbar} from "../customComponents/navbar";
+import {Navbar} from "../custom-components/navbar";
 import { headers } from "next/headers";
 import "./globals.css";
 import { Toaster } from "sonner";
@@ -43,10 +43,8 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SideBarProvider>
             <Toaster />
             {children}
-          </SideBarProvider>
         </ThemeProvider>
       </body>
     </html>

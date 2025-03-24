@@ -1,0 +1,110 @@
+// API update history
+const apiUpdates = [
+    {
+      version: "v1.5.0",
+      date: "March 15, 2024",
+      title: "Enhanced Reporting API",
+      description: "Added new endpoints for advanced reporting and analytics.",
+      changes: [
+        { type: "feature", description: "Added new endpoint: GET /api/v1/reports/employee-turnover" },
+        { type: "feature", description: "Added new endpoint: GET /api/v1/reports/department-performance" },
+        { type: "feature", description: "Added new parameter 'format' to all report endpoints to support PDF, CSV, and JSON formats" },
+        { type: "improvement", description: "Improved performance of attendance report generation" },
+      ],
+      breaking: false,
+    },
+    {
+      version: "v1.4.2",
+      date: "February 28, 2024",
+      title: "Bug Fixes and Performance Improvements",
+      description: "Fixed several issues and improved API performance.",
+      changes: [
+        { type: "fix", description: "Fixed pagination issue in GET /api/v1/employees endpoint" },
+        { type: "fix", description: "Fixed incorrect date formatting in leave request responses" },
+        { type: "improvement", description: "Improved response time for payroll calculation endpoint" },
+        { type: "improvement", description: "Enhanced error messages for better troubleshooting" },
+      ],
+      breaking: false,
+    },
+    {
+      version: "v1.4.0",
+      date: "January 20, 2024",
+      title: "Payroll API Enhancements",
+      description: "Added new payroll features and improved existing functionality.",
+      changes: [
+        { type: "feature", description: "Added new endpoint: POST /api/v1/payroll/calculate" },
+        { type: "feature", description: "Added support for custom deduction types in payroll calculation" },
+        { type: "improvement", description: "Enhanced payslip generation with more detailed breakdown" },
+        { type: "improvement", description: "Added support for multiple payment methods in payroll processing" },
+      ],
+      breaking: false,
+    },
+    {
+      version: "v1.3.0",
+      date: "December 10, 2023",
+      title: "Leave Management Enhancements",
+      description: "Expanded leave management capabilities with new endpoints and features.",
+      changes: [
+        { type: "feature", description: "Added new endpoint: GET /api/v1/leaves/balance" },
+        { type: "feature", description: "Added support for leave accrual rules" },
+        { type: "feature", description: "Added ability to configure holiday calendars" },
+        { type: "improvement", description: "Enhanced leave approval workflow with multi-level approvals" },
+      ],
+      breaking: false,
+    },
+    {
+      version: "v1.2.0",
+      date: "November 5, 2023",
+      title: "Attendance API Improvements",
+      description: "Enhanced attendance tracking with new features and endpoints.",
+      changes: [
+        { type: "feature", description: "Added new endpoint: GET /api/v1/attendance/summary" },
+        { type: "feature", description: "Added support for geolocation in clock-in/out endpoints" },
+        { type: "feature", description: "Added support for time-off requests directly from attendance API" },
+        { type: "improvement", description: "Improved handling of timezone differences in attendance records" },
+      ],
+      breaking: false,
+    },
+    {
+      version: "v1.1.0",
+      date: "October 15, 2023",
+      title: "Employee API Enhancements",
+      description: "Added new employee management features and endpoints.",
+      changes: [
+        { type: "feature", description: "Added new endpoint: GET /api/v1/employees/{id}/documents" },
+        { type: "feature", description: "Added new endpoint: POST /api/v1/employees/{id}/documents" },
+        { type: "feature", description: "Added support for employee skills and certifications" },
+        { type: "improvement", description: "Enhanced employee search with additional filters" },
+      ],
+      breaking: false,
+    },
+    {
+      version: "v1.0.1",
+      date: "September 20, 2023",
+      title: "Bug Fixes and Minor Improvements",
+      description: "Fixed several issues reported by early adopters.",
+      changes: [
+        { type: "fix", description: "Fixed inconsistent error responses in authentication endpoints" },
+        { type: "fix", description: "Corrected documentation for several endpoints" },
+        { type: "improvement", description: "Improved rate limiting headers for better client-side handling" },
+        { type: "improvement", description: "Enhanced validation error messages" },
+      ],
+      breaking: false,
+    },
+    {
+      version: "v1.0.0",
+      date: "September 1, 2023",
+      title: "Initial API Release",
+      description: "First public release of the HRConnect API.",
+      changes: [
+        { type: "feature", description: "Employee management endpoints" },
+        { type: "feature", description: "Attendance tracking endpoints" },
+        { type: "feature", description: "Leave management endpoints" },
+        { type: "feature", description: "Basic payroll endpoints" },
+        { type: "feature", description: "Authentication and authorization" },
+      ],
+      breaking: false,
+    },
+  ]
+
+export {apiUpdates}

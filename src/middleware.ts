@@ -14,22 +14,22 @@ export interface JWTType {
 }
 
 const roleBasedRedirects: { [key: string]: string } = {
-  '/main/dashboard': '/main/admin/dashboard',
-  '/main/profile': '/main/admin/profile',
-  '/main/attendance': '/main/admin/attendance',
-  '/main/employees': '/main/admin/employees',
-  '/main/payroll': '/main/admin/payroll',
-  '/main/department': '/main/admin/department',
+  '/dashboard': '/admin/dashboard',
+  '/profile': '/admin/profile',
+  '/attendance': '/admin/attendance',
+  '/employees': '/admin/employees',
+  '/payroll': '/admin/payroll',
+  '/department': '/admin/department',
 };
 
 const validPaths = [
-  '/main/dashboard',
-  '/main/profile',
-  '/main/employees',
-  '/main/payroll',
-  '/main/usersettings',
-  '/main/admin',
-  '/main/attendance'
+  '/dashboard',
+  '/profile',
+  '/employees',
+  '/payroll',
+  '/usersettings',
+  '/admin',
+  '/attendance'
 ];
 
 export async function middleware(request: NextRequest) {
@@ -49,29 +49,32 @@ export async function middleware(request: NextRequest) {
     requestHeaders.set('authenticated', 'true');
 
     if (isAdmin && roleBasedRedirects[cleanPathname]) {
-      return NextResponse.redirect(new URL(roleBasedRedirects[cleanPathname], request.url));
+      if (cleanPathname !== '/usersettings') {
+        return NextResponse.redirect(new URL(roleBasedRedirects[cleanPathname], request.url));
+      }
     }
 
     const AdminRoutes = Object.values(roleBasedRedirects);
+    
 
-    if (isAdmin && cleanPathname.startsWith('/main/admin') && !AdminRoutes.includes(cleanPathname)) {
+    if (!isAdmin && cleanPathname.startsWith('/admin')) {
       return NextResponse.redirect(new URL('/404', request.url));
     }
 
     if (cleanPathname === '/') {
-      return NextResponse.redirect(new URL(isAdmin ? '/main/admin/dashboard' : '/main/dashboard', request.url));
+      return NextResponse.redirect(new URL(isAdmin ? '/admin/dashboard' : '/dashboard', request.url));
     }
 
-    if (cleanPathname.startsWith('/main/admin') && !isAdmin) {
+    if (cleanPathname.startsWith('/admin') && !isAdmin) {
       return NextResponse.redirect(new URL('/404', request.url));
     }
 
-    if (cleanPathname.startsWith('/main/employees') && !isAdmin) {
-      return NextResponse.redirect(new URL('/main/dashboard', request.url));
+    if (cleanPathname.startsWith('/employees') && !isAdmin) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-    if (cleanPathname.startsWith('/login') || cleanPathname.startsWith('/register')) {
-      return NextResponse.redirect(new URL(isAdmin ? '/admin/dashboard' : '/main/dashboard', request.url));
+    if (cleanPathname.startsWith('/signin') || cleanPathname.startsWith('/register')) {
+      return NextResponse.redirect(new URL(isAdmin ? '/admin/dashboard' : '/dashboard', request.url));
     }
 
     if (cleanPathname === '/404'){

@@ -10,7 +10,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { format } from "date-fns"
-import { ClockInOutCard } from "@/components/clock-in-out-card"
+import { ClockInOutCard } from "@/app/mmain-sample/components/clock-in-out-card"
 
 // Mock attendance data
 const mockAttendanceData = [

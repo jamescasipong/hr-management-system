@@ -101,7 +101,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <div className={``}>
-      <MainLayoutContent 
+      <MainLayoutContent
         userRole={userRole} 
         setUserRole={setUserRole} 
         currentUser={currentUser}
@@ -116,16 +116,21 @@ export default function MainLayout({ children }: MainLayoutProps) {
   )
 }
 
-type MainLayoutContentProps = {
+type burat = {
+  xd?: string;
+}
+
+
+type MainLayoutContentProps<Type> = {
   children: React.ReactNode,
   userRole: UserRole,
-  setUserRole: React.Dispatch<React.SetStateAction<UserRole>>,
+  setUserRole: Type,
   currentUser: User,
   pathname: string,
   toggleDarkMode: () => void,
   isSidebarCollapsed: boolean,
   toggleSidebar: () => void
-}
+} & burat;
 
 function MainLayoutContent({ 
   children, 
@@ -136,7 +141,7 @@ function MainLayoutContent({
   toggleDarkMode,
   isSidebarCollapsed,
   toggleSidebar
-}: MainLayoutContentProps) {
+}: MainLayoutContentProps<React.Dispatch<React.SetStateAction<UserRole>>>) {
   const [notifications, setNotifications] = useState([
     "New payroll has been processed",
     "Meeting scheduled for tomorrow at 10 AM",
