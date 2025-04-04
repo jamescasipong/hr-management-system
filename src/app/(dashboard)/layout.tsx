@@ -4,7 +4,7 @@ import { AttendanceProvider } from '@/context/api-state-session/attendance-conte
 import { AuthProvider } from '@/context/api-state-session/authContext';
 import { NotificationProvider } from '@/context/api-state-session/notification-context';
 import { SideBarProvider } from '@/context/layout/custom-sidebar';
-import { Navbar } from '@/custom-components/sidebar';
+import { SideBar } from '@/custom-components/sidebar';
 import { headers } from 'next/headers';
 import React from 'react';
 
@@ -23,7 +23,7 @@ export default async function NameLayout({ children }: { children: React.ReactNo
               <SideBarProvider>
               <AttendanceProvider>
               <NotificationProvider>
-                    {authenticated ? <Navbar isAdmin={isAdmin === "Admin"} isDisabled={isDisabled}>{children}</Navbar> : children}
+                    {authenticated ? <SideBar isAdmin={isAdmin === "Admin"} isDisabled={isDisabled}>{children}</SideBar> : children}
               </NotificationProvider>
               </AttendanceProvider>
               </SideBarProvider>
