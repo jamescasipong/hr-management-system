@@ -1,9 +1,6 @@
-import { SideBarProvider } from "@/context/layout/custom-sidebar";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
-import {Navbar} from "../custom-components/sidebar";
-import { headers } from "next/headers";
 import "./globals.css";
 import { Toaster } from "sonner";
 
