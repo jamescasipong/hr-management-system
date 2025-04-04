@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label"
 import { Eye, EyeOff, ArrowLeft, CheckCircle } from "lucide-react"
 import Link from "next/link"
 import { z } from "zod"
+import {resetSessionExist} from "@/lib/api/send-verification"
+import { set } from "date-fns"
 
 const resetPasswordSchema = z
   .object({
@@ -30,19 +32,41 @@ export default function ResetPasswordPage() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [tokenError, setTokenError] = useState<string | null>(null)
 
   const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
   const email = searchParams.get("email")
 
-  // Redirect if no token or email is provided
-  if (!token || !email) {
-    if (typeof window !== "undefined") {
-      router.push("/forgot-password")
+  // Check token validity
+  useEffect(() => {
+    // In a real app, you would verify the token with your backend
+    // This is a simplified example that checks if the token exists and simulates validation
+    const validateToken = async () => {
+      if (!token) {
+        setTokenError("Invalid or missing reset token")
+        return
+      }
+
+      try {
+        // Simulate token validation with backend
+        // In a real app, you would make an API call to validate the token
+        const response = await resetSessionExist(token)
+
+        if (response){
+          return;
+        }
+
+        setTokenError("Invalid reset token")
+      } catch (error) {
+        
+        setTokenError("Invalid reset token format")
+      }
     }
-    return null
-  }
+
+    validateToken()
+  }, [token, email])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -90,14 +114,38 @@ export default function ResetPasswordPage() {
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>
-            <CardTitle className="text-2xl">Reset your password</CardTitle>
+            <CardTitle className="text-2xl">
+              {tokenError ? "Invalid Reset Link" : isComplete ? "Password Reset" : "Reset your password"}
+            </CardTitle>
           </div>
           <CardDescription>
-            {!isComplete ? `Create a new password for ${email}` : "Your password has been reset successfully"}
+            {tokenError
+              ? "The password reset link is invalid or has expired"
+              : !isComplete
+                ? `Create a new password for ${email}`
+                : "Your password has been reset successfully"}
           </CardDescription>
         </CardHeader>
 
-        {!isComplete ? (
+        {tokenError ? (
+          <CardContent className="space-y-6">
+            <div className="bg-red-50 dark:bg-red-900/20 text-red-500 p-4 rounded-md text-sm">
+              <p className="font-medium mb-2">We couldn't verify your reset request</p>
+              <p>{tokenError}</p>
+            </div>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400">This may be because:</p>
+              <ul className="list-disc pl-5 text-sm text-gray-500 dark:text-gray-400 space-y-1">
+                <li>The reset link has expired (links are valid for 30 minutes)</li>
+                <li>The reset link was already used</li>
+                <li>The reset link was modified or is invalid</li>
+              </ul>
+            </div>
+            <Button onClick={() => router.push("/forgot-password")} className="w-full">
+              Request a new reset link
+            </Button>
+          </CardContent>
+        ) : !isComplete ? (
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -184,7 +232,7 @@ export default function ResetPasswordPage() {
               </p>
             </div>
 
-            <Button onClick={() => router.push("/login")} className="w-full">
+            <Button onClick={() => router.push("/signin")} className="w-full">
               Go to Login
             </Button>
           </CardContent>

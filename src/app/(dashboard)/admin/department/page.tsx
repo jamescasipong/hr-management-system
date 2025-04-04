@@ -21,6 +21,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useSidebar } from "@/context/layout/custom-sidebar"
 import { MoreHorizontal, Plus, Search, Save, X, Edit, Users } from "lucide-react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
+import { getDepartment } from "@/lib/api/department/department"
 
 type Department = {
   id: number
@@ -30,6 +31,8 @@ type Department = {
   employeeCount: number
   budget: string
 }
+
+
 
 type DepartmentFormData = Omit<Department, "id" | "employeeCount">
 
@@ -57,6 +60,20 @@ function DepartmentForm({
     manager: "",
     budget: "",
   })
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await getDepartment()
+        
+        console.log(response)
+      } catch (error) {
+        console.error("Error fetching departments", error)
+      }
+    }
+  
+    fetchDepartments()
+  }, []);
 
   useEffect(() => {
     if (isOpen) {

@@ -80,7 +80,7 @@ type AppSidebarProps = {
   children: React.ReactNode;
 };
 
-export function Navbar({
+export function SideBar({
   isAdmin,
   isDisabled = false,
   children,

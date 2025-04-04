@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+// import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +18,11 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Users, Building2, Settings, Calendar } from "lucide-react";
+
+// export const metadata: Metadata = {
+//   title: "Free Trial Setup - HRConnect",
+//   description: "Complete the setup process to get started with your HRConnect free trial.",
+// };
 
 export default function FreeTrialPage() {
   const [currentStep, setCurrentStep] = useState(1);

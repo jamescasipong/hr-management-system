@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useRef, useReducer, useEffect } from "react"
+import { useRef, useReducer, useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -30,6 +30,8 @@ export default function LoginPage() {
     isLoading: false,
   })
   const { email, password, showPassword, rememberMe, error, isLoading, twoFactorCode, twoFactorEnabled } = state;
+  const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
  
   useEffect(() => {
     emailRef.current?.focus()
@@ -65,6 +67,26 @@ export default function LoginPage() {
     dispatch({type: ReducerActionType.REMEMBER_ME, payload: checked})
   }
 
+  const getLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        },
+        (error) => {
+          setLocationError('Failed to get location');
+          console.error(error);
+        },
+        { enableHighAccuracy: true } // Request high accuracy
+      );
+    } else {
+      console.log('Geolocation is not supported by this browser');
+      setLocationError('Geolocation is not supported by this browser');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -80,6 +102,7 @@ export default function LoginPage() {
     try {
       // Simulate API call
       const response = await login(email, password)
+      getLocation();
 
       if (response.success) {
         router.push("/dashboard")
@@ -101,7 +124,7 @@ export default function LoginPage() {
     }
   }
 
-  console.log("state", state)
+  // console.log("state", state)
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">

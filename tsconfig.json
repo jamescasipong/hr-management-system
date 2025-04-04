@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-],
+, "src/deprecated/components/_formerLogin/deprecatedlogin"],
   "exclude": [
     "node_modules"
   ]

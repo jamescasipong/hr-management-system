@@ -1,13 +1,30 @@
-"use client"
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Shield, Lock, Database, UserCheck, FileText, Globe } from 'lucide-react'
-import { Footer } from "@/app/(home)/components/footer"
+import { Metadata } from "next"
 
-export default function PrivacyPage() {
+export const metadata: Metadata = {
+  title: "Privacy Policy | HRConnect",
+  description: "Privacy Policy for HRConnect",
+  openGraph: {
+    title: "Privacy Policy",
+    description: "Privacy Policy for HRConnect",
+    url: "/privacy",
+    siteName: "HRConnect",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+}
+
+export default async function PrivacyPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}

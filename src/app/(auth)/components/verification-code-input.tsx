@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input"
 import { ArrowLeft, CheckCircle, Loader2 } from "lucide-react"
 import Link from "next/link"
 
+
 interface VerificationCodeInputProps {
   length?: number
-  onComplete?: (code: string) => Promise<boolean>
+  onComplete?: (code: string) => Promise<unknown>
   onResend?: () => void
   title: string
   description: string
@@ -146,7 +147,7 @@ export function VerificationCodeInput({
       if (isVerified) {
         setIsVerified(true)
       } else {
-        setError("Invalid code. Please try again.")
+        setError("Invalid or expired password. Please try again.")
         setCode(Array(length).fill(""))
         inputRefs.current[0]?.focus()
       }

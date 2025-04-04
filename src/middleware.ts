@@ -85,13 +85,13 @@ export async function middleware(request: NextRequest) {
 
     requestHeaders.set('disable-nav', 'true');
     requestHeaders.delete('is-admin');
-    if (cleanPathname == '/' || cleanPathname.startsWith('/main')) {
+    if (cleanPathname == '/') {
       requestHeaders.set('disable-nav', 'true');
       return NextResponse.redirect(new URL('/home', request.url));
     }
 
     if (validPaths.some(path => pathname.startsWith(path))) {
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(new URL('/signin', request.url));
     }
   }
 

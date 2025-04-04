@@ -6,6 +6,7 @@ import { VerificationCodeInput } from "../components/verification-code-input"
 import {verify} from "@/lib/api/auth"
 import { boolean } from "zod"
 
+
 export default function VerifySignInPage() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -17,7 +18,7 @@ export default function VerifySignInPage() {
 
     try {
       // Simulate API call to verify code
-      const response = await verify(email, code)
+      const response  = await verify(email, code)
 
       if (response.success) {
         console.log("Verification successful")
@@ -27,13 +28,12 @@ export default function VerifySignInPage() {
       }
 
     } catch (error) {
-      return false;
       console.error("Verification failed:", error)
+      
+      return false;
     } finally {
       setIsLoading(false)
     }
-
-    return false
   }
 
   const handleResend = async () => {

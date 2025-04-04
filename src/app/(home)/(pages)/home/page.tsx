@@ -32,18 +32,28 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
-import { ModeToggle } from "@/components/ui/modeToggle";
-import instanceApi from "@/lib/api/auth";
-import { currency as Currencies } from "../../../currency-symbols";
-import { Header, HeaderItem, HeaderLink, HeaderLinks } from "../../components/header";
-import { features, pricingPlans, testimonials, faqs, MobileMenu, PricingPlans } from "@/data/home/index";
+import {
+  Header,
+  HeaderItem,
+  HeaderLink,
+  HeaderLinks,
+} from "../../components/header";
+import {
+  features,
+  pricingPlans,
+  testimonials,
+  faqs,
+  MobileMenu,
+  PricingPlans,
+} from "@/data/home/index";
+import Hero from "./components/hero";
+
 export default function HomePage() {
   const [enabled, setEnabled] = useState(false);
   const [currency, setCurrency] = useState<any>("default");
   const [loading, setLoading] = useState(false);
   const [currencyValue, setCurrencyValue] = useState(0);
   const [billingPeriod, setBillingPeriod] = useState("monthly");
-
 
   const instanceAxios = axios.create({
     baseURL:
@@ -52,8 +62,6 @@ export default function HomePage() {
       "Content-Type": "application/json",
     },
   });
-
-
 
   useEffect(() => {
     setLoading(true);
@@ -97,8 +105,6 @@ export default function HomePage() {
 
   console.log(currencyValue);
 
- 
-
   const mobileMenu = () => {
     return (
       <div>
@@ -109,9 +115,7 @@ export default function HomePage() {
             </HeaderLink>
           )
           )} */}
-          {
-            <HeaderLinks data={MobileMenu}></HeaderLinks>
-          }
+          {<HeaderLinks data={MobileMenu}></HeaderLinks>}
         </div>
         <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center px-5 space-x-3">
@@ -147,11 +151,16 @@ export default function HomePage() {
             </span>
           </HeaderLink>
           <div className="hidden md:ml-10 md:flex md:space-x-8">
-            {[["Features", "#features"], ["How It Works", "#how-it-works"], ["Pricing", "#pricing"], ["Q&A", "#qna"]].map((item, index) => (
+            {[
+              ["Features", "#features"],
+              ["How It Works", "#how-it-works"],
+              ["Pricing", "#pricing"],
+              ["Q&A", "#qna"],
+            ].map((item, index) => (
               <HeaderLink title={item[1]} key={index} href={item[1]}>
                 {item[0]}
               </HeaderLink>
-              ))}
+            ))}
           </div>
         </HeaderItem>
         <HeaderItem className="flex items-center">
@@ -171,7 +180,7 @@ export default function HomePage() {
               variant="ghost"
               size="icon"
               onClick={() => {
-                setEnabled(prev => !prev)
+                setEnabled((prev) => !prev);
               }}
             >
               <Menu className="h-6 w-6" />
@@ -184,7 +193,7 @@ export default function HomePage() {
       <section className="relative bg-white dark:bg-gray-800 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-8 lg:text-left">
+            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
               <h1>
                 <span className="block text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">
                   Introducing HRConnect
@@ -221,10 +230,10 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-            {/* <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
               <div className="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
                 <div className="relative block w-full bg-white dark:bg-gray-700 rounded-lg overflow-hidden">
-                  <img
+                  {/* <img
                     className="w-full"
                     src="/placeholder.svg?height=400&width=600"
                     alt="HRConnect Dashboard Preview"
@@ -236,10 +245,12 @@ export default function HomePage() {
                     >
                       Watch Demo
                     </Button>
-                  </div>
+                  </div> */}
+
+                  <Hero/>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </section>

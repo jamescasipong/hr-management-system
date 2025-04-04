@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { getEmployee } from "@/lib/api/employee"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -22,6 +23,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useSidebar } from "@/context/layout/custom-sidebar"
 import { MoreHorizontal, Plus, Search, Save, X, Edit } from "lucide-react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
+import { toast } from "sonner"
 
 type Employee = {
   id: number
@@ -71,6 +73,18 @@ function EmployeeForm({
       })
     }
   }, [isOpen])
+
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      const employee = await getEmployee()
+      
+      console.log("Employee", employee)
+    }
+    fetchEmployee()
+
+  }, [])
+
+  console.log("Form Data", formData)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -171,22 +185,31 @@ export default function Employees() {
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(param.toString())
-      params.set(name, value)
+      if (value == ""){
+        params.delete(name)
+      }
+      else {
+        params.set(name, value)
+      }
 
       return params.toString()
     },
     [param],
   )
-  const [departmentFilter, setDepartmentFilter] = useState(param.get("department") || "All")
+  const [departmentFilter, setDepartmentFilter] = useState(param.get("department") || "")
 
   useEffect(() => {
-    const filter = param.get("department") || "All";
+    const filter = param.get("department") || "";
     setDepartmentFilter(filter);
   
     if (typeof window !== "undefined" && filter === "All") {
       router.push(pathname + "?" + createQueryString("department", filter));
     }
   }, [param, pathname, router, createQueryString]);
+
+  useEffect(() => {
+
+  }, [])
 
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
@@ -196,9 +219,15 @@ export default function Employees() {
   const [editedValues, setEditedValues] = useState<EditedValues>({})
   const [selectAll, setSelectAll] = useState(false)
   const context = useSidebar()
+  const [loading, setLoading] = useState(false)
+  const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
 
   const { toggleSidebar, isSidebarOpen } = context
+
+
+  
 
   const initialEmployees: Employee[] = [
     {
@@ -244,19 +273,28 @@ export default function Employees() {
   ]
 
   const setDeparment = (value: string) => {
+    if (value === "all") {
+      value = ""
+    }
     router.push(pathname + "?" + createQueryString("department", value))
     setDepartmentFilter(value)
   }
 
   const [employees, setEmployees] = useState<Employee[]>(initialEmployees)
 
+  console.log("selected", JSON.stringify(selectedEmployee))
+  console.log("selectedS", JSON.stringify(selectedEmployees))
+
   const handleAddEmployee = (newEmployeeData: EmployeeFormData) => {
+    let max = Math.max(employees.map((value, index) => value.id).reduce((a, b) => Math.max(a, b)), 0)
+
     const newEmployee: Employee = {
-      id: employees.length + 1,
+      id: max,
       ...newEmployeeData,
       avatar: "/placeholder.svg?height=40&width=40",
     }
     setEmployees((prevEmployees) => [...prevEmployees, newEmployee])
+    toast.success("Employee added successfully")
   }
 
   const handleSearch = useCallback(
@@ -281,6 +319,8 @@ export default function Employees() {
     if (selectedEmployee) {
       setEmployees(employees.filter((emp) => emp.id !== selectedEmployee.id))
       setIsDeleteConfirmOpen(false)
+      toast.success("Employee deleted successfully")
+
     }
   }
 
@@ -305,6 +345,8 @@ export default function Employees() {
           position: emp.position,
         }
       })
+
+      console.log("Initial Edits", initialEdits)
       setEditedValues(initialEdits)
     }
   }
@@ -316,6 +358,8 @@ export default function Employees() {
       setSelectedEmployees((prev) => prev.filter((empId) => empId !== id))
     }
   }
+
+  // console.log("Selected Employees", editedValues)
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -345,9 +389,23 @@ export default function Employees() {
     }))
   }
 
-  const saveAllChanges = () => {
+  const saveAllChanges = async () => {
+
+    for (const [key, {email, department, name, position}] of Object.entries(editedValues)){
+      if (email == "" || department == "" || name == "" || position == ""){
+        toast.error("Please fill all fields")
+        return;
+      }
+    }
+    setLoading(true)
+    toast.loading("Saving changes...")
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+    toast.dismiss()
+    setLoading(false)
+    
     const updatedEmployees = employees.map((emp) => {
       if (selectedEmployees.includes(emp.id)) {
+
         return {
           ...emp,
           ...editedValues[emp.id],
@@ -355,7 +413,7 @@ export default function Employees() {
       }
       return emp
     })
-
+    toast.success("Changes saved successfully")
     setEmployees(updatedEmployees)
     toggleEditMode() // Exit edit mode after saving
   }
@@ -365,7 +423,7 @@ export default function Employees() {
       (employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         employee.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
         employee.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (departmentFilter === "All" || employee.department === departmentFilter),
+      (departmentFilter === "" || employee.department.toLowerCase() === departmentFilter),
   )
 
   return (
@@ -385,7 +443,7 @@ export default function Employees() {
                 <div className="flex gap-2">
                   {isEditMode ? (
                     <>
-                      <Button variant="default" onClick={saveAllChanges} disabled={selectedEmployees.length === 0}>
+                      <Button variant="default" onClick={saveAllChanges} disabled={selectedEmployees.length === 0 || loading}>
                         <Save className="sm:mr-2 mr-0 w-4 h-4" />
                         <p className="sm:block hidden">Save Changes</p>
                       </Button>
@@ -427,11 +485,11 @@ export default function Employees() {
                       <SelectValue placeholder="Filter by department" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="All">All Departments</SelectItem>
-                      <SelectItem value="Engineering">Engineering</SelectItem>
-                      <SelectItem value="Marketing">Marketing</SelectItem>
-                      <SelectItem value="HR">HR</SelectItem>
-                      <SelectItem value="Finance">Finance</SelectItem>
+                      <SelectItem value="all">All Departments</SelectItem>
+                      <SelectItem value="engineering">Engineering</SelectItem>
+                      <SelectItem value="marketing">Marketing</SelectItem>
+                      <SelectItem value="hr">HR</SelectItem>
+                      <SelectItem value="finance">Finance</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -480,7 +538,7 @@ export default function Employees() {
                           </Avatar>
                           {isEditMode && selectedEmployees.includes(employee.id) ? (
                             <Input
-                              value={editedValues[employee.id]?.name || employee.name}
+                              value={editedValues[employee.id]?.name}
                               onChange={(e) => handleInputChange(employee.id, "name", e.target.value)}
                               className="w-full"
                             />
@@ -492,7 +550,7 @@ export default function Employees() {
                       <TableCell>
                         {isEditMode && selectedEmployees.includes(employee.id) ? (
                           <Input
-                            value={editedValues[employee.id]?.email || employee.email}
+                            value={editedValues[employee.id]?.email}
                             onChange={(e) => handleInputChange(employee.id, "email", e.target.value)}
                             className="w-full"
                           />
@@ -503,7 +561,7 @@ export default function Employees() {
                       <TableCell>
                         {isEditMode && selectedEmployees.includes(employee.id) ? (
                           <Select
-                            value={editedValues[employee.id]?.department || employee.department}
+                            value={editedValues[employee.id]?.department}
                             onValueChange={(value:string) => handleInputChange(employee.id, "department", value)}
                           >
                             <SelectTrigger className="w-full">
@@ -523,7 +581,7 @@ export default function Employees() {
                       <TableCell>
                         {isEditMode && selectedEmployees.includes(employee.id) ? (
                           <Input
-                            value={editedValues[employee.id]?.position || employee.position}
+                            value={editedValues[employee.id]?.position}
                             onChange={(e) => handleInputChange(employee.id, "position", e.target.value)}
                             className="w-full"
                           />

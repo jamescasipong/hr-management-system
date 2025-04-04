@@ -74,8 +74,14 @@ export const logout = async () => {
     }
 }
 
+type ResponseData = {
+    success: boolean;
+    message: string;
+    data: any;
+}
 
-export const verify = async (email: string, code: string) => {
+
+export const verify = async (email: string, code: string): Promise<ResponseData> => {
     try {
         const response = await instanceApi.post(
             `user/account/login/verify`,
@@ -83,7 +89,7 @@ export const verify = async (email: string, code: string) => {
         );
 
         if (response.status === 200) {
-            const { data } = response;
+            const { data }: ResponseData = response;
 
             console.log("data", data);
             // console.log(data);
@@ -92,7 +98,7 @@ export const verify = async (email: string, code: string) => {
 
         console.log(response.status)
 
-        const { data } = response;
+        const { data }: ResponseData = response;
         return data;
         
     }
@@ -101,14 +107,38 @@ export const verify = async (email: string, code: string) => {
 
         console.log("error", error);
         if (axios.isAxiosError(error) && error.response) {
+            console.log("axioserror", error.response.data);
+
             return error.response.data;
         } else {
+            console.log("errorany", error);
+
             throw error;
         }
     }
 
 }
 
+export const sendEmailResetPassword = async (email: string) => {
 
+    const response = await instanceApi.post('user/account/send-reset', { email });
+
+    console.log("response", response)
+    try {
+
+
+        
+        if (response.status === 200) {
+            
+            return response.data;
+        }
+
+        return response.data;
+        
+    }
+    catch (error: any) {
+        throw error;
+    }
+}
 
 export default instanceApi;
