@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-export default function __sitemap__(): MetadataRoute.Sitemap {
+export default function sitemap(): MetadataRoute.Sitemap {
     // Base URL for production
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://hrconnect.vercel.app";
 
@@ -52,7 +52,7 @@ export default function __sitemap__(): MetadataRoute.Sitemap {
         { path: "/login", priority: 0.9, changeFrequency: "monthly" }
     ];
 
-    // Generate __sitemap__ entries
+    // Generate sitemap entries
     return routes.map(route => ({
         url: `${baseUrl}${route.path}`,
         lastModified: currentDate,
