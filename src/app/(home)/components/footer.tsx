@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function Footer() {
-  const products = ["Features", "Pricing", "Integrations", "Updates"];
+  const products = ["Features", "Pricing", "Updates"];
 
   return (
     <footer className="bg-gray-800 dark:bg-gray-900 dark:border-[1px] dark:border-gray-800">

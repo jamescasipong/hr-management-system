@@ -36,7 +36,7 @@ export default function CookiesPage() {
                 Contact Us
               </Button>
             </Link>
-            <Link href="/login">
+            <Link href="/signin">
               <Button size="sm">Sign In</Button>
             </Link>
           </div>
@@ -170,35 +170,35 @@ export default function CookiesPage() {
                         <TableCell>Essential</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium">auth_token</TableCell>
+                        <TableCell className="font-medium">backend_rt</TableCell>
                         <TableCell>Used for authentication</TableCell>
                         <TableCell>30 days</TableCell>
                         <TableCell>Essential</TableCell>
                       </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">theme_preference</TableCell>
-                        <TableCell>Stores your theme preference (light/dark)</TableCell>
-                        <TableCell>1 year</TableCell>
-                        <TableCell>Functional</TableCell>
-                      </TableRow>
+                      {/*<TableRow>*/}
+                      {/*  <TableCell className="font-medium">theme</TableCell>*/}
+                      {/*  <TableCell>Stores your theme preference (light/dark)</TableCell>*/}
+                      {/*  <TableCell>1 year</TableCell>*/}
+                      {/*  <TableCell>Functional</TableCell>*/}
+                      {/*</TableRow>*/}
                       <TableRow>
                         <TableCell className="font-medium">sidebar:state</TableCell>
                         <TableCell>Remembers sidebar state (expanded/collapsed)</TableCell>
                         <TableCell>7 days</TableCell>
                         <TableCell>Functional</TableCell>
                       </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">_ga</TableCell>
-                        <TableCell>Google Analytics</TableCell>
-                        <TableCell>2 years</TableCell>
-                        <TableCell>Analytics</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">_gid</TableCell>
-                        <TableCell>Google Analytics</TableCell>
-                        <TableCell>24 hours</TableCell>
-                        <TableCell>Analytics</TableCell>
-                      </TableRow>
+                      {/*<TableRow>*/}
+                      {/*  <TableCell className="font-medium">_ga</TableCell>*/}
+                      {/*  <TableCell>Google Analytics</TableCell>*/}
+                      {/*  <TableCell>2 years</TableCell>*/}
+                      {/*  <TableCell>Analytics</TableCell>*/}
+                      {/*</TableRow>*/}
+                      {/*<TableRow>*/}
+                      {/*  <TableCell className="font-medium">_gid</TableCell>*/}
+                      {/*  <TableCell>Google Analytics</TableCell>*/}
+                      {/*  <TableCell>24 hours</TableCell>*/}
+                      {/*  <TableCell>Analytics</TableCell>*/}
+                      {/*</TableRow>*/}
                     </TableBody>
                   </Table>
                 </CardContent>

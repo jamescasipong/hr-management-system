@@ -60,7 +60,7 @@ export default function DocumentationPage() {
                 Contact Us
               </Button>
             </Link>
-            <Link href="/login">
+            <Link href="/signin">
               <Button size="sm">Sign In</Button>
             </Link>
           </div>
@@ -95,7 +95,7 @@ export default function DocumentationPage() {
             <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center px-5 space-x-3">
                 <Link
-                  href="/login"
+                  href="/signin"
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-center"
                 >
                   Log in

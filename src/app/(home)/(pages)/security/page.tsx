@@ -36,7 +36,7 @@ export default function SecurityPage() {
                 Contact Us
               </Button>
             </Link>
-            <Link href="/login">
+            <Link href="/signin">
               <Button size="sm">Sign In</Button>
             </Link>
           </div>

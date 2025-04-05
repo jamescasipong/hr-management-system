@@ -101,7 +101,7 @@ export default function ContactUsPage() {
                 Guides
               </Button>
             </Link>
-            <Link href="/login">
+            <Link href="/signin">
               <Button size="sm">Sign In</Button>
             </Link>
           </div>

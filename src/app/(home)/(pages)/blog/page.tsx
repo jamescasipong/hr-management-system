@@ -120,7 +120,7 @@ export default function BlogPage() {
             <Link href="/contact-us">
               <Button variant="ghost" size="sm">Contact Us</Button>
             </Link>
-            <Link href="/login">
+            <Link href="/signin">
               <Button size="sm">Sign In</Button>
             </Link>
           </div>
