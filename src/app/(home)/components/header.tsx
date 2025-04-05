@@ -20,10 +20,10 @@ type HeaderLinksProps = {
 } & React.HtmlHTMLAttributes<Element>;
 
 export const Header: React.FC<HeaderProps> = (props) => {
-    const { children, menu, mobileMenu, ...others} = props;
+    const { children, menu, mobileMenu, className, ...others} = props;
 
   return (
-    <nav {...others} className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 border-b-[1px] border-gray-200 dark:border-gray-700">
+    <nav {...others} className={`bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 border-b-[1px] border-gray-200 dark:border-gray-700 ${className}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
                 {children}
