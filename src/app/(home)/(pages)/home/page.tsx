@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import HomePage from './components/HomePage';
 
 export const metadata = {
