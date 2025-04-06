@@ -1,5 +1,5 @@
 import HomePage from "@/app/components/HomePage";
-import Footer from "./components/hero";
+import {Footer} from "./(home)/components/footer";
 
 export const metadata = {
     title: 'HRConnect - Simplify Your HR Management',
