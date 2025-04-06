@@ -36,14 +36,14 @@ import {
   HeaderItem,
   HeaderLink,
   HeaderLinks,
-} from "../../../components/header";
+} from "../(home)/components/header";
 import {
   features,
   pricingPlans,
   faqs,
   MobileMenu,
   type PricingPlans,
-} from "@/data/home/index";
+} from "@/data/home";
 import Hero from "./hero";
 
 // Animation variants
@@ -219,7 +219,7 @@ export default function HomePage() {
         <Header mobileMenu={enabled} menu={mobileMenu()}>
           <HeaderItem className="flex items-center">
             <HeaderLink
-              href="/"
+              href="/public"
               className="flex-shrink-0 flex items-center px-0"
             >
               <motion.span
