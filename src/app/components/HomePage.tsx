@@ -219,7 +219,7 @@ export default function HomePage() {
         <Header mobileMenu={enabled} menu={mobileMenu()}>
           <HeaderItem className="flex items-center">
             <HeaderLink
-              href="/public"
+              href="/"
               className="flex-shrink-0 flex items-center px-0"
             >
               <motion.span
