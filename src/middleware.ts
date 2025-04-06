@@ -40,6 +40,10 @@ export async function middleware(request: NextRequest) {
 
   requestHeaders.set('disable-nav', 'false');
 
+  if (pathname === "/home") {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   if (token) {
     const decodedToken = jwtDecode<JWTType>(token.value);
 
@@ -61,7 +65,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/404', request.url));
     }
 
-    if (cleanPathname === '/') {
+    if (cleanPathname === '/signin' || cleanPathname === '/signup') {
       return NextResponse.redirect(new URL(isAdmin ? '/admin/dashboard' : '/dashboard', request.url));
     }
 
@@ -85,10 +89,10 @@ export async function middleware(request: NextRequest) {
 
     requestHeaders.set('disable-nav', 'true');
     requestHeaders.delete('is-admin');
-    if (cleanPathname == '/') {
-      requestHeaders.set('disable-nav', 'true');
-      return NextResponse.redirect(new URL('/home', request.url));
-    }
+    // if (cleanPathname == '/') {
+    //   requestHeaders.set('disable-nav', 'true');
+    //   return NextResponse.redirect(new URL('/home', request.url));
+    // }
 
     if (validPaths.some(path => pathname.startsWith(path))) {
       return NextResponse.redirect(new URL('/signin', request.url));
