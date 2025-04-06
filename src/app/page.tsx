@@ -1,4 +1,5 @@
 import HomePage from "@/app/components/HomePage";
+import Footer from "./components/hero";
 
 export const metadata = {
     title: 'HRConnect - Simplify Your HR Management',
@@ -45,5 +46,8 @@ export const metadata = {
 
 export default function Page() 
 {
-  return <HomePage />;
+  return <div>
+      <HomePage />
+      <Footer/>
+  </div>;
 }
