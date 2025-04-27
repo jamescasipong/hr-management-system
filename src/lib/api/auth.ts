@@ -1,16 +1,8 @@
+// "use server"
+// import {cookies} from "next/headers";
 
-
-const axios = require('axios');
-
-const instanceApi = axios.create({
-    baseURL: 'https://localhost:7147/api/v1/',
-    responseType: 'json',
-});
-
-// instanceApi.interceptors.response.use(function (response: any) {
-//     // Optional: Do something with response data
-//     return response;
-//   }, function (error:any) {
+import { instanceApi } from "../axios";
+import axios from "axios";
 
 //     return Promise.reject(error);
 //   });
@@ -41,16 +33,28 @@ export const login = async (email: string, password: string) => {
         console.log(response.status)
 
         const { data } = response;
+
+        // const cookieStore = await cookies();
+        //
+        // // Set the cookie
+        // cookieStore.set("token", data.token, {
+        //     httpOnly: true, // Make sure it's accessible only via HTTP
+        //     secure: process.env.NODE_ENV === 'production', // Ensure secure cookies in production
+        //     path: '/', // Path where the cookie is valid
+        //     maxAge: 60 * 60 * 24, // Cookie expiration (e.g., 1 day)
+        // });
+
         return data;
-        
     }
     catch (error: any) {
-        console.log(error.response.status)
 
         console.log("error", error);
+
         if (axios.isAxiosError(error) && error.response) {
+
             throw error;
         } else {
+
             throw error;
         }
     }
@@ -89,7 +93,7 @@ export const verify = async (email: string, code: string): Promise<ResponseData>
         );
 
         if (response.status === 200) {
-            const { data }: ResponseData = response;
+            const { data } = response;
 
             console.log("data", data);
             // console.log(data);
@@ -98,7 +102,7 @@ export const verify = async (email: string, code: string): Promise<ResponseData>
 
         console.log(response.status)
 
-        const { data }: ResponseData = response;
+        const { data } = response;
         return data;
         
     }

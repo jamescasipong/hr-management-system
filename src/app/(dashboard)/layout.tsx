@@ -4,7 +4,7 @@ import { AttendanceProvider } from '@/context/api-state-session/attendance-conte
 import { AuthProvider } from '@/context/api-state-session/authContext';
 import { NotificationProvider } from '@/context/api-state-session/notification-context';
 import { SideBarProvider } from '@/context/layout/custom-sidebar';
-import { SideBar } from '@/custom-components/sidebar';
+import { SideBar } from '@/app/(dashboard)/components/sidebar';
 import { headers } from 'next/headers';
 import React from 'react';
 

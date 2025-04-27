@@ -45,51 +45,9 @@ import {
   type PricingPlans,
 } from "@/data/home";
 import Hero from "./hero";
+import {animationVariants} from "@/app/_constant/animation-variants";
+import {howItWorks} from "@/app/_constant/sections_data";
 
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-    },
-  },
-};
 
 // Custom hook for scroll animations
 function useScrollAnimation(threshold = 0.2) {
@@ -107,6 +65,7 @@ function useScrollAnimation(threshold = 0.2) {
 }
 
 export default function HomePage() {
+  const {fadeIn, fadeInUp, scaleIn, staggerContainer} = animationVariants;
   const [enabled, setEnabled] = useState(false);
   const [currency, setCurrency] = useState<any>("default");
   const [loading, setLoading] = useState(false);
@@ -450,29 +409,7 @@ export default function HomePage() {
 
           <motion.div variants={staggerContainer} className="mt-16">
             <div className="lg:grid lg:grid-cols-3 lg:gap-8">
-              {[
-                {
-                  step: "01",
-                  title: "Set up your account",
-                  description:
-                    "Create your organization profile, add departments, and customize settings to match your company structure.",
-                  icon: Users,
-                },
-                {
-                  step: "02",
-                  title: "Add your employees",
-                  description:
-                    "Import your employee data or add them manually. Set up roles, permissions, and reporting structures.",
-                  icon: FileText,
-                },
-                {
-                  step: "03",
-                  title: "Start managing",
-                  description:
-                    "Track attendance, process payroll, manage leave requests, and generate reports—all from one dashboard.",
-                  icon: Zap,
-                },
-              ].map((item, index) => (
+              {howItWorks.map((item, index) => (
                 <motion.div
                   key={index}
                   variants={fadeInUp}

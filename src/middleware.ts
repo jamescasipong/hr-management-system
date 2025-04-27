@@ -34,6 +34,9 @@ const validPaths = [
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('token');
+
+  console.log("token", token);
+
   const { pathname, searchParams } = request.nextUrl;
   const cleanPathname = pathname.split('?')[0];
   const requestHeaders = new Headers(request.headers);
