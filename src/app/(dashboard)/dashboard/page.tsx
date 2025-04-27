@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useSidebar } from "../../../context/layout/custom-sidebar";
-import calendar from "../../../custom-components/custom-calendar";
+import calendar from "../components/custom-calendar";
 import employees from "../../data";
 import { useAttendance } from "@/context/api-state-session/attendance-context";
 import { AttendanceResponse, clockIn, clockOut } from "@/lib/api/dashboard/attendance";

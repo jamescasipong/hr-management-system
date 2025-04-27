@@ -17,7 +17,7 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import {
+import React, {
   Suspense,
   useCallback,
   useContext,
@@ -86,7 +86,7 @@ type Params = {
   params: Promise<{ user: string }>
 };
 
-export default async function EmployeeProfile({ params }: Params) {
+export default function EmployeeProfile({ params }: Params) {
   const context = useSidebar();
 
   const { isSidebarOpen, toggleSidebar } = context;
@@ -98,7 +98,7 @@ export default async function EmployeeProfile({ params }: Params) {
   const [countApiRequest, setCountApiRequest] = useState(0);
   const router = useRouter();
   const [loading, startTransitioning] = useTransition();
-  const {user} = await params;
+  const {user} = React.use(params);
 
   useEffect(() => {
     // Fetch employee data from API
@@ -130,7 +130,7 @@ export default async function EmployeeProfile({ params }: Params) {
             const response = await instanceApi.get(`employee/${user}`);
 
             if (response.status === 200) {
-              const { data } = response as EmployeeResponse;
+              const { data } = response;
               // Handle the data as needed
             }
 
