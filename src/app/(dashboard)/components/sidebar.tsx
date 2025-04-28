@@ -82,7 +82,6 @@ type AppSidebarProps = {
 
 export const logout = async () => {
 
-  console.log("logout", token);
 
   try {
     const response = await axios.post('api/logout', {
