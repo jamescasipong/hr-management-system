@@ -3,7 +3,7 @@ import axios from 'axios';
 // Ensure that API_URL is properly handled in production, otherwise fall back to a default
 const url = process.env.NODE_ENV === "development"
     ? "http://localhost:5075"
-    : process.env.API_URL ?? ""; // Default to an empty string if API_URL is undefined
+    : process.env.NEXT_PUBLIC_API_URL ?? ""; // Default to an empty string if API_URL is undefined
 
 // Ensure that the baseURL is valid (i.e., not an empty string)
 if (!url) {
