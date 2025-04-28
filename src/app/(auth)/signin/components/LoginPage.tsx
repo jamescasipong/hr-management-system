@@ -14,13 +14,12 @@ import { useRouter } from "next/navigation"
 import { loginReducer, ReducerActionType } from ".././utils"
 import axios, { isAxiosError } from "axios"
 import instanceApi from "@/lib/api/auth"
-import {cookies} from "next/headers";
 
 
 export const login = async (email: string, password: string) => {
 
     try {
-        const response = await instanceApi.post('api/login', { email, password }, {
+        const response = await axios.post('api/login', { email, password }, {
             withCredentials: true
         });
 
@@ -33,14 +32,6 @@ export const login = async (email: string, password: string) => {
         }
 
         console.log(response.status)
-
-        const { data } = response;
-        const cookieStores = await cookies();
-        cookieStores.set("token", data.token, {
-            httpOnly: true,
-            path: '/',
-            maxAge: 60 * 60 * 24, // 1 day
-        })
 
         // Set the cookie
 
