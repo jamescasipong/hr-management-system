@@ -77,6 +77,11 @@ function EmployeeForm({
   useEffect(() => {
     const fetchEmployee = async () => {
       const employee = await getEmployee()
+
+      if (employee.error){
+        console.log("Error employee")
+        return;
+      }
       
       console.log("Employee", employee)
     }

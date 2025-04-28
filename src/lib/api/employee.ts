@@ -19,11 +19,9 @@ const getEmployee = async () => {
     catch (error: any) {
         console.log(error.response.status)
 
-        console.log("error", error);
-        if (axios.isAxiosError(error) && error.response) {
-            throw error;
-        } else {
-            throw error;
+        return {
+            error: error.response.data,
+            message: error.message,
         }
     }
 }
