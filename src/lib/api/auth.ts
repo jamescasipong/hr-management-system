@@ -24,7 +24,7 @@ export const login = async (email: string, password: string) => {
     const token = (await cookies()).toString();
 
     try {
-        const response = await axios.post('user/account/login', { email, password }, {
+        const response = await instanceApi.post('user/account/login', { email, password }, {
             headers: {
                 Cookie: token
             }
