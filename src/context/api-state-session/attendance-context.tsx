@@ -33,14 +33,17 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
 
     useEffect((): void => {
         const fetchShiftState = async () => {
-            try {
-                const hasShiftTodayResponse = await hasShiftToday();
+                const hasShiftTodayResponse = await hasShiftToday() as any;
+
+                if (hasShiftTodayResponse.error) {
+                    setShift(false)
+                    return;
+                }
+
                 const hasShiftData = hasShiftTodayResponse?.data ?? false;
                 console.log("hasShift:", hasShiftData);
                 setShift(hasShiftData);
-            } catch (error) {
-                console.log("Error fetching shift state:", error);
-            }
+
         };
 
         startTransition(() => {
@@ -88,14 +91,16 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
 
     useEffect(() => {
         const fetchAttendanceToday = async () => {
-            try {
-                const attendaceResponse = await apiAttendanceToday();
+                const attendaceResponse = await apiAttendanceToday() as any;
+
+                if (attendaceResponse.error){
+                    setAttendanceToday({});
+                    return;
+                }
+
                 const attendanceData = attendaceResponse?.data as AttendanceResponse ?? {};
                 console.log("attendaceTodat", attendanceData);
                 setAttendanceToday(attendanceData);
-            } catch (error) {
-                console.log("Error fetching clocked out state:", error);
-            }
         };
 
         startTransition(() => {
