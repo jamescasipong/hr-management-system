@@ -1,4 +1,3 @@
-
 export async function POST(request: Request) {
     const body = await request.json();
     console.log("login body", body);
@@ -45,4 +44,4 @@ export async function POST(request: Request) {
             headers: { 'Content-Type': 'application/json' },
         });
     }
-}
+}  // <-- This was removed from the end of the function
