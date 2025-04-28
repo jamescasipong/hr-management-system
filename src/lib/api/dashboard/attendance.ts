@@ -1,4 +1,6 @@
+"use server"
 import instanceApi from "../auth";
+import {cookies} from "next/headers";
 
 interface ResponseSchema<dataType> {
     data: dataType;
@@ -41,8 +43,16 @@ export type AttendanceResponse = {
     employee: any;
 }
 
+
+
 const clockIn = async (): Promise<ApiResponseNoData | undefined> => {
-    const response: ResponseSchema<ApiResponseNoData> = await instanceApi.post("attendance/clock-in");
+    const cookie = (await cookies()).toString();
+
+    const response: ResponseSchema<ApiResponseNoData> = await instanceApi.post("attendance/clock-in", {
+        headers: {
+            Cookie: cookie
+        }
+    });
 
     try {
         if (response.status == 200){
@@ -59,7 +69,13 @@ const clockIn = async (): Promise<ApiResponseNoData | undefined> => {
 }
 
 const hasClockedIn = async (): Promise<ApiResponse | undefined>  => {
-    const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/clocked-in");
+    const cookie = (await cookies()).toString();
+
+    const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/clocked-in", {
+        headers: {
+            Cookie: cookie
+        }
+    });
     
     try {
         if (response.status == 200){
@@ -76,7 +92,13 @@ const hasClockedIn = async (): Promise<ApiResponse | undefined>  => {
 }
 
 const clockOut = async (): Promise<ApiResponseNoData | undefined> => {
-    const response: ResponseSchema<ApiResponseNoData> = await instanceApi.put("attendance/clock-out");
+    const cookie = (await cookies()).toString();
+
+    const response: ResponseSchema<ApiResponseNoData> = await instanceApi.put("attendance/clock-out", {
+        headers: {
+            Cookie: cookie
+        }
+    });
 
     try {
         if (response.status == 200){
@@ -93,7 +115,13 @@ const clockOut = async (): Promise<ApiResponseNoData | undefined> => {
 }
 
 const hasClockedOut = async (): Promise<ApiResponse | undefined> => {
-    const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/clocked-out");
+    const cookie = (await cookies()).toString();
+
+    const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/clocked-out", {
+        headers: {
+            Cookie: cookie
+        }
+    });
     
     try {
         if (response.status == 200){
@@ -111,7 +139,13 @@ const hasClockedOut = async (): Promise<ApiResponse | undefined> => {
 
 
 const hasShiftToday = async (): Promise<ApiResponse | undefined> => {
-    const response: ResponseSchema<ApiResponse> = await instanceApi.get("shift/shift-today");
+    const cookie = (await cookies()).toString();
+
+    const response: ResponseSchema<ApiResponse> = await instanceApi.get("shift/shift-today", {
+        headers: {
+            Cookie: cookie
+        }
+    });
 
     try {
         if (response.status == 200){
@@ -129,7 +163,13 @@ const hasShiftToday = async (): Promise<ApiResponse | undefined> => {
 
 
 const apiAttendanceToday = async (): Promise<ApiResponse | undefined> => {
-    const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/my-attendance-today");
+    const cookie = (await cookies()).toString();
+
+    const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/my-attendance-today", {
+        headers: {
+            Cookie: cookie
+        }
+    });
 
     try {
         if (response.status == 200){
