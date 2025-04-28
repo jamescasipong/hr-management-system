@@ -4,8 +4,6 @@ import { instanceApi } from "../axios";
 import axios from "axios";
 import https from "https";
 
-//     return Promise.reject(error);
-//   });
 
 instanceApi.interceptors.request.use((config: any) => {
     config.withCredentials = true;
@@ -24,6 +22,7 @@ const agent = new https.Agent({
 export const logout = async () => {
     const token = (await cookies()).toString();
 
+    console.log("logout", token);
 
     try {
         const response = await instanceApi.post('user/account/logout', {
@@ -31,13 +30,15 @@ export const logout = async () => {
                 Cookie: token
             }
         });
-
-
     }
     catch (error: any) {
         if (axios.isAxiosError(error) && error.response) {
-            return error.response.data;
+            console.error("axios error", error.response.data);
+
+            throw error
         } else {
+            console.error("error", error);
+
             throw error;
         }
     }
@@ -85,7 +86,7 @@ export const verify = async (email: string, code: string): Promise<ResponseData>
         if (axios.isAxiosError(error) && error.response) {
             console.log("axioserror", error.response.data);
 
-            return error.response.data;
+            throw error;
         } else {
             console.log("errorany", error);
 
@@ -106,7 +107,6 @@ export const sendEmailResetPassword = async (email: string) => {
 
     console.log("response", response)
     try {
-
 
 
         if (response.status === 200) {
