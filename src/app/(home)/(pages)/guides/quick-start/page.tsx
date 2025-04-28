@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import { ArrowLeft, ArrowRight, CheckCircle2, ChevronRight, Download, ExternalLink } from "lucide-react"
-import dotenv from "dotenv"
 export default function QuickStartPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const totalSteps = 5
