@@ -1,8 +1,15 @@
+"use server"
+import {cookies} from "next/headers";
 import instanceApi from "./auth";
 
 
 export const fetchMyNotification = async () => {
-    const response = await instanceApi.get('notification/my-notifications');
+    const cookie = (await cookies()).toString();
+    const response = await instanceApi.get('notification/my-notifications', {
+        headers: {
+            Cookie: cookie
+        }
+    });
     
     if (response.status !== 200) {
         throw new Error("An error occurred");
@@ -12,7 +19,13 @@ export const fetchMyNotification = async () => {
 }
 
 export const updateNotfication = async (notificationId: number) => {
-    const response = await instanceApi.put(`notification/mark-as-read/${notificationId}`);
+    const cookie = (await cookies()).toString();
+
+    const response = await instanceApi.put(`notification/mark-as-read/${notificationId}`, {
+        headers: {
+            Cookie: cookie
+        }
+    });
 
     if (response.status !== 200){
         throw new Error("An error occourred");
