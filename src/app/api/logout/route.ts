@@ -19,7 +19,7 @@ export async function POST(request: Request) {
             throw new Error(`Login failed: ${loginResponse.status} - ${errorText}`);
         }
 
-        return new Response(JSON.stringify({
+        const response =  new Response(JSON.stringify({
             status: 'success',
             message: `Logout successfully`,
         }), {
@@ -28,6 +28,13 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
             },
         });
+
+        response.headers.set(
+            "set-cookie",
+            "token=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0"
+        );
+
+        return response;
     } catch (error) {
         console.error("Reason for login failed", error);
 
