@@ -19,7 +19,7 @@ import instanceApi from "@/lib/api/auth"
 export const login = async (email: string, password: string) => {
 
     try {
-        const response = await axios.post('api/login', { email, password }, {
+        const response = await instanceApi.post('api/login', { email, password }, {
             withCredentials: true
         });
 
@@ -32,6 +32,9 @@ export const login = async (email: string, password: string) => {
         }
 
         console.log(response.status)
+
+        const { data } = response;
+
 
         // Set the cookie
 
