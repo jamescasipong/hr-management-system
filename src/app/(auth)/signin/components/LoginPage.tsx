@@ -152,6 +152,8 @@ export default function LoginPage() {
                 router.push("/verify-signin?email=" + encodeURIComponent(email))
             }
 
+            router.push("/dashboard")
+
         } catch (err) {
             if (isAxiosError(err)) {
                 handleError(err.response?.data?.message || "An error occurred")
