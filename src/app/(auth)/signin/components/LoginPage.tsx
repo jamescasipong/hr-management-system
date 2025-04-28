@@ -13,8 +13,6 @@ import { Eye, EyeOff, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { loginReducer, ReducerActionType } from ".././utils"
 import axios, { isAxiosError } from "axios"
-import {instanceApi} from "@/lib/axios";
-
 
 export const login = async (email: string, password: string) => {
 
