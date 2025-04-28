@@ -122,4 +122,3 @@ export const sendEmailResetPassword = async (email: string) => {
     }
 }
 
-export default instanceApi;
