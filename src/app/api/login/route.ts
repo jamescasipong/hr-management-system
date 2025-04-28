@@ -9,6 +9,7 @@ export async function POST(request: Request) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Cookie: request.headers.get("cookie") || "",
             },
             body: JSON.stringify(body),
             // Needed to include and forward cookies
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
 
         // Grab the set-cookie header(s)
         const rawCookies = loginResponse.headers.get('set-cookie');
+        console.log("rawCookies", rawCookies);
 
         return new Response(JSON.stringify({
             status: 'success',

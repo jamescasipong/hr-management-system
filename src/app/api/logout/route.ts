@@ -9,6 +9,7 @@ export async function POST(request: Request) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Cookie: request.headers.get("cookie") || "",
             },
             credentials: 'include',
         });
@@ -18,9 +19,6 @@ export async function POST(request: Request) {
             throw new Error(`Login failed: ${loginResponse.status} - ${errorText}`);
         }
 
-        // Grab the set-cookie header(s)
-        const rawCookies = loginResponse.headers.get('set-cookie');
-
         return new Response(JSON.stringify({
             status: 'success',
             message: `Logout successfully`,
@@ -28,7 +26,6 @@ export async function POST(request: Request) {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
-                ...(rawCookies ? { 'set-cookie': rawCookies } : {}),
             },
         });
     } catch (error) {
