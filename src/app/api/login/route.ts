@@ -3,8 +3,10 @@ export async function POST(request: Request) {
     const body = await request.json();
     console.log("login body", body);
 
+    const url = process.env.NODE_ENV === "production" ? process.env.API_URL : "http://localhost:5075";
+
     try {
-        const loginResponse = await fetch('https://hrconnect-atgdg3bxh8dwbbfx.southeastasia-01.azurewebsites.net/api/v1/user/account/login', {
+        const loginResponse = await fetch(`${url}/api/v1/user/account/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
