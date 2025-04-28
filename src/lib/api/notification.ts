@@ -5,17 +5,22 @@ import {instanceApi} from "../axios";
 
 export const fetchMyNotification = async () => {
     const cookie = (await cookies()).toString();
-    const response = await instanceApi.get('notification/my-notifications', {
-        headers: {
-            Cookie: cookie
-        }
-    });
-    
-    if (response.status !== 200) {
-        throw new Error("An error occurred");
-    }
+   try {
+       const response = await instanceApi.get('notification/my-notifications', {
+           headers: {
+               Cookie: cookie
+           }
+       });
 
-    return response.data;
+       return response.data
+   }
+   catch (error: any) {
+       return {
+           error: error,
+           message: error.message
+       }
+   }
+
 }
 
 export const updateNotfication = async (notificationId: number) => {
