@@ -1,5 +1,5 @@
 import axios from "axios";
-import instanceApi from "../auth";
+import {instanceApi} from "../../axios";
 
 
 export const createDepartment = async (deptName: string, description: string) => {

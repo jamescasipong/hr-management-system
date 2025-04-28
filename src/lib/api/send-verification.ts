@@ -1,5 +1,5 @@
 import axios from "axios";
-import instanceApi from "./auth";
+import {instanceApi} from "../axios";
 
 export const resetPassword = async (token: string, password: string) => {
     const response = await instanceApi.post("user/account/reset-password", { password }, {

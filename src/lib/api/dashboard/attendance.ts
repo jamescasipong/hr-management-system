@@ -1,5 +1,5 @@
 "use server"
-import instanceApi from "../auth";
+import {instanceApi} from "../../axios";
 import {cookies} from "next/headers";
 
 interface ResponseSchema<dataType> {

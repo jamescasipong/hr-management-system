@@ -2,7 +2,6 @@
 import {cookies} from "next/headers";
 import { instanceApi } from "../axios";
 import axios from "axios";
-import https from "https";
 
 
 instanceApi.interceptors.request.use((config: any) => {
@@ -14,12 +13,6 @@ instanceApi.interceptors.request.use((config: any) => {
     return Promise.reject(error);
 }
 );
-const agent = new https.Agent({
-    rejectUnauthorized: false,  // Disables SSL validation
-});
-
-
-
 
 type ResponseData = {
     success: boolean;
