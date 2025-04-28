@@ -42,14 +42,15 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
         const fetchAndUpdate = async () => {
             if (pathname !== "/login" && pathname !== "/home"){
                 startTransitioning(async () => {
-                    const response = await fetchMyNotification();
-    
-                    try {
-                        setNotifications(response.data);
+                    const response = await fetchMyNotification() as any;
+
+                    if (response.error){
+                        setNotifications([]);
+                        return;
                     }
-                    catch (error) {
-                        console.error(error);
-                    }
+
+                    setNotifications(response.data);
+
                 });
             }
         };

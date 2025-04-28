@@ -45,7 +45,7 @@ export type AttendanceResponse = {
 
 
 
-const clockIn = async (): Promise<ApiResponseNoData | undefined> => {
+const clockIn = async () => {
     const cookie = (await cookies()).toString();
 
     const response: ResponseSchema<ApiResponseNoData> = await instanceApi.post("attendance/clock-in", {
@@ -63,8 +63,10 @@ const clockIn = async (): Promise<ApiResponseNoData | undefined> => {
 
         return response.data;
     }
-    catch(error){
-        console.log(error);
+    catch(error: any){
+        return {
+            error: error, message: error.message
+        }
     }
 }
 
@@ -114,7 +116,7 @@ const clockOut = async () => {
     }
 }
 
-const hasClockedOut = async (): Promise<ApiResponse | undefined> => {
+const hasClockedOut = async () => {
     const cookie = (await cookies()).toString();
 
     const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/clocked-out", {
@@ -132,13 +134,15 @@ const hasClockedOut = async (): Promise<ApiResponse | undefined> => {
 
         return response.data;
     }
-    catch(error){
-        console.log(error);
+    catch(error: any){
+        return {
+            error: error, message: error.message
+        }
     }
 }
 
 
-const hasShiftToday = async (): Promise<ApiResponse | undefined> => {
+const hasShiftToday = async () => {
     const cookie = (await cookies()).toString();
 
     const response: ResponseSchema<ApiResponse> = await instanceApi.get("shift/shift-today", {
@@ -156,8 +160,8 @@ const hasShiftToday = async (): Promise<ApiResponse | undefined> => {
 
         return response.data;
     }
-    catch(error){
-        console.log(error);
+    catch(error: any){
+        return {error: error.message, message: error.message}
     }
 }
 

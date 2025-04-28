@@ -21,15 +21,20 @@ export const fetchMyNotification = async () => {
 export const updateNotfication = async (notificationId: number) => {
     const cookie = (await cookies()).toString();
 
+    try {
+
+
     const response = await instanceApi.put(`notification/mark-as-read/${notificationId}`, {
         headers: {
             Cookie: cookie
         }
     });
 
-    if (response.status !== 200){
-        throw new Error("An error occourred");
-    }
-
     return response.data;
+    }
+    catch (error: any) {
+        return {
+            error: error, message: error.message
+        }
+    }
 }
