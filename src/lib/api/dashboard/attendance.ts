@@ -68,7 +68,7 @@ const clockIn = async (): Promise<ApiResponseNoData | undefined> => {
     }
 }
 
-const hasClockedIn = async (): Promise<ApiResponse | undefined>  => {
+const hasClockedIn = async () => {
     const cookie = (await cookies()).toString();
 
     const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/clocked-in", {
@@ -86,8 +86,8 @@ const hasClockedIn = async (): Promise<ApiResponse | undefined>  => {
 
         return response.data;
     }
-    catch(error){
-        console.log(error);
+    catch(error: any){
+        return {error: error, message: error.message}
     }
 }
 

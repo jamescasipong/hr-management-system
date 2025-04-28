@@ -50,14 +50,18 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
 
     useEffect(() => {
         const fetchClockedInState = async () => {
-            try {
-                const clockedInResponse = await hasClockedIn();
+                const clockedInResponse = await hasClockedIn() as any;
+
+                if (clockedInResponse.error){
+                    console.log("clockedIn message:", clockedInResponse.message)
+                    console.log("clockedin error:", clockedInResponse.error);
+                    setClockedIn(false);
+                    return;
+                }
+
                 const clockedInData: boolean = clockedInResponse?.data ?? false;
                 console.log("clockedin:", clockedInData);
                 setClockedIn(clockedInData);
-            } catch (error) {
-                console.log("Error fetching clocked in state:", error);
-            }
         };
 
         startTransition((): void => {
