@@ -1,8 +1,6 @@
-// "use server"
-// import {cookies} from "next/headers";
-
 import { instanceApi } from "../axios";
 import axios from "axios";
+import https from "https";
 
 //     return Promise.reject(error);
 //   });
@@ -16,11 +14,16 @@ instanceApi.interceptors.request.use((config: any) => {
     return Promise.reject(error);
 }
 );
+const agent = new https.Agent({
+    rejectUnauthorized: false,  // Disables SSL validation
+});
 
 export const login = async (email: string, password: string) => {
 
     try {
-        const response = await instanceApi.post('user/account/login', { email, password });
+        const response = await axios.post('api/login', { email, password }, {
+            withCredentials: true,
+        });
 
         if (response.status === 200) {
             const { data } = response;
@@ -33,16 +36,15 @@ export const login = async (email: string, password: string) => {
         console.log(response.status)
 
         const { data } = response;
+        // const cookieStores = await cookies();
+        // cookieStores.set("token", data.token, {
+        //     httpOnly: true,
+        //     path: '/',
+        //     maxAge: 60 * 60 * 24, // 1 day
+        // })
 
-        // const cookieStore = await cookies();
-        //
-        // // Set the cookie
-        // cookieStore.set("token", data.token, {
-        //     httpOnly: true, // Make sure it's accessible only via HTTP
-        //     secure: process.env.NODE_ENV === 'production', // Ensure secure cookies in production
-        //     path: '/', // Path where the cookie is valid
-        //     maxAge: 60 * 60 * 24, // Cookie expiration (e.g., 1 day)
-        // });
+        // Set the cookie
+
 
         return data;
     }
