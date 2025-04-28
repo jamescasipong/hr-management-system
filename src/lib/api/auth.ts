@@ -1,3 +1,5 @@
+"use server"
+import {cookies} from "next/headers";
 import { instanceApi } from "../axios";
 import axios from "axios";
 import https from "https";
@@ -19,10 +21,13 @@ const agent = new https.Agent({
 });
 
 export const login = async (email: string, password: string) => {
+    const token = (await cookies()).toString();
 
     try {
-        const response = await axios.post('api/login', { email, password }, {
-            withCredentials: true,
+        const response = await axios.post('user/account/login', { email, password }, {
+            headers: {
+                Cookie: token
+            }
         });
 
         if (response.status === 200) {
@@ -36,12 +41,12 @@ export const login = async (email: string, password: string) => {
         console.log(response.status)
 
         const { data } = response;
-        // const cookieStores = await cookies();
-        // cookieStores.set("token", data.token, {
-        //     httpOnly: true,
-        //     path: '/',
-        //     maxAge: 60 * 60 * 24, // 1 day
-        // })
+        const cookieStores = await cookies();
+        cookieStores.set("token", data.token, {
+            httpOnly: true,
+            path: '/',
+            maxAge: 60 * 60 * 24, // 1 day
+        })
 
         // Set the cookie
 
@@ -63,10 +68,14 @@ export const login = async (email: string, password: string) => {
 }
 
 export const logout = async () => {
+    const token = (await cookies()).toString();
+
 
     try {
         const response = await instanceApi.post('user/account/logout', {
-            withCredentials: true
+            headers: {
+                Cookie: token
+            }
         });
 
         
@@ -88,10 +97,17 @@ type ResponseData = {
 
 
 export const verify = async (email: string, code: string): Promise<ResponseData> => {
+    const token = (await cookies()).toString();
+
     try {
         const response = await instanceApi.post(
             `user/account/login/verify`,
             { email, code }, // Request body
+            {
+                headers: {
+                    Cookie: token
+                }
+            }
         );
 
         if (response.status === 200) {
@@ -126,8 +142,13 @@ export const verify = async (email: string, code: string): Promise<ResponseData>
 }
 
 export const sendEmailResetPassword = async (email: string) => {
+    const token = (await cookies()).toString();
 
-    const response = await instanceApi.post('user/account/send-reset', { email });
+    const response = await instanceApi.post('user/account/send-reset', { email }, {
+        headers: {
+            Cookie: token
+        }
+    });
 
     console.log("response", response)
     try {
