@@ -1,5 +1,3 @@
-import {instanceApi} from "@/lib/axios";
-import {secureFetch} from "@/lib/customFetch";
 
 export async function POST(request: Request) {
     const body = await request.json();
