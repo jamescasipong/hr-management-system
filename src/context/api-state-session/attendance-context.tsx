@@ -74,14 +74,16 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
 
     useEffect((): void => {
         const fetchClockedOutState = async () => {
-            try {
                 const clockedOutResponse = await hasClockedOut() as any;
+
+                if (clockedOutResponse.error){
+                    setClockedOut(false);
+                    return;
+                }
+
                 const clockedOutData:boolean = clockedOutResponse?.data ?? false;
                 console.log("clockedout:", clockedOutData);
                 setClockedOut(clockedOutData);
-            } catch (error) {
-                console.log("Error fetching clocked out state:", error);
-            }
         };
 
         startTransition(() => {
