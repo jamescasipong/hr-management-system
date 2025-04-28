@@ -60,7 +60,7 @@ import {
 
 import { useState, useEffect, useContext } from "react";
 import { Building } from "lucide-react";
-import { logout } from "@/lib/api/auth";
+import axios from "axios";
 type UserNotification = {
   notificationId: number;
   employeeId: string;
@@ -79,6 +79,28 @@ type AppSidebarProps = {
   isDisabled?: boolean;
   children: React.ReactNode;
 };
+
+export const logout = async () => {
+
+  console.log("logout", token);
+
+  try {
+    const response = await axios.post('api/logout', {
+      withCredentials: true
+    });
+  }
+  catch (error: any) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error("axios error", error.response.data);
+
+      throw error
+    } else {
+      console.error("error", error);
+
+      throw error;
+    }
+  }
+}
 
 export function SideBar({
   isAdmin,
@@ -123,11 +145,16 @@ export function SideBar({
   };
 
   const handleLogout = async () => {
-    await logout();
-    setIsAuthenticated(false);
-    setIsProfileModalOpen(false);
-    router.push("/signin");
-    router.refresh();
+    try{
+      await logout();
+      setIsAuthenticated(false);
+      setIsProfileModalOpen(false);
+      router.push("/signin");
+      router.refresh();
+    }
+    catch(error){
+      console.error("logout", error);
+    }
   };
 
   const handleViewProfile = () => {
