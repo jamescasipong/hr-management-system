@@ -1,5 +1,5 @@
 import axios from "axios";
-import instanceApi from "./auth";
+import {instanceApi} from "../axios";
 
 
 const getEmployee = async () => {

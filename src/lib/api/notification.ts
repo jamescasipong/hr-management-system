@@ -1,6 +1,6 @@
 "use server"
 import {cookies} from "next/headers";
-import instanceApi from "./auth";
+import {instanceApi} from "../axios";
 
 
 export const fetchMyNotification = async () => {
