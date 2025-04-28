@@ -19,30 +19,7 @@ const agent = new https.Agent({
 });
 
 
-export const logout = async () => {
-    const token = (await cookies()).toString();
 
-    console.log("logout", token);
-
-    try {
-        const response = await instanceApi.post('user/account/logout', {
-            headers: {
-                Cookie: token
-            }
-        });
-    }
-    catch (error: any) {
-        if (axios.isAxiosError(error) && error.response) {
-            console.error("axios error", error.response.data);
-
-            throw error
-        } else {
-            console.error("error", error);
-
-            throw error;
-        }
-    }
-}
 
 type ResponseData = {
     success: boolean;
