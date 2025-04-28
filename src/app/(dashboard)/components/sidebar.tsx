@@ -122,8 +122,8 @@ export function SideBar({
     markAsRead(id);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setIsAuthenticated(false);
     setIsProfileModalOpen(false);
     router.push("/signin");
