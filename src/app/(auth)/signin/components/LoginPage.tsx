@@ -12,9 +12,54 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { loginReducer, ReducerActionType } from ".././utils"
-import {login, logout} from "@/lib/api/auth"
-import { isAxiosError } from "axios"
+import axios, { isAxiosError } from "axios"
 import instanceApi from "@/lib/api/auth"
+import {cookies} from "next/headers";
+
+
+export const login = async (email: string, password: string) => {
+
+    try {
+        const response = await instanceApi.post('api/login', { email, password }, {
+            withCredentials: true
+        });
+
+        if (response.status === 200) {
+            const { data } = response;
+
+            console.log("data", data);
+            // console.log(data);
+            return data;
+        }
+
+        console.log(response.status)
+
+        const { data } = response;
+        const cookieStores = await cookies();
+        cookieStores.set("token", data.token, {
+            httpOnly: true,
+            path: '/',
+            maxAge: 60 * 60 * 24, // 1 day
+        })
+
+        // Set the cookie
+
+
+        return data;
+    }
+    catch (error: any) {
+
+        console.log("error", error);
+
+        if (axios.isAxiosError(error) && error.response) {
+
+            throw error;
+        } else {
+
+            throw error;
+        }
+    }
+}
 
 export default function LoginPage() {
     const router = useRouter()
@@ -123,6 +168,7 @@ export default function LoginPage() {
             handleIsLoading(false)
         }
     }
+
 
     // console.log("state", state)
 

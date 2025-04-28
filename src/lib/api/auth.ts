@@ -20,52 +20,6 @@ const agent = new https.Agent({
     rejectUnauthorized: false,  // Disables SSL validation
 });
 
-export const login = async (email: string, password: string) => {
-    const token = (await cookies()).toString();
-
-    try {
-        const response = await instanceApi.post('user/account/login', { email, password }, {
-            headers: {
-                Cookie: token
-            }
-        });
-
-        if (response.status === 200) {
-            const { data } = response;
-
-            console.log("data", data);
-            // console.log(data);
-            return data;
-        }
-
-        console.log(response.status)
-
-        const { data } = response;
-        const cookieStores = await cookies();
-        cookieStores.set("token", data.token, {
-            httpOnly: true,
-            path: '/',
-            maxAge: 60 * 60 * 24, // 1 day
-        })
-
-        // Set the cookie
-
-
-        return data;
-    }
-    catch (error: any) {
-
-        console.log("error", error);
-
-        if (axios.isAxiosError(error) && error.response) {
-
-            throw error;
-        } else {
-
-            throw error;
-        }
-    }
-}
 
 export const logout = async () => {
     const token = (await cookies()).toString();
@@ -78,7 +32,7 @@ export const logout = async () => {
             }
         });
 
-        
+
     }
     catch (error: any) {
         if (axios.isAxiosError(error) && error.response) {
@@ -122,7 +76,7 @@ export const verify = async (email: string, code: string): Promise<ResponseData>
 
         const { data } = response;
         return data;
-        
+
     }
     catch (error: any) {
         console.log(error.response.status)
@@ -154,14 +108,14 @@ export const sendEmailResetPassword = async (email: string) => {
     try {
 
 
-        
+
         if (response.status === 200) {
-            
+
             return response.data;
         }
 
         return response.data;
-        
+
     }
     catch (error: any) {
         throw error;
