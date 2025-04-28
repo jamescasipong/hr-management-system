@@ -75,7 +75,7 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
     useEffect((): void => {
         const fetchClockedOutState = async () => {
             try {
-                const clockedOutResponse = await hasClockedOut();
+                const clockedOutResponse = await hasClockedOut() as any;
                 const clockedOutData:boolean = clockedOutResponse?.data ?? false;
                 console.log("clockedout:", clockedOutData);
                 setClockedOut(clockedOutData);
