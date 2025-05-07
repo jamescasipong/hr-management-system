@@ -16,7 +16,7 @@ export const instanceApi = axios.create({
     withCredentials: true, // Needed to send/receive cookies
 });
 
-const API_BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:5075/api/v1" : process.env.NEXT_PUBLIC_API_URL ?? "";
+const API_BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:5075/api/v1" : `${process.env.NEXT_PUBLIC_API_URL}/api/v1`;
 
 export const callApiClient = async (endpoint: string, method: string = 'GET', body: any = null) => {
     
