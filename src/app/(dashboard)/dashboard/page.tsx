@@ -30,14 +30,22 @@ import {
   Group,
   Timer,
 } from "lucide-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useTransition } from "react";
 import { useSidebar } from "../../../context/layout/custom-sidebar";
 import calendar from "../components/custom-calendar";
 import employees from "../../data";
 import { useAttendance } from "@/context/api-state-session/attendance-context";
-import { apiAttendanceToday, AttendanceResponse, clockIn, clockOut } from "@/lib/api/dashboard/actions";
+import {
+  apiAttendanceToday,
+  AttendanceResponse,
+  clockIn,
+  clockOut,
+  mySubordinates,
+} from "@/lib/api/dashboard/actions";
 import { set } from "date-fns";
 import { time } from "console";
+import { getSessionState } from "@/lib/cookie";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type AttendanceType = {
   clockedIn: boolean;
@@ -52,7 +60,6 @@ type AttendanceType = {
 export default function Dashboard() {
   const context = useSidebar();
 
-  
   const {
     clockedIn,
     setClockedIn,
@@ -68,13 +75,54 @@ export default function Dashboard() {
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [isClockModalOpen, setIsClockModalOpen] = useState(false);
   const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
+  const [Loading, startTransition] = useTransition();
 
   useEffect(() => {
-    setWorkingHours(attendanceToday?.workingHours ?? attendanceToday?.clockIn ? attendanceToday?.clockIn == "00:00:00" ? 0 : convertToDate(attendanceToday.clockIn).getTime() - new Date().getTime() : 0);
-    setStartTime(attendanceToday?.clockIn ? attendanceToday?.clockIn == "00:00:00" ? null : convertToDate(attendanceToday.clockIn) : null);
-    setEndTime(attendanceToday?.clockOut ? attendanceToday?.clockOut == "00:00:00" ? null : convertToDate(attendanceToday.clockOut) : null);
-
+    setWorkingHours(
+      attendanceToday?.workingHours ?? attendanceToday?.clockIn
+        ? attendanceToday?.clockIn == "00:00:00"
+          ? 0
+          : convertToDate(attendanceToday.clockIn).getTime() -
+            new Date().getTime()
+        : 0
+    );
+    setStartTime(
+      attendanceToday?.clockIn
+        ? attendanceToday?.clockIn == "00:00:00"
+          ? null
+          : convertToDate(attendanceToday.clockIn)
+        : null
+    );
+    setEndTime(
+      attendanceToday?.clockOut
+        ? attendanceToday?.clockOut == "00:00:00"
+          ? null
+          : convertToDate(attendanceToday.clockOut)
+        : null
+    );
   }, [workingHours, attendanceToday, isPending]);
+
+  useEffect(() => {
+    const fetchMySubordinates = async () => {
+      const user = await getSessionState();
+
+      console.log("User", user);
+
+      const subordinates = await mySubordinates();
+
+      if (subordinates.error) {
+        console.log("Error fetching subordinates", subordinates.error);
+        return;
+      }
+
+      setCoworkers(subordinates);
+
+      console.log("Subordinates fetched successfully", subordinates);
+    };
+    startTransition(async () => {
+      await fetchMySubordinates();
+    });
+  }, []);
 
   const convertToDate = (time: string) => {
     const [hours, minutes] = time.split(".")[0].split(":");
@@ -91,9 +139,8 @@ export default function Dashboard() {
     { day: "Thursday", clockIn: "08:30 AM", clockOut: "04:45 PM" },
     { day: "Friday", clockIn: "09:00 AM", clockOut: "05:00 PM" },
   ]);
-  const [coworkers, setCoworkers] = useState(
-    employees.filter((e) => e.username !== "jcasipong")
-  );
+  const [coworkers, setCoworkers] = useState<any>([]);
+
   const [myProfile, setMyProfile] = useState(
     employees.find((e) => e.username === "blank")
   );
@@ -149,7 +196,9 @@ export default function Dashboard() {
         setClockedIn(false);
         clockOut();
         setEndTime(now);
-        setWorkingHours(startTime ? (now.getTime() - startTime.getTime()) / 1000 / 60 / 60 : 0);
+        setWorkingHours(
+          startTime ? (now.getTime() - startTime.getTime()) / 1000 / 60 / 60 : 0
+        );
         setWeeklyClockData((prev) => {
           prev[0] = {
             ...prev[0],
@@ -178,8 +227,7 @@ export default function Dashboard() {
         setEndTime(null);
       }
       setIsClockModalOpen(false);
-    }
-    else {
+    } else {
       alert("You have already clocked out");
     }
   };
@@ -201,8 +249,6 @@ export default function Dashboard() {
 
     return format;
   }
-
-  console.log(isPending, clockedOut, hasShift)
 
   return (
     <div className={`flex h-full transition-colors duration-200`}>
@@ -238,9 +284,10 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between ">
                   <div className="">
                     <p className="text-2xl font-bold">
-                        {isPending
+                      {isPending
                         ? "Loading..."
-                        : attendanceToday?.workingHours ?? 0} {isPending ? "" : "hours"}
+                        : attendanceToday?.workingHours ?? 0}{" "}
+                      {isPending ? "" : "hours"}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 text-[14px]">
                       Today&apos;s working hour
@@ -257,7 +304,6 @@ export default function Dashboard() {
                       open={isClockModalOpen}
                       onOpenChange={setIsClockModalOpen}
                     >
-                      
                       <DialogTrigger asChild>
                         <Button
                           disabled={isPending || clockedOut || !hasShift}
@@ -368,16 +414,21 @@ export default function Dashboard() {
                 <CardDescription>Today's attendance status</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 ">
-                  {coworkers
-                    .filter(
-                      (coworker) => coworker.department == myProfile?.department
-                    )
-                    .map((coworker, index) => (
+                {Loading ? (
+                  <div className="flex items-center space-x-4">
+                    <Skeleton className="h-12 w-12 rounded-full" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-[250px]" />
+                      <Skeleton className="h-4 w-[200px]" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 ">
+                    {coworkers.map((coworker: any, index: number) => (
                       <div
                         onClick={() => {
                           window.location.href =
-                            "/profile/" + coworker.username;
+                            "/profile/" + coworker.aboutEmployee?.firstName;
                         }}
                         key={index}
                         className="flex items-center space-x-2 rounded-lg p-2 cursor-pointer transition-all duration-100 ease-in-out"
@@ -389,25 +440,25 @@ export default function Dashboard() {
                           <Avatar className="border-[1px] dark:border-slate-700">
                             <AvatarImage
                               src={coworker.profilePicUrl}
-                              alt={coworker.name}
+                              alt={coworker.firstName}
                             />
                             <AvatarFallback>
-                              {coworker.name
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")}
+                              {coworker?.aboutEmployee?.firstName}
                             </AvatarFallback>
                           </Avatar>
                         </div>
                         <div>
-                          <p className="font-medium">{coworker.name}</p>
+                          <p className="font-medium">
+                            {coworker.aboutEmployee?.firstName}
+                          </p>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {coworker.status.type}
+                            {coworker.status}
                           </p>
                         </div>
                       </div>
                     ))}
-                </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

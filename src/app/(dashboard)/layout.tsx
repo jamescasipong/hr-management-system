@@ -13,8 +13,7 @@ export default async function NameLayout({ children }: { children: React.ReactNo
 
     const nav = headersList.get("disable-nav");
     const isAdmin = headersList.get("is-admin");
-    const authenticated = headersList.get("authenticated");
-  
+    const authenticated = headersList.get("authenticated");  
     const isDisabled = nav === "true";
     
     return (

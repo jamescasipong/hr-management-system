@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {format} from "date-fns"
 import {
   Table,
   TableBody,
@@ -37,10 +38,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useSidebar } from "@/context/layout/custom-sidebar";
-import { addDays } from "date-fns";
+import { myAttendances } from "@/lib/api/attendance/actions";
+import { addDays, set } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
+import { formatToAmPm, getDayName } from "@/lib/utils/dateUtils";
 
 type AttendanceRecord = {
   date: string;
@@ -88,11 +91,34 @@ export default function Attendance() {
     from: addDays(new Date(), -30),
     to: new Date(),
   });
+  const [attendances, setAttendanceRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
+
+    const fetchAttendances = async () => {
+      setIsLoading(true);
+      const attendanceRecords = await myAttendances()
+
+
+      if (attendanceRecords.error) {
+        setIsLoading(false);
+
+        console.error("Error fetching attendance records:", attendanceRecords.error);
+        return;
+      };
+
+
+      setAttendanceRecords(attendanceRecords.data)
+      
+      setIsLoading(false);
+
+      console.log("Attendance Records:", attendanceRecords);
+    }
+
+    fetchAttendances()
   }, []);
+  
 
   const handleCheckInOut = () => {
     const now = new Date();
@@ -165,7 +191,7 @@ export default function Attendance() {
 
   const getAttendanceStatus = (date: Date): AttendanceRecord | undefined => {
     const dateString = date.toISOString().split("T")[0];
-    return attendanceRecords.find((record) => record.date === dateString);
+    return attendances.find((record: any) => format(record.dateToday, "yyy-MM-dd") === dateString);
   };
 
   const RenderCalendar = () => {
@@ -190,7 +216,7 @@ export default function Attendance() {
       const isToday = date.toDateString() === today.toDateString();
       const isPast = date < today;
       const isFuture = date > today;
-      const attendanceStatus = getAttendanceStatus(date);
+      const attendanceStatus = getAttendanceStatus(date) as any;
       const isWeekday = date.getDay() >= 1 && date.getDay() <= 5;
 
       days.push(
@@ -205,7 +231,7 @@ export default function Attendance() {
                   ${isPast ? "bg-green-700 dark:bg-green-700" : ""}
                   ${isFuture ? "bg-green-600 dark:bg-green-600" : ""}
                   ${
-                    attendanceStatus?.status === "Absent"
+                    !attendanceStatus?.clockIn && !attendanceStatus?.clockOut
                       ? "bg-red-200 dark:bg-red-900"
                       : ""
                   }
@@ -230,15 +256,15 @@ export default function Attendance() {
               </p>
               {attendanceStatus && (
                 <>
-                  <p>Status: {attendanceStatus.status}</p>
+                  <p>Status: {attendanceStatus.clockIn && attendanceStatus.clockOut ? attendanceStatus.lateClockIn ? "Late" : "Present" : "Absent"}</p>
                   {attendanceStatus.shift && (
                     <p>Shift: {attendanceStatus.shift}</p>
                   )}
                   {attendanceStatus.checkIn !== "-" && (
-                    <p>Check In: {attendanceStatus.checkIn}</p>
+                    <p>Check In: {formatToAmPm(attendanceStatus.clockIn)}</p>
                   )}
                   {attendanceStatus.checkOut !== "-" && (
-                    <p>Check Out: {attendanceStatus.checkOut}</p>
+                    <p>Check Out: {formatToAmPm(attendanceStatus.clockOut)}</p>
                   )}
                 </>
               )}
@@ -403,15 +429,15 @@ export default function Attendance() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {attendanceRecords.map((record, index) => (
+                    {attendances.map((record: any, index: number) => (
                       <TableRow key={index}>
-                        <TableCell>{record.date}</TableCell>
-                        <TableCell>{record.checkIn}</TableCell>
-                        <TableCell>{record.checkOut}</TableCell>
+                        <TableCell>{record.dateToday != null ? format(record.dateToday, "yyy-MM-dd") : "N/A"}</TableCell>
+                        <TableCell>{formatToAmPm(record.clockIn as string ?? "")}</TableCell>
+                        <TableCell>{formatToAmPm(record.clockOut as string ?? "")}</TableCell>
                         <TableCell>
                           <Badge
                             variant={
-                              record.status === "Present"
+                              record.clockIn && record.clockOut 
                                 ? "default"
                                 : record.status === "Absent"
                                 ? "destructive"
@@ -420,10 +446,10 @@ export default function Attendance() {
                                 : "outline" // Updated variant for Overtime
                             }
                           >
-                            {record.status}
+                            {record.clockIn && record.clockOut ? "Present" : record.status}
                           </Badge>
                         </TableCell>
-                        <TableCell>{record.shift || "-"}</TableCell>
+                        <TableCell>{getDayName(record.dateToday) || "-"}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

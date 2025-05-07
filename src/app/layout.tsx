@@ -3,6 +3,8 @@ import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { headers } from "next/headers";
+import { redirect } from 'next/navigation'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,6 +29,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const headersList = await headers();
+
+  const newToken = headersList.get("new-token");
+
+  if (newToken == "true") {
+    redirect("/dashboard")
+  }
 
   return (
     <html lang="en" suppressHydrationWarning={true}>

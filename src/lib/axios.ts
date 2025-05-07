@@ -27,7 +27,6 @@ export const callApiClient = async (endpoint: string, method: string = 'GET', bo
         headers: {
           'Content-Type': 'application/json',
           'credentials': 'include',
-          'Cookie': (await getCookie())
         },
         // For Next.js to pass cookies in server components
         credentials: 'include',

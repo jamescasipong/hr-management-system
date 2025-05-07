@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import instanceApi from "@/lib/api/auth";
 import { set } from "date-fns";
 import Loading from "./loading";
+import { callApi } from "@/lib/utils/fetchUtils";
 
 type ApiResponse<Data extends object> = {
   sucess: boolean;
@@ -108,12 +109,15 @@ export default function EmployeeProfile({ params }: Params) {
         if (!user) return;
 
         if (user === "me") {
-          try {
-            const response = await instanceApi.get("employee/me");
+            const response = await callApi("/employee/me");
             setCountApiRequest((countApiRequest) => countApiRequest + 1);
 
-            if (response.status === 200) {
-              const responseData = (await response.data) as EmployeeResponse;
+            if (response.error){
+              console.error("Error fetching employee data:", response.error);
+              return;
+            }
+
+            const responseData = response as EmployeeResponse;
               const employee = responseData.data as EmployeeType;
               const aboutMe = employee.aboutEmployee;
               const department = employee.department;
@@ -121,11 +125,10 @@ export default function EmployeeProfile({ params }: Params) {
               setDepartment(department);
               setEmployee(employee);
               setEducation(aboutMe.educationBackground);
-            }
-          } catch (error: any) {
-            console.error(error.response.data);
+
+              console.log("Employee data:", responseData);
           }
-        } else {
+         else {
           try {
             const response = await instanceApi.get(`employee/${user}`);
 
