@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getCookie } from './cookie';
 
 // Ensure that API_URL is properly handled in production, otherwise fall back to a default
 const url = process.env.NODE_ENV === "development"
@@ -26,6 +27,7 @@ export const callApiClient = async (endpoint: string, method: string = 'GET', bo
         headers: {
           'Content-Type': 'application/json',
           'credentials': 'include',
+          'Cookie': (await getCookie())
         },
         // For Next.js to pass cookies in server components
         credentials: 'include',
