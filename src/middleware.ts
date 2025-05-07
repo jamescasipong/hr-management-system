@@ -35,7 +35,7 @@ const validPaths = [
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('at_session');
 
-  console.log("token", token);
+  // console.log("token", token);
 
   const { pathname, searchParams } = request.nextUrl;
   const cleanPathname = pathname.split('?')[0];
