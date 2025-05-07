@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const url = process.env.NODE_ENV === "development" ? "http://localhost:5075" : process.env.NEXT_PUBLIC_API_URL as string;
 
     try {
-        const loginResponse = await fetch(`${url}/api/v1/user/account/logout`, {
+        const loginResponse = await fetch(`${url}/api/auth/sign-out`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,9 +29,12 @@ export async function POST(request: Request) {
             },
         });
 
-        response.headers.set(
+        response.headers.append(
             "set-cookie",
-            "token=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0"
+            [
+                "at_session=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0",
+                "backend_rt=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0"
+            ].join(", ")
         );
 
         return response;

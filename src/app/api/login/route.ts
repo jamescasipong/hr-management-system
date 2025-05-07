@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const url = process.env.NODE_ENV === "development" ? "http://localhost:5075" : process.env.NEXT_PUBLIC_API_URL as string;
 
     try {
-        const loginResponse = await fetch(`${url}/api/v1/user/account/login`, {
+        const loginResponse = await fetch(`${url}/api/auth/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

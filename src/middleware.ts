@@ -33,7 +33,7 @@ const validPaths = [
 ];
 
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get('token');
+  const token = request.cookies.get('at_session');
 
   console.log("token", token);
 
