@@ -40,23 +40,33 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
 
     useEffect(() => {
         const fetchAndUpdate = async () => {
-            if (pathname !== "/login" && pathname !== "/home"){
+            if (pathname !== "/login" && pathname !== "/home") {
                 startTransitioning(async () => {
                     const response = await fetchMyNotification() as any;
-
-                    if (response.error){
+    
+                    if (response?.error) {
+                        console.log("Error fetching notifications", response.error);
                         setNotifications([]);
                         return;
                     }
-
-                    setNotifications(response.data);
-
+    
+                    const data = response?.data;
+    
+                    if (!Array.isArray(data) || data.length === 0) {
+                        console.log("No notifications found or invalid data");
+                        setNotifications([]);
+                        return;
+                    }
+    
+                    console.log("Notifications fetched", data);
+                    setNotifications(data);
                 });
             }
         };
-
+    
         fetchAndUpdate();
     }, []);
+    
 
 
     const markAsRead = async (notifId:number) => {
@@ -77,4 +87,12 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
     );
 };
 
-export const useNotifications = () => useContext(NotificationContext);
+export const useNotifications = () => {
+    const context = useContext(NotificationContext);
+
+    if (!context) {
+        throw new Error("useNotifications must be used within a NotificationProvider");
+    }
+
+    return context;
+};

@@ -31,84 +31,41 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
     const {isAuthenticated} = useAuthContext();
 
 
-    useEffect((): void => {
-        const fetchShiftState = async () => {
-                const hasShiftTodayResponse = await hasShiftToday() as any;
-
-                if (hasShiftTodayResponse.error) {
-                    setShift(false)
-                    return;
-                }
-
-                const hasShiftData = hasShiftTodayResponse?.data ?? false;
-                console.log("hasShift:", hasShiftData);
-                setShift(hasShiftData);
-
-        };
-
-        startTransition(() => {
-            fetchShiftState();
-        });
-    }, []);
-
     useEffect(() => {
-        const fetchClockedInState = async () => {
-                const clockedInResponse = await hasClockedIn() as any;
-
-                if (clockedInResponse.error){
-                    console.log("clockedIn message:", clockedInResponse.message)
-                    console.log("clockedin error:", clockedInResponse.error);
-                    setClockedIn(false);
-                    return;
-                }
-
-                const clockedInData: boolean = clockedInResponse?.data ?? false;
-                console.log("clockedin:", clockedInData);
-                setClockedIn(clockedInData);
+        const fetchAllAttendanceData = async () => {
+            try {
+                const [shiftRes, inRes, outRes, attendanceRes]= await Promise.all([
+                    hasShiftToday() as any,
+                    hasClockedIn() as any,
+                    hasClockedOut() as any,
+                    apiAttendanceToday() as any
+                ]);
+    
+                // Handle shift
+                const shift = shiftRes?.data ?? false;
+                setShift(!shiftRes?.error && shift);
+    
+                // Handle clockedIn
+                const clockedIn = inRes?.data ?? false;
+                setClockedIn(!inRes?.error && clockedIn);
+    
+                // Handle clockedOut
+                const clockedOut = outRes?.data ?? false;
+                setClockedOut(!outRes?.error && clockedOut);
+    
+                // Handle attendance today
+                const attendance = attendanceRes?.data ?? {};
+                setAttendanceToday(!attendanceRes?.error ? attendance : {});
+            } catch (error) {
+                console.error("Error fetching attendance data:", error);
+            }
         };
-
-        startTransition((): void => {
-            fetchClockedInState();
-        });
-    }, []);
-
-    useEffect((): void => {
-        const fetchClockedOutState = async () => {
-                const clockedOutResponse = await hasClockedOut() as any;
-
-                if (clockedOutResponse.error){
-                    setClockedOut(false);
-                    return;
-                }
-
-                const clockedOutData:boolean = clockedOutResponse?.data ?? false;
-                console.log("clockedout:", clockedOutData);
-                setClockedOut(clockedOutData);
-        };
-
+    
         startTransition(() => {
-            fetchClockedOutState();
+            if (isAuthenticated) fetchAllAttendanceData();
         });
-    }, []);
-
-    useEffect(() => {
-        const fetchAttendanceToday = async () => {
-                const attendaceResponse = await apiAttendanceToday() as any;
-
-                if (attendaceResponse.error){
-                    setAttendanceToday({});
-                    return;
-                }
-
-                const attendanceData = attendaceResponse?.data as AttendanceResponse ?? {};
-                console.log("attendaceTodat", attendanceData);
-                setAttendanceToday(attendanceData);
-        };
-
-        startTransition(() => {
-            fetchAttendanceToday();
-        });
-    }, []);
+    }, [isAuthenticated]);
+    
 
     return (
         <ClockContext.Provider value={{clockedIn, clockedOut, setClockedIn, setClockedOut, hasShift, isPending, attendanceToday}}>

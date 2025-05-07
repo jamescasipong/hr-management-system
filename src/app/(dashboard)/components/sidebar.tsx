@@ -83,7 +83,8 @@ type AppSidebarProps = {
 export const logout = async () => {
 
   try {
-    const response = await axios.post('api/logout', {
+    const response = await axios.post('/api/logout', {
+      baseURL: '',
       withCredentials: true
     });
   }
@@ -117,7 +118,6 @@ export function SideBar({
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for demo
   const [language, setLanguage] = useState("English");
   const { notifications, setNotifications, markAsRead } = useNotifications() ?? { notifications: [], setNotifications: () => {}, markAsRead: () => {}};
-
   console.log(notifications)
 
 
@@ -160,7 +160,7 @@ export function SideBar({
     router.push("/profile/me");
   };
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const unreadCount = notifications?.filter((n) => !n.isRead).length;
 
   if (isDisabled || pathname === "/") {
     return null;

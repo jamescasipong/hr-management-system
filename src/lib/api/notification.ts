@@ -5,12 +5,16 @@ import {instanceApi} from "../axios";
 
 export const fetchMyNotification = async () => {
     const cookie = (await cookies()).toString();
+
+    console.log("notification cookie", cookie);
    try {
        const response = await instanceApi.get('notification/my-notifications', {
            headers: {
                Cookie: cookie
            }
        });
+
+       console.log("Notification response", response.data);
 
        return response.data
    }

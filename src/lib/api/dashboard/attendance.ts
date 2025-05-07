@@ -169,6 +169,8 @@ const hasShiftToday = async () => {
 const apiAttendanceToday = async () => {
     const cookie = (await cookies()).toString();
 
+    console.log("attendance cookie", cookie);
+
     const response: ResponseSchema<ApiResponse> = await instanceApi.get("attendance/my-attendance-today", {
         headers: {
             Cookie: cookie
@@ -178,8 +180,6 @@ const apiAttendanceToday = async () => {
     try {
         if (response.status == 200){
             const data: ApiResponse = response.data;
-
-
             return data;
         }
 
