@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getCookie } from './cookie';
 
 // Ensure that API_URL is properly handled in production, otherwise fall back to a default
 const url = process.env.NODE_ENV === "development"
