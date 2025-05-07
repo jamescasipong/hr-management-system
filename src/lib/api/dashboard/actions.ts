@@ -43,143 +43,32 @@ export type AttendanceResponse = {
 };
 
 const clockIn = async () => {
-  const cookie = (await cookies()).toString();
-
-  try {
-    const response = await instanceApi.post(
-      "/attendance/clock-in",
-      {}, // Empty body object
-      {
-        headers: {
-          Cookie: cookie,
-        },
-      }
-    );
-
-    // if (response.status === 200) {
-    //   const data: ApiResponseNoData = response.data;
-    //   return data;
-    // }
-
-    return response.data;
-  } catch (error: any) {
-    console.error("Clock in error:", error.message);
-    return {
-      success: false,
-      error: error,
-      message: error.message,
-    };
-  }
+  return callApi("/attendance/clock-in", "POST")
 };
 
 const hasClockedIn = async () => {
-  const cookie = (await cookies()).toString();
-
-  try {
-    const response = await instanceApi.get("/attendance/clocked-in", {
-      headers: {
-        Cookie: cookie,
-      },
-    });
-
-    // if (response.status === 200) {
-    //   const data: ApiResponse = response.data;
-    //   return data;
-    // }
-
-    return response.data;
-  } catch (error: any) {
-    console.error("Has clocked in error:", error.message);
-    return {
-      success: false,
-      error: error,
-      message: error.message,
-    };
-  }
+  return callApi("/attendance/clocked-in", "GET")
 };
 
 const clockOut = async () => {
-  const cookie = (await cookies()).toString();
-
-  try {
-    const response = await instanceApi.put(
-      "/attendance/clock-out",
-      {}, // Empty body object
-      {
-        headers: {
-          Cookie: cookie,
-        },
-      }
-    );
-
-    // if (response.status === 200) {
-    //   const data: ApiResponseNoData = response.data;
-    //   return data;
-    // }
-
-    return response.data;
-  } catch (error: any) {
-    console.error("Clock out error:", error.message);
-    return {
-      success: false,
-      error: error,
-      message: error.message,
-    };
-  }
+  return callApi("/attendance/clock-out", "POST")
 };
 
 const hasClockedOut = async () => {
-  const cookie = (await cookies()).toString();
-
-  try {
-    const response = await instanceApi.get("/attendance/clocked-out", {
-      headers: {
-        Cookie: cookie,
-      },
-    });
-
-    // if (response.status === 200) {
-    //   const data: ApiResponse = response.data;
-    //   return data;
-    // }
-
-    return response.data;
-  } catch (error: any) {
-    console.error("Has clocked out error:", error.message);
-    return {
-      success: false,
-      error: error,
-      message: error.message,
-    };
-  }
+  return callApi("/attendance/clocked-out", "GET")
 };
 
 const hasShiftToday = async () => {
-  const cookie = (await cookies()).toString();
-
-  try {
-    const response = await instanceApi.get("shift/shift-today", {
-      headers: {
-        Cookie: cookie,
-      },
-    });
-
-    const data: AttendanceData = response.data;
-    console.log("shift today", response.data);
-    return data;
-  } catch (error: any) {
-    console.error("Shift today error:", error.message);
-    return {
-      success: false,
-      error: error.message,
-      message: error.message,
-    };
-  }
+  return callApi("/attendance/has-shift-today", "GET")
 };
 
 const apiAttendanceToday = async () => {
   return callApi("/attendance/my-attendance-today", "GET")
 };
+
+const mySubordinates = async () => {
+  return callApi("/employee/my-subordinates", "GET")
+}
 
 export {
   clockIn,
@@ -188,4 +77,5 @@ export {
   hasClockedOut,
   hasShiftToday,
   apiAttendanceToday,
+  mySubordinates
 };

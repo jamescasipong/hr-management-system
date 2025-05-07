@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
-import { start } from 'repl';
+// Removed unused import
+import { cookies } from 'next/headers';
 // import instanceApi from './api/auth'; // Removed unused import
 
 export interface JWTType {
@@ -33,13 +34,16 @@ const validPaths = [
 ];
 
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get('at_session');
-
+  const token = request.cookies.get('at_session')?.value;
+  const refreshToken = (await cookies()).get('backend_rt');
+  
   // console.log("token", token);
 
-  const { pathname, searchParams } = request.nextUrl;
+  const { pathname } = request.nextUrl; // Removed unused 'searchParams'
   const cleanPathname = pathname.split('?')[0];
-  const requestHeaders = new Headers(request.headers);
+  const requestHeaders = new Headers();
+
+  requestHeaders.set("new-token", "false");
 
   requestHeaders.set('disable-nav', 'false');
 
@@ -48,7 +52,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (token) {
-    const decodedToken = jwtDecode<JWTType>(token.value);
+    const decodedToken = jwtDecode<JWTType>(token);
 
     const isAdmin = decodedToken.Role === 'Admin';
     requestHeaders.set('is-admin', isAdmin ? 'Admin' : 'Employee');
@@ -61,7 +65,7 @@ export async function middleware(request: NextRequest) {
       }
     }
 
-    const AdminRoutes = Object.values(roleBasedRedirects);
+    // Removed unused 'AdminRoutes'
     
 
     if (!isAdmin && cleanPathname.startsWith('/admin')) {
@@ -88,19 +92,38 @@ export async function middleware(request: NextRequest) {
       requestHeaders.set('disable-nav', 'true');
     }
   } else {
-    
+    console.log("refreshToken", refreshToken);
 
+    const requestToken = await fetch("http://localhost:5075/api/auth/refresh-token", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Cookie": `backend_rt=${refreshToken?.value}; HttpOnly; Path=/; SameSite=None; Secure`,
+      }
+    })
+   
+    // const token = tokenResponse.data?.accessToken;
+    
     requestHeaders.set('disable-nav', 'true');
     requestHeaders.delete('is-admin');
-    // if (cleanPathname == '/') {
-    //   requestHeaders.set('disable-nav', 'true');
-    //   return NextResponse.redirect(new URL('/home', request.url));
-    // }
+    
+    if (requestToken.ok){
+      const accessRawCookies = requestToken.headers.get('set-cookie');
+      
+      console.log("accessRawCookies", accessRawCookies);
+      if (accessRawCookies) {
+        requestHeaders.append('set-cookie', accessRawCookies);
+      }
+      requestHeaders.set('new-token', 'true');
+    }
+
+   
 
     if (validPaths.some(path => pathname.startsWith(path))) {
       return NextResponse.redirect(new URL('/signin', request.url));
     }
   }
+
 
   return NextResponse.next({
     headers: requestHeaders,

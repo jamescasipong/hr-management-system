@@ -4,6 +4,7 @@ import {useContext, createContext, useState, useEffect, useTransition, Context} 
 import { hasClockedIn, hasClockedOut, hasShiftToday, apiAttendanceToday, AttendanceResponse } from "@/lib/api/dashboard/actions";
 import {useAuthContext} from "@/context/api-state-session/authContext";
 import { callApiClient } from "@/lib/axios";
+import { callApi } from "@/lib/utils/fetchUtils";
 
 interface ContextProviderType {
     clockedIn: boolean;
@@ -37,19 +38,19 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
             console.log("Starting to fetch attendance data...");
             
             // Fetch attendance data first - using await to ensure it completes
-            const attendanceResult = await callApiClient("/attendance/my-attendance-today", "GET");
+            const attendanceResult = await apiAttendanceToday();
             console.log("Attendance API response:", attendanceResult);
             
             // Fetch shift data
-            const shiftResult = await callApiClient("/shift/shift-today", "GET");
+            const shiftResult = await hasShiftToday()
             console.log("Shift API response:", shiftResult);
             
             // Fetch clocked in status
-            const clockedInResult = await callApiClient("/attendance/clocked-in", "GET");
+            const clockedInResult = await hasClockedIn();
             console.log("Clocked in API response:", clockedInResult);
             
             // Fetch clocked out status
-            const clockedOutResult = await callApiClient("/attendance/clocked-out", "GET");
+            const clockedOutResult = await hasClockedOut();
             console.log("Clocked out API response:", clockedOutResult);
             
             // Update state based on results
@@ -81,8 +82,8 @@ export const AttendanceProvider = ({children}: AttendanceProviderProps) => {
 
     // Function to refresh data that can be exposed in the context
     const refreshAttendanceData = () => {
-        startTransition(() => {
-            fetchAttendanceData();
+        startTransition(async () => {
+            await fetchAttendanceData();
         });
     };
 
