@@ -35,7 +35,7 @@ import { useSidebar } from "../../../../context/layout/custom-sidebar";
 import calendar from "../../components/custom-calendar";
 import employees from "../../../data";
 import { useAttendance } from "@/context/api-state-session/attendance-context";
-import { AttendanceResponse, clockIn, clockOut } from "@/lib/api/dashboard/attendance";
+import { AttendanceResponse, clockIn, clockOut } from "@/lib/api/dashboard/actions";
 import { set } from "date-fns";
 import { time } from "console";
 

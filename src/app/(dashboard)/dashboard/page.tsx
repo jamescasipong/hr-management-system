@@ -35,7 +35,7 @@ import { useSidebar } from "../../../context/layout/custom-sidebar";
 import calendar from "../components/custom-calendar";
 import employees from "../../data";
 import { useAttendance } from "@/context/api-state-session/attendance-context";
-import { AttendanceResponse, clockIn, clockOut } from "@/lib/api/dashboard/attendance";
+import { apiAttendanceToday, AttendanceResponse, clockIn, clockOut } from "@/lib/api/dashboard/actions";
 import { set } from "date-fns";
 import { time } from "console";
 
@@ -83,7 +83,6 @@ export default function Dashboard() {
     date.setMinutes(parseInt(minutes));
     return date;
   };
-
 
   const [weeklyClockData, setWeeklyClockData] = useState([
     { day: "Monday", clockIn: "09:00 AM", clockOut: "05:00 PM" },
@@ -203,6 +202,7 @@ export default function Dashboard() {
     return format;
   }
 
+  console.log(isPending, clockedOut, hasShift)
 
   return (
     <div className={`flex h-full transition-colors duration-200`}>
@@ -257,6 +257,7 @@ export default function Dashboard() {
                       open={isClockModalOpen}
                       onOpenChange={setIsClockModalOpen}
                     >
+                      
                       <DialogTrigger asChild>
                         <Button
                           disabled={isPending || clockedOut || !hasShift}
