@@ -38,7 +38,7 @@ export const callApi = async (
     console.log(`API response from ${endpoint}:`, data);
     return data;
   } catch (error: any) {
-    console.error(`Error in API call to ${endpoint}:`, error.message);
+    console.error(`Error in API call to ${endpoint}:`, error);
     return {
       success: false,
       error: {
