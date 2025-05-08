@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
-// Removed unused import
-import { cookies } from 'next/headers';
-// import instanceApi from './api/auth'; // Removed unused import
 
 export interface JWTType {
   unique_name: string;
@@ -30,100 +27,87 @@ const validPaths = [
   '/payroll',
   '/usersettings',
   '/admin',
-  '/attendance'
+  '/attendance',
 ];
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('at_session')?.value;
-  const refreshToken = (await cookies()).get('backend_rt');
-  
-  // console.log("token", token);
+  const refreshToken = request.cookies.get('backend_rt')?.value;
 
-  const { pathname } = request.nextUrl; // Removed unused 'searchParams'
+  const { pathname } = request.nextUrl;
   const cleanPathname = pathname.split('?')[0];
   const requestHeaders = new Headers();
 
-  requestHeaders.set("new-token", "false");
-
+  requestHeaders.set('new-token', 'false');
   requestHeaders.set('disable-nav', 'false');
 
-  if (pathname === "/home") {
+  // Redirect /home to /
+  if (pathname === '/home') {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
   if (token) {
-    const decodedToken = jwtDecode<JWTType>(token);
+    try {
+      const decodedToken = jwtDecode<JWTType>(token);
+      const isAdmin = decodedToken.Role === 'Admin';
 
-    const isAdmin = decodedToken.Role === 'Admin';
-    requestHeaders.set('is-admin', isAdmin ? 'Admin' : 'Employee');
-    requestHeaders.set('disable-nav', 'false');
-    requestHeaders.set('authenticated', 'true');
+      requestHeaders.set('is-admin', isAdmin ? 'Admin' : 'Employee');
+      requestHeaders.set('authenticated', 'true');
 
-    if (isAdmin && roleBasedRedirects[cleanPathname]) {
-      if (cleanPathname !== '/usersettings') {
-        return NextResponse.redirect(new URL(roleBasedRedirects[cleanPathname], request.url));
+      if (isAdmin && roleBasedRedirects[cleanPathname]) {
+        if (cleanPathname !== '/usersettings') {
+          return NextResponse.redirect(new URL(roleBasedRedirects[cleanPathname], request.url));
+        }
       }
-    }
 
-    // Removed unused 'AdminRoutes'
-    
+      if (!isAdmin && cleanPathname.startsWith('/admin')) {
+        return NextResponse.redirect(new URL('/404', request.url));
+      }
 
-    if (!isAdmin && cleanPathname.startsWith('/admin')) {
-      return NextResponse.redirect(new URL('/404', request.url));
-    }
+      if (['/signin', '/signup', '/register'].includes(cleanPathname)) {
+        return NextResponse.redirect(new URL(isAdmin ? '/admin/dashboard' : '/dashboard', request.url));
+      }
 
-    if (cleanPathname === '/signin' || cleanPathname === '/signup') {
-      return NextResponse.redirect(new URL(isAdmin ? '/admin/dashboard' : '/dashboard', request.url));
-    }
+      if (cleanPathname === '/404') {
+        requestHeaders.set('disable-nav', 'true');
+      }
 
-    if (cleanPathname.startsWith('/admin') && !isAdmin) {
-      return NextResponse.redirect(new URL('/404', request.url));
-    }
-
-    if (cleanPathname.startsWith('/employees') && !isAdmin) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
-
-    if (cleanPathname.startsWith('/signin') || cleanPathname.startsWith('/register')) {
-      return NextResponse.redirect(new URL(isAdmin ? '/admin/dashboard' : '/dashboard', request.url));
-    }
-
-    if (cleanPathname === '/404'){
-      requestHeaders.set('disable-nav', 'true');
+    } catch (error) {
+      console.error('Invalid token:', error);
     }
   } else {
-    console.log("refreshToken", refreshToken);
+    // Only attempt refresh if refresh token exists
+    if (refreshToken) {
+      try {
+        const response = await fetch('http://localhost:5075/api/auth/refresh-token', {
+          method: 'POST',
+          headers: {
+            Cookie: `backend_rt=${refreshToken}`,
+          },
+        });
 
-    const requestToken = await fetch("http://localhost:5075/api/auth/refresh-token", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Cookie": `backend_rt=${refreshToken?.value}; HttpOnly; Path=/; SameSite=None; Secure`,
+        if (response.ok) {
+          const newAccessCookie = response.headers.get('set-cookie');
+          if (newAccessCookie) {
+            requestHeaders.append('set-cookie', newAccessCookie);
+          }
+          requestHeaders.set('new-token', 'true');
+        }
+      } catch (error) {
+        console.error('Refresh token fetch failed:', error);
       }
-    })
-   
-    // const token = tokenResponse.data?.accessToken;
-    
-    requestHeaders.set('disable-nav', 'true');
-    requestHeaders.delete('is-admin');
-    
-    if (requestToken.ok){
-      const accessRawCookies = requestToken.headers.get('set-cookie');
-      
-      console.log("accessRawCookies", accessRawCookies);
-      if (accessRawCookies) {
-        requestHeaders.append('set-cookie', accessRawCookies);
-      }
-      requestHeaders.set('new-token', 'true');
+    } else {
+      console.warn('Refresh token is undefined');
     }
 
-   
+    requestHeaders.set('disable-nav', 'true');
+    requestHeaders.delete('is-admin');
 
+    // Redirect unauthenticated access to protected pages
     if (validPaths.some(path => pathname.startsWith(path))) {
       return NextResponse.redirect(new URL('/signin', request.url));
     }
   }
-
 
   return NextResponse.next({
     headers: requestHeaders,
